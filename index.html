@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChezBaba - Marketplace</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<!-- Loader -->
+    <div id="pageLoader"><div class="spinner"></div></div>   
+    <nav>
+        <div class="navBar">
+            <div class="navBar_connexion_inscription">
+                <p class="navBar_connexion_inscription_text" >
+                    Bonjour!
+                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="#" class="aide_link">Aide</a>
+                </p>
+            </div>
+            <div class="logo-icone-mobile">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                     </a>
+                </div>
+                <div class="mobile-icone">
+                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>               
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="logo_searchBar_button">
+                <div class="nav_logo">
+                        <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                </div>
+                <div class="search_input_button">
+                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                    <div class="search-icon-mobile">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <button type="submit" class="search_button" name="q">Rechercher</button>
+                </div>
+                <div class="mobile-category-icon" id="mobileCategoryIcon">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
+                <div class="button_icons">
+                    <button class="button_vendre" id="vendreBtn">Vendre</button>
+                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="categorie_navigation">
+                <div class="categorie">
+                    <button id="openCategories" class="categorieBtn" onclick="window.location.href='categorie.html'">
+                        <i class="bi bi-list"></i><span>Catégories</span>
+                    </button>
+                </div>
+                <div class="navigation">
+                    <ul>
+                        <li><a href="#frais">Frais</a></li>
+                        <li><a href="#pq_chezBaba">Pourquoi chez Baba?</a></li>
+                        <li><a href="#outils">Outils</a></li>
+                        <li><a href="#comment_vendre">Comment vendre</a></li>
+                        <li><a href="#apropos">À propos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+       <div class="hero-slider">
+
+  <!-- Slide 1 -->
+  <div class="slide slide1">
+    <div class="slide-content slide1">
+      <h1>Anticipez Noël avec -10% !</h1>
+      <p>Profitez-en sur de nombreuses catégories et gâtez vos proches.</p>
+      <button class="cta">J'en profite</button>
+    </div>
+    <img src="img/jouetsenfant.jfif" class="slide-image">
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide slide2">
+  <div class="slide-content ">
+    <h1>Transformez votre maison</h1>
+    <p>Rénovation et design : redonnez vie à votre intérieur avec style et confort.</p>
+    <button class="cta">Découvrir nos projets</button>
+  </div>
+  <img src="img/meuble.jfif" class="slide-image">
+</div>
+
+
+  <!-- Slide 3 -->
+  <div class="slide slide3">
+  <div class="slide-content">
+    <h1>Exprimez votre style</h1>
+    <p>Mode tendance : découvrez nos collections pour un look unique et élégant.</p>
+    <button class="cta">Voir la collection</button>
+  </div>
+  <img src="img/rolex.jpg" class="slide-image">
+</div>
+
+
+  <!-- Pagination -->
+  <div class="pagination"></div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button id="prev"><</button>
+    <button id="next">></button>
+        <button id="pause">⏸</button>
+
+  </div>
+
+</div>
+
+
+
+        <!-- FRAIS SECTION -->
+        <section id="frais" class="frais section-padding">
+            <div class="container">
+                <h2 class="section-title">Simple et sécurisé</h2>
+                <p class="section-subtitle">Vendez en toute confiance avec nos outils de protection et nos frais transparents</p>
+                
+                <div class="frais-features">
+                    <div class="feature-item slide-in">
+                        <div class="feature-icon">✓</div>
+                        <h3 class="feature-title">Pas de frais mensuels</h3>
+                        <p class="feature-text">Créez votre boutique gratuitement</p>
+                    </div>
+                    <div class="feature-item slide-in">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title">Transactions sécurisées</h3>
+                        <p class="feature-text">Vos paiements protégés à chaque étape</p>
+                    </div>
+                    <div class="feature-item slide-in">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">Dépôts automatiques</h3>
+                        <p class="feature-text">Recevez vos gains rapidement</p>
+                    </div>
+                    <div class="feature-item slide-in">
+                        <div class="feature-icon">🛡️</div>
+                        <h3 class="feature-title">Protection vendeur</h3>
+                        <p class="feature-text">Nous protégeons vos transactions</p>
+                    </div>
+                </div>
+
+                <div class="frais-details">
+                    <div class="frais-card slide-in">
+                        <div class="frais-card-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <h3>Frais d'installation uniques</h3>
+                        <p>Des frais d'installation uniques peuvent être facturés lors de l'ouverture de votre boutique. Le montant s'affichera avant la finalisation.</p>
+                    </div>
+                    <div class="frais-card slide-in">
+                        <div class="frais-card-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <h3>6,5% de frais de transaction</h3>
+                        <p>Commission et frais de traitement de paiement de 4% + 0,30€ par vente réalisée.</p>
+                    </div>
+                    <div class="frais-card slide-in">
+                        <div class="frais-card-icon">
+                            <i class="bi bi-megaphone"></i>
+                        </div>
+                        <h3>15% publicité hors site</h3>
+                        <p>Frais appliqués uniquement sur les ventes générées par nos campagnes publicitaires externes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POURQUOI CHEZBABA SECTION -->
+        <section id="pq_chezBaba" class="pq_chezBaba section-padding">
+            <div class="container">
+                <h2 class="section-title">Pourquoi ChezBaba?</h2>
+                <div class="pq-grid">
+                    <div class="pq-card slide-in">
+                        <div class="pq-number">1</div>
+                        <h2>Gagnez de l'argent facilement</h2>
+                        <p>ChezBaba transforme une notoriété limitée en succès commercial grâce à des outils publicitaires performants.</p>
+                    </div>
+                    <div class="pq-card slide-in">
+                        <div class="pq-number">2</div>
+                        <h2>Accélérez vos ventes</h2>
+                        <p>Faites découvrir vos produits à un large public grâce à nos solutions efficaces et boostez votre visibilité.</p>
+                    </div>
+                    <div class="pq-card slide-in">
+                        <div class="pq-number">3</div>
+                        <h2>Business protégé</h2>
+                        <p>Vendez sereinement avec des protections contre les acheteurs abusifs et des paiements sécurisés.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUTILS SECTION -->
+        <section id="outils" class="outils section-padding">
+            <div class="container">
+                <div class="outils-container">
+                    <div class="outils-content">
+                        <h2>Des outils puissants pour votre activité</h2>
+                        <p>Passez moins de temps à gérer votre boutique et plus de temps à créer.</p>
+                        <ul class="outils-features">
+                            <li>Gérez votre entreprise où que vous soyez</li>
+                            <li>Acceptez les paiements en transparence</li>
+                            <li>Analysez et optimisez votre boutique</li>
+                            <li>Boostez vos ventes avec nos outils marketing</li>
+                        </ul>
+                    </div>
+                    <div class="phone-mockup">
+                        <div class="phone">
+                            <div class="phone-screen">
+                                <div class="phone-time">4:45</div>
+                                <a href="#" class="phone-logo">Chez<span class="baba">Baba</span></a>
+                                <i class="bi bi-gear icon-settings"></i>
+                                <div style="width: 60%; height: 3px; background: var(--darkgray1); border-radius: 2px; margin-top: 50px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMENT VENDRE SECTION -->
+        <section id="comment_vendre" class="comment_vendre section-padding">
+            <div class="container">
+                <h2 class="section-title">Comment vendre sur ChezBaba?</h2>
+                <div class="comment-grid">
+                    <div class="comment-card slide-in">
+                        <div class="comment-icon">📸</div>
+                        <h3>Photos de qualité</h3>
+                        <p>Mettez votre objet en valeur avec des photos nettes. Minimum 2 photos: vue d'ensemble et détails.</p>
+                    </div>
+                    <div class="comment-card slide-in">
+                        <div class="comment-icon">✍️</div>
+                        <h3>Annonce optimale</h3>
+                        <p>Titre concis avec mots-clés pertinents et description détaillée et transparente.</p>
+                    </div>
+                    <div class="comment-card slide-in">
+                        <div class="comment-icon">💰</div>
+                        <h3>Juste prix</h3>
+                        <p>Prix raisonnable pour vendre facilement. Achat immédiat ou format Enchères.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section footer-logo-section">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                </div>
+                <p class="footer-description">
+                    La marketplace de référence pour vendre et acheter en toute sécurité. 
+                    Rejoignez des millions d'utilisateurs qui nous font confiance.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="#frais">Nos frais</a></li>
+                    <li><a href="#pq_chezBaba">Pourquoi ChezBaba</a></li>
+                    <li><a href="#outils">Nos outils</a></li>
+                    <li><a href="#comment_vendre">Comment vendre</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Carrières</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">Service client</a></li>
+                    <li><a href="#">Signaler problème</a></li>
+                    <li><a href="#">Guide vendeur</a></li>
+                    <li><a href="#">Guide acheteur</a></li>
+                    <li><a href="#">Sécurité</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="footer-contact-info">
+                    <strong>Email:</strong><br>
+                    contact@chezbaba.com<br><br>
+                    <strong>Tél:</strong><br>
+                    +229 01 56 12 40 50<br><br>
+                    <strong>Adresse:</strong><br>
+                    Cotonou Akpaka LomNava
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-copyright">
+                    © 2024 ChezBaba. Tous droits réservés.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Conditions</a>
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE OVERLAY MENU -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
+            <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+        </div>
+        
+        <div class="mobile-overlay-content">
+            
+        
+            <!-- Navigation links -->
+            <div class="mobile-nav-section">
+                <h3>Navigation</h3>
+                <ul class="mobile-nav-links">
+                    <li><a href="index.html#frais">Nos Frais</a></li>
+                    <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
+                    <li><a href="index.html#outils">Nos Outils</a></li>
+                    <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
+                    <li><a href="categorie.html">Toutes les catégories</a></li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="mobile-overlay-footer">
+            <div class="mobile-auth-buttons">
+                <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
+                <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Modal Connexion -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+<a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>                <p>Connectez-vous à votre compte</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mot de passe</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Se connecter</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <p><a href="#">Mot de passe oublié?</a></p>
+                <p>Pas de compte? <a href="#" id="switchToRegister">Inscrivez-vous</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Inscription -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                <p>Créez votre compte</p>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nom complet</label>
+                    <input type="text" id="registerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Mot de passe</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmer</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Créer mon compte</button>
+                    <button type="button" class="btn-secondary" id="registerAsSeller">Devenir vendeur</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <p>Déjà un compte? <a href="#" id="switchToLogin">Connectez-vous</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Inscription Vendeur -->
+    <div id="sellerRegisterModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="seller-highlight">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                </div>
+            </div>
+            
+            
+            <div class="modal-header">
+                <p>Créez votre boutique</p>
+            </div>
+            <form id="sellerRegisterForm">
+                <div class="form-group">
+                    <label for="sellerName">Nom complet</label>
+                    <input type="text" id="sellerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerEmail">Email professionnel</label>
+                    <input type="email" id="sellerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerPhone">Téléphone</label>
+                    <input type="tel" id="sellerPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="shopName">Nom boutique</label>
+                    <input type="text" id="shopName" name="shopName" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerPassword">Mot de passe</label>
+                    <input type="password" id="sellerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerConfirmPassword">Confirmer</label>
+                    <input type="password" id="sellerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Créer ma boutique</button>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <p>Déjà vendeur? <a href="#" id="switchToLoginFromSeller">Connectez-vous</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
+});
+
+// ======================================
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+    document.querySelectorAll('#cartCount').forEach(b => {
+        b.textContent = total;
+        b.style.display = total > 0 ? 'flex' : 'none';
+    });
+}
+window.addEventListener('load', updateCartBadge);
+
+// ============================================
+// GESTION NAVIGATION MOBILE - UNIFIÉE
+// ============================================
+
+// Menu mobile overlay
+const mobileOverlay = document.getElementById('mobileOverlay');
+const mobileCategoryIcon = document.getElementById('mobileCategoryIcon');
+const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+
+// Modals
+const modals = {
+    login: document.getElementById('loginModal'),
+    register: document.getElementById('registerModal'),
+    sellerRegister: document.getElementById('sellerRegisterModal'),
+};
+
+// Ouvrir le menu mobile
+if (mobileCategoryIcon) {
+    mobileCategoryIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        openMobileOverlay();
+    });
+}
+
+// Fermer le menu mobile
+if (mobileCloseBtn) {
+    mobileCloseBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeMobileOverlay();
+    });
+}
+
+// Fermer en cliquant à l'extérieur
+if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', function(e) {
+        if (e.target === mobileOverlay) {
+            closeMobileOverlay();
+        }
+    });
+}
+
+// Fermer avec la touche Échap
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileOverlay.classList.contains('active')) {
+        closeMobileOverlay();
+    }
+});
+
+function openMobileOverlay() {
+    if (mobileOverlay) {
+        mobileOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeMobileOverlay() {
+    if (mobileOverlay) {
+        mobileOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Navigation dans le menu mobile
+document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+    link.addEventListener('click', function() {
+        closeMobileOverlay();
+    });
+});
+
+// ============================================
+// RECHERCHE MOBILE - UNIFIÉE
+// ============================================
+
+// Recherche avec l'icône mobile
+document.querySelectorAll('.search-icon-mobile').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+        e.preventDefault();
+        const searchInput = this.closest('.search_input_button').querySelector('.search_input');
+        const searchTerm = searchInput.value.trim();
+        
+        if (searchTerm) {
+            window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+        } else {
+            searchInput.focus();
+        }
+    });
+});
+
+// Recherche avec le bouton (desktop)
+document.querySelectorAll('.search_button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const searchInput = this.closest('.search_input_button').querySelector('.search_input');
+        const searchTerm = searchInput.value.trim();
+        
+        if (searchTerm) {
+            window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+        }
+    });
+});
+
+// Recherche avec Entrée
+document.querySelectorAll('.search_input').forEach(input => {
+    input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const searchTerm = this.value.trim();
+            
+            if (searchTerm) {
+                window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+    });
+});
+
+// ============================================
+// MODALS - UNIFIÉES
+// ============================================
+
+function openModal(modalName) {
+    closeAllModals();
+    closeMobileOverlay();
+    if (modals[modalName]) {
+        modals[modalName].classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeAllModals() {
+    Object.values(modals).forEach(modal => {
+        if (modal) modal.classList.remove('active');
+    });
+    document.body.style.overflow = '';
+}
+
+// Gestion des modals de connexion/inscription
+document.addEventListener('DOMContentLoaded', function() {
+    // Boutons de connexion
+    document.querySelectorAll('#loginBtn, #mobileLoginBtn').forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal('login');
+            });
+        }
+    });
+
+    // Boutons d'inscription
+    document.querySelectorAll('#registerBtn, #mobileRegisterBtn').forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal('register');
+            });
+        }
+    });
+
+    // Bouton vendre
+    const vendreBtn = document.getElementById('vendreBtn');
+    if (vendreBtn) {
+        vendreBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal('sellerRegister');
+        });
+    }
+
+    // Bouton sell dans hero
+    const sellBtn = document.getElementById('sellBtn');
+    if (sellBtn) {
+        sellBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal('sellerRegister');
+        });
+    }
+
+    // Bouton explore
+    const exploreBtn = document.getElementById('exploreBtn');
+    if (exploreBtn) {
+        exploreBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'categorie.html';
+        });
+    }
+});
+
+// Switches entre les modals
+document.getElementById('switchToRegister')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal('register');
+});
+
+document.getElementById('switchToLogin')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal('login');
+});
+
+document.getElementById('switchToLoginFromSeller')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal('login');
+});
+
+document.getElementById('registerAsSeller')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal('sellerRegister');
+});
+
+// Fermer les modals
+document.querySelectorAll('.modal-close').forEach(closeBtn => {
+    closeBtn.addEventListener('click', closeAllModals);
+});
+
+window.addEventListener('click', (e) => {
+    Object.values(modals).forEach(modal => {
+        if (e.target === modal) {
+            closeAllModals();
+        }
+    });
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeAllModals();
+        closeMobileOverlay();
+    }
+});
+
+// ============================================
+// ANIMATIONS
+// ============================================
+
+// Animation au défilement
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.slide-in').forEach(el => {
+    observer.observe(el);
+});
+
+// Animation du logo
+document.querySelector('.logo_link')?.addEventListener('mouseenter', function() {
+    this.style.transform = 'scale(1.1) rotate(2deg)';
+});
+
+document.querySelector('.logo_link')?.addEventListener('mouseleave', function() {
+    this.style.transform = 'scale(1) rotate(0deg)';
+});
+
+// ============================================
+// GESTION DES FORMULAIRES (CONNECTÉ AU BACK-END)
+// ============================================
+
+const API_URL = "http://localhost:5000";
+
+// Fonction pour afficher les messages
+function showMessage(message, type = 'success') {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `alert-message ${type}`;
+    messageDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+        color: white;
+        border-radius: 5px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    messageDiv.textContent = message;
+    document.body.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        messageDiv.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => messageDiv.remove(), 300);
+    }, 3000);
+}
+
+// Fonction pour sauvegarder l'utilisateur connecté
+function saveUserData(token, user) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    updateUIForLoggedInUser(user);
+}
+
+// Fonction pour mettre à jour l'interface utilisateur
+function updateUIForLoggedInUser(user) {
+    // Mettre à jour le texte de bienvenue
+    const welcomeText = document.querySelector('.navBar_connexion_inscrption_text');
+    if (welcomeText) {
+        welcomeText.innerHTML = `
+            Bonjour <strong>${user.nom}</strong>!
+            <a href="profil-acheteur.html" class="connexion_link">Mon compte</a>
+            <a href="#" class="aide_link" id="logoutBtn">Déconnexion</a>
+        `;
+        
+        // Ajouter l'événement de déconnexion
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+    }
+}
+
+// Fonction de déconnexion
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    showMessage('Déconnexion réussie!');
+    setTimeout(() => location.reload(), 1500);
+}
+
+// Vérifier si l'utilisateur est connecté au chargement
+window.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        updateUIForLoggedInUser(user);
+    }
+});
+
+// ============================================
+// 1. FORMULAIRE DE CONNEXION
+// ============================================
+document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value.trim();
+    const motdepasse = document.getElementById('loginPassword').value;
+
+    // Validation basique
+    if (!email || !motdepasse) {
+        showMessage('Veuillez remplir tous les champs', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, motdepasse })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showMessage(`Bienvenue ${data.user.nom}!`, 'success');
+            saveUserData(data.token, data.user);
+            
+            // Fermer le modal et rediriger
+            setTimeout(() => {
+                closeAllModals();
+                // Rediriger selon le rôle
+                if (data.user.role === 'vendor') {
+                    window.location.href = 'dashboard-profil-acheteur.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 1500);
+        } else {
+            showMessage(data.error || 'Email ou mot de passe incorrect', 'error');
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error);
+        showMessage('Impossible de se connecter au serveur', 'error');
+    }
+});
+
+// ============================================
+// 2. FORMULAIRE D'INSCRIPTION CLIENT
+// ============================================
+document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const nom = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const motdepasse = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+    // Validations
+    if (!nom || !email || !motdepasse || !confirmPassword) {
+        showMessage('Veuillez remplir tous les champs', 'error');
+        return;
+    }
+
+    if (motdepasse !== confirmPassword) {
+        showMessage('Les mots de passe ne correspondent pas', 'error');
+        return;
+    }
+
+    if (motdepasse.length < 6) {
+        showMessage('Le mot de passe doit contenir au moins 6 caractères', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nom,
+                email,
+                motdepasse,
+                role: 'client' // Role client par défaut
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showMessage(`Compte créé avec succès! Bienvenue ${data.user.nom}!`, 'success');
+            saveUserData(data.token, data.user);
+            
+            // Fermer le modal et rediriger
+            setTimeout(() => {
+                closeAllModals();
+                window.location.href = 'index.html';
+            }, 1500);
+        } else {
+            showMessage(data.error || 'Erreur lors de l\'inscription', 'error');
+        }
+    } catch (error) {
+        console.error('Erreur d\'inscription:', error);
+        showMessage('Impossible de se connecter au serveur', 'error');
+    }
+});
+
+// ============================================
+// 3. FORMULAIRE D'INSCRIPTION VENDEUR
+// ============================================
+document.getElementById('sellerRegisterForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const nom = document.getElementById('sellerName').value.trim();
+    const email = document.getElementById('sellerEmail').value.trim();
+    const telephone = document.getElementById('sellerPhone').value.trim();
+    const shopName = document.getElementById('shopName').value.trim();
+    const motdepasse = document.getElementById('sellerPassword').value;
+    const confirmPassword = document.getElementById('sellerConfirmPassword').value;
+
+    // Validations
+    if (!nom || !email || !telephone || !shopName || !motdepasse || !confirmPassword) {
+        showMessage('Veuillez remplir tous les champs', 'error');
+        return;
+    }
+
+    if (motdepasse !== confirmPassword) {
+        showMessage('Les mots de passe ne correspondent pas', 'error');
+        return;
+    }
+
+    if (motdepasse.length < 6) {
+        showMessage('Le mot de passe doit contenir au moins 6 caractères', 'error');
+        return;
+    }
+
+    try {
+        // Étape 1 : Créer le compte vendeur
+        const registerResponse = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nom,
+                email,
+                motdepasse,
+                role: 'vendor' // Role vendeur
+            })
+        });
+
+        const registerData = await registerResponse.json();
+
+        if (!registerResponse.ok) {
+            showMessage(registerData.error || 'Erreur lors de l\'inscription', 'error');
+            return;
+        }
+
+        // Sauvegarder le token temporairement
+        const token = registerData.token;
+
+        // Étape 2 : Créer la boutique
+        const shopResponse = await fetch(`${API_URL}/shops/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                nom: shopName,
+                description: `Boutique de ${nom}`,
+                logo: 'https://via.placeholder.com/150' // Logo par défaut
+            })
+        });
+
+        const shopData = await shopResponse.json();
+
+        if (shopResponse.ok) {
+            showMessage(`Boutique "${shopName}" créée avec succès! En attente de validation.`, 'success');
+            saveUserData(token, registerData.user);
+            
+            // Fermer le modal et rediriger
+            setTimeout(() => {
+                closeAllModals();
+                window.location.href = 'dashboard-vendeur.html';
+            }, 2000);
+        } else {
+            showMessage(shopData.error || 'Compte créé mais erreur lors de la création de la boutique', 'error');
+            saveUserData(token, registerData.user);
+        }
+    } catch (error) {
+        console.error('Erreur d\'inscription vendeur:', error);
+        showMessage('Impossible de se connecter au serveur', 'error');
+    }
+});
+const slides = document.querySelectorAll(".slide");
+const pagination = document.querySelector(".pagination");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+const pauseBtn = document.getElementById("pause");
+
+let index = 0;
+let playing = true;
+let interval;
+
+// Create pagination bullets
+slides.forEach((_, i) => {
+  const dot = document.createElement("span");
+  dot.addEventListener("click", () => goToSlide(i));
+  pagination.appendChild(dot);
+});
+
+const bullets = pagination.querySelectorAll("span");
+
+// Display a slide
+function showSlide(i) {
+  slides.forEach(slide => slide.classList.remove("active"));
+  bullets.forEach(dot => dot.classList.remove("active"));
+
+  slides[i].classList.add("active");
+  bullets[i].classList.add("active");
+}
+
+// Go to a specific slide
+function goToSlide(i) {
+  index = i;
+  showSlide(index);
+}
+
+// Next slide
+function nextSlide() {
+  index = (index + 1) % slides.length;
+  showSlide(index);
+}
+
+// Previous slide
+function prevSlide() {
+  index = (index - 1 + slides.length) % slides.length;
+  showSlide(index);
+}
+
+// Auto play function
+function startAuto() {
+  interval = setInterval(nextSlide, 3000);
+}
+
+function stopAuto() {
+  clearInterval(interval);
+}
+
+pauseBtn.addEventListener("click", () => {
+  if (playing) {
+    stopAuto();
+    pauseBtn.textContent = "▶";
+  } else {
+    startAuto();
+    pauseBtn.textContent = "⏸";
+  }
+  playing = !playing;
+});
+
+next.addEventListener("click", nextSlide);
+prev.addEventListener("click", prevSlide);
+
+// Init
+showSlide(index);
+startAuto();
+
+
+</script>
+
+</body>
+</html>

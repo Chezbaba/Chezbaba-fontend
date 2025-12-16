@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - ChezBaba</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --blue:#9ACD32;
+            --black: #000000;
+            --darkgray1: #333333;
+            --darkgray: #999999;
+            --lightgray1: #d9d9d9;
+            --lightgray: #f5f5f5;
+            --slategray: #404E4D;
+            --green: #758e4f;
+            --white: #ffffff;
+            --orange: #EA9010; 
+            --pink: #FD6C9E;
+            --teal: #17a2b8;
+            --alibaba-orange: #ff6900;
+            --alibaba-green: #00a86b;
+            --alibaba-gray: #f5f5f5;
+            --alibaba-dark: #333;
+                --darkblue: #0C1B33;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--lightgray);
+            color: var(--darkgray1);
+            line-height: 1.6;
+        }
+
+        /* ===== NAVIGATION ===== */
+        
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            color: var(--darkgray);
+        }
+
+        .breadcrumb a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== PROFILE LAYOUT ===== */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .profile-sidebar {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--darkblue);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2.5em;
+            font-weight: bold;
+            border: 5px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--darkgray1);
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: var(--darkgray);
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            background: linear-gradient(135deg, var(--orange), #FFB347);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--lightgray);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--darkgray);
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            color: var(--darkgray1);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .menu-link:hover {
+            background: var(--lightgray);
+            color: var(--blue);
+            transform: translateX(5px);
+        }
+
+        .menu-link.active {
+            background: linear-gradient(135deg, rgba(49, 140, 231, 0.1), rgba(74, 158, 242, 0.05));
+            color: var(--blue);
+            border-left: 4px solid var(--blue);
+        }
+
+        .menu-link i {
+            font-size: 1.2em;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ===== PROFILE CONTENT ===== */
+        .profile-content {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--lightgray);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--darkgray1);
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--lightgray);
+            color: var(--darkgray1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--lightgray1);
+        }
+
+        /* ===== INFORMATIONS PERSONNELLES ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--darkgray1);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(49, 140, 231, 0.1);
+        }
+
+        .form-input:disabled {
+            background: var(--lightgray);
+            color: var(--darkgray);
+        }
+
+        /* ===== MES COMMANDES ===== */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: var(--lightgray);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--blue);
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: var(--darkgray1);
+        }
+
+        .order-date {
+            color: var(--darkgray);
+            font-size: 0.9em;
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-delivered {
+            background: rgba(0, 168, 107, 0.1);
+            color: var(--alibaba-green);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .status-cancelled {
+            background: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+        }
+
+        .order-items {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--white);
+            border-radius: 8px;
+        }
+
+        .item-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-total {
+            font-weight: 700;
+            color: var(--blue);
+            font-size: 1.1em;
+        }
+
+        /* ===== MES FAVORIS ===== */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .favorite-card {
+            background: var(--lightgray);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .favorite-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: var(--white);
+        }
+
+        .favorite-info {
+            padding: 15px;
+        }
+
+        .favorite-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--darkgray1);
+            font-size: 0.95em;
+        }
+
+        .favorite-price {
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+
+        .favorite-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .favorite-remove {
+            flex: 1;
+            padding: 8px;
+            background: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+        }
+
+        .favorite-remove:hover {
+            background: #e63946;
+            color: var(--white);
+        }
+
+        .favorite-cart {
+            padding: 8px;
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-cart:hover {
+            background: var(--alibaba-blue);
+        }
+
+        /* ===== PARAMÈTRES ===== */
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--darkgray1);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--lightgray);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--lightgray);
+            border-radius: 10px;
+        }
+
+        .setting-label {
+            font-weight: 500;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--lightgray1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--white);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--blue);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .profile-layout {
+                grid-template-columns: 280px 1fr;
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navBar_connexion_inscription,
+            .categorie_navigation,
+            .button_icons {
+                display: none;
+            }
+
+            .logo-icone-mobile {
+                display: flex;
+            }
+
+            .logo_searchBar_button {
+                display: flex;
+                align-items: center;
+                padding: 12px 15px;
+                gap: 10px;
+                border-bottom: 1px solid var(--lightgray1);
+                border-top: solid 1px var(--lightgray1);
+            }
+
+            .nav_logo {
+                display: none;
+            }
+
+            .search_input_button {
+                flex: 1;
+                position: relative;
+            }
+
+            .search_input {
+                width: 100%;
+                padding-right: 50px;
+            }
+
+            .search_button {
+                display: none;
+            }
+
+            .search-icon-mobile {
+                display: flex;
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 28px;
+                height: 28px;
+                background: var(--blue);
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+                font-size: 12px;
+                cursor: pointer;
+                z-index: 1;
+            }
+
+            .mobile-category-icon {
+                display: flex;
+                width: 40px;
+                height: 40px;
+                background: var(--blue);
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                flex-shrink: 0;
+                margin-left: 10px;
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .profile-sidebar {
+                position: static;
+            }
+
+            .profile-content {
+                padding: 25px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .favorites-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .order-header,
+            .order-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-content {
+                padding: 20px;
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .section-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="pageLoader"><div class="spinner"></div></div>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="navBar">
+            <div class="navBar_connexion_inscription">
+                <p class="navBar_connexion_inscription_text" >
+                    Bonjour!
+                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="#" class="aide_link">Aide</a>
+                </p>
+            </div>
+            <div class="logo-icone-mobile">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                     </a>
+                </div>
+                <div class="mobile-icone">
+                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>               
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="logo_searchBar_button">
+                <div class="nav_logo">
+                        <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                </div>
+                <div class="search_input_button">
+                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                    <div class="search-icon-mobile">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <button type="submit" class="search_button" name="q">Rechercher</button>
+                </div>
+                <div class="mobile-category-icon" id="mobileCategoryIcon">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
+                <div class="button_icons">
+                    <button class="button_vendre" id="vendreBtn">Vendre</button>
+                    <!-- <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a> -->
+                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="categorie_navigation">
+                <div class="categorie">
+                    <button id="openCategories" class="categorieBtn" onclick="window.location.href='categorie.html'">
+                        <i class="bi bi-list"></i><span>Catégories</span>
+                    </button>
+                </div>
+                <div class="navigation">
+                    <ul>
+                        <li><a href="#frais">Frais</a></li>
+                        <li><a href="#pq_chezBaba">Pourquoi chez Baba?</a></li>
+                        <li><a href="#outils">Outils</a></li>
+                        <li><a href="#comment_vendre">Comment vendre</a></li>
+                        <li><a href="#apropos">À propos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a>
+            <span>›</span>
+            <span>Mon Profil</span>
+        </div>
+
+        <!-- Profile Layout -->
+        <div class="profile-layout">
+            <!-- Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="userAvatar"></div>
+                    <h2 class="profile-name" id="userName"></h2>
+                    <p class="profile-email" id="userEmail"></p>
+                    <span class="profile-badge">Membre Gold</span>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Commandes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Favoris</div>
+                    </div>
+                </div>
+
+                
+            </aside>
+
+            <!-- Main Content -->
+            <div class="profile-content">
+                <!-- Informations Personnelles -->
+                <section id="informations" class="content-section active">
+                    <div class="section-header">
+                        <h2 class="section-title">Informations personnelles</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-secondary" id="editInfoBtn">
+                                <i class="bi bi-pencil"></i>
+                                Modifier
+                            </button>
+                            <button class="btn btn-primary" id="saveInfoBtn" style="display: none;">
+                                <i class="bi bi-check"></i>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nom complet</label>
+                            <input type="text" class="form-input" id="fullName" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="email" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" class="form-input" id="phone" value="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date de naissance</label>
+                            <input type="date" class="form-input" id="birthdate" value="" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Adresse</label>
+                        <input type="text" class="form-input" id="address" value="Akpakpa Lom Nava" disabled>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="form-group">
+                            <label class="form-label">Ville</label>
+                            <input type="text" class="form-input" id="city" value="Cotonou" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Code postal</label>
+                            <input type="text" class="form-input" id="postalCode" value="" disabled>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mes Commandes -->
+                <section id="commandes" class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Mes commandes</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-secondary">
+                                <i class="bi bi-download"></i>
+                                Exporter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="orders-list">
+                        <!-- Commande 1 -->
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <span class="order-id">CMD-2024-001</span>
+                                    <span class="order-date">• 15 Mars 2024</span>
+                                </div>
+                                <span class="order-status status-delivered">Livrée</span>
+                            </div>
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <img src="img/iphone17.jfif" alt="iPhone" class="item-image">
+                                    <span class="item-name">iPhone 17 Pro Max</span>
+                                </div>
+                                <div class="order-item">
+                                    <img src="img/airspod.jfif" alt="AirPods" class="item-image">
+                                    <span class="item-name">AirPods Pro</span>
+                                </div>
+                            </div>
+                            <div class="order-footer">
+                                <div class="order-total">625 000 FCFA</div>
+                                <button class="btn btn-secondary">
+                                    <i class="bi bi-eye"></i>
+                                    Voir les détails
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Commande 2 -->
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <span class="order-id">CMD-2024-002</span>
+                                    <span class="order-date">• 10 Mars 2024</span>
+                                </div>
+                                <span class="order-status status-pending">En cours</span>
+                            </div>
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="item-image">
+                                    <span class="item-name">Samsung S24 Ultra</span>
+                                </div>
+                            </div>
+                            <div class="order-footer">
+                                <div class="order-total">480 000 FCFA</div>
+                                <button class="btn btn-secondary">
+                                    <i class="bi bi-eye"></i>
+                                    Suivre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mes Favoris -->
+                <section id="favoris" class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Mes favoris</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-secondary" id="clearFavorites">
+                                <i class="bi bi-trash"></i>
+                                Tout supprimer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="favorites-grid">
+                        <!-- Produit 1 -->
+                        <div class="favorite-card">
+                            <img src="img/iphone17.jfif" alt="iPhone" class="favorite-image">
+                            <div class="favorite-info">
+                                <div class="favorite-name">iPhone 17 Pro Max 256Go</div>
+                                <div class="favorite-price">550 000 FCFA</div>
+                                <div class="favorite-actions">
+                                    <button class="favorite-remove">
+                                        <i class="bi bi-heartbreak"></i>
+                                    </button>
+                                    <button class="favorite-cart">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produit 2 -->
+                        <div class="favorite-card">
+                            <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="favorite-image">
+                            <div class="favorite-info">
+                                <div class="favorite-name">Samsung Galaxy S24 Ultra</div>
+                                <div class="favorite-price">480 000 FCFA</div>
+                                <div class="favorite-actions">
+                                    <button class="favorite-remove">
+                                        <i class="bi bi-heartbreak"></i>
+                                    </button>
+                                    <button class="favorite-cart">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produit 3 -->
+                        <div class="favorite-card">
+                            <img src="img/airspod.jfif" alt="AirPods" class="favorite-image">
+                            <div class="favorite-info">
+                                <div class="favorite-name">AirPods Pro 2ème génération</div>
+                                <div class="favorite-price">75 000 FCFA</div>
+                                <div class="favorite-actions">
+                                    <button class="favorite-remove">
+                                        <i class="bi bi-heartbreak"></i>
+                                    </button>
+                                    <button class="favorite-cart">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Paramètres -->
+                <section id="parametres" class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Paramètres</h2>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">Notifications</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <span class="setting-label">Emails promotionnels</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Notifications SMS</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Alertes prix</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">Préférences</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <span class="setting-label">Mode sombre</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Langue: Français</span>
+                                <select class="form-input" style="width: auto; padding: 5px 10px;">
+                                    <option>Français</option>
+                                    <option>English</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sécurité -->
+                <section id="securite" class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Sécurité</h2>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">Mot de passe</h3>
+                        <div class="info-grid">
+                            <div class="form-group">
+                                <label class="form-label">Mot de passe actuel</label>
+                                <input type="password" class="form-input" placeholder="••••••••">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nouveau mot de passe</label>
+                                <input type="password" class="form-input" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-key"></i>
+                            Changer le mot de passe
+                        </button>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">Sécurité du compte</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <span class="setting-label">Validation en 2 étapes</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Connexions actives</span>
+                                <button class="btn btn-secondary">
+                                    <i class="bi bi-eye"></i>
+                                    Voir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- MOBILE OVERLAY MENU -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
+            <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+        </div>
+        
+        <div class="mobile-overlay-content">
+            <!-- Navigation Links -->
+            <div class="mobile-nav-section">
+                <h3>Navigation</h3>
+                <ul class="mobile-nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="categorie.html">Toutes les catégories</a></li>
+                </ul>
+            </div>
+
+            <ul class="profile-menu">
+                    <li class="menu-item">
+                        <a href="#informations" class="menu-link active" data-section="informations">
+                            <i class="bi bi-person"></i>
+                            Informations personnelles
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#commandes" class="menu-link" data-section="commandes">
+                            <i class="bi bi-bag"></i>
+                            Mes commandes
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#favoris" class="menu-link" data-section="favoris">
+                            <i class="bi bi-heart"></i>
+                            Mes favoris
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#parametres" class="menu-link" data-section="parametres">
+                            <i class="bi bi-gear"></i>
+                            Paramètres
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#securite" class="menu-link" data-section="securite">
+                            <i class="bi bi-shield-lock"></i>
+                            Sécurité
+                        </a>
+                    </li>
+                </ul>
+        </div>
+
+        <div class="mobile-overlay-footer">
+            <div class="mobile-auth-buttons">
+                <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
+                <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
+            </div>
+        </div>
+    </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section footer-logo-section">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                        </a>
+                </div>
+                <p class="footer-description">
+                    La marketplace de référence pour vendre et acheter en toute sécurité. 
+                    Rejoignez des millions d'utilisateurs qui nous font confiance.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="#frais">Nos frais</a></li>
+                    <li><a href="#pq_chezBaba">Pourquoi ChezBaba</a></li>
+                    <li><a href="#outils">Nos outils</a></li>
+                    <li><a href="#comment_vendre">Comment vendre</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Carrières</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">Service client</a></li>
+                    <li><a href="#">Signaler problème</a></li>
+                    <li><a href="#">Guide vendeur</a></li>
+                    <li><a href="#">Guide acheteur</a></li>
+                    <li><a href="#">Sécurité</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="footer-contact-info">
+                    <strong>Email:</strong><br>
+                    contact@chezbaba.com<br><br>
+                    <strong>Tél:</strong><br>
+                    +229 01 56 12 40 50<br><br>
+                    <strong>Adresse:</strong><br>
+                    Cotonou Akpaka LomNava
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-copyright">
+                    © 2024 ChezBaba. Tous droits réservés.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Conditions</a>
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
+});
+        function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+    document.querySelectorAll('#cartCount').forEach(b => {
+        b.textContent = total;
+        b.style.display = total > 0 ? 'flex' : 'none';
+    });
+}
+window.addEventListener('load', updateCartBadge);
+        // ============================================
+        // GESTION DU PROFIL
+        // ============================================
+
+        // Navigation entre les sections
+        const menuLinks = document.querySelectorAll('.menu-link');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Retirer active de tous les liens
+                menuLinks.forEach(l => l.classList.remove('active'));
+                // Ajouter active au lien cliqué
+                this.classList.add('active');
+                
+                // Cacher toutes les sections
+                contentSections.forEach(section => section.classList.remove('active'));
+                // Afficher la section correspondante
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Édition des informations personnelles
+        const editInfoBtn = document.getElementById('editInfoBtn');
+        const saveInfoBtn = document.getElementById('saveInfoBtn');
+        const formInputs = document.querySelectorAll('#informations .form-input');
+
+        editInfoBtn.addEventListener('click', function() {
+            formInputs.forEach(input => input.disabled = false);
+            editInfoBtn.style.display = 'none';
+            saveInfoBtn.style.display = 'flex';
+        });
+
+        saveInfoBtn.addEventListener('click', function() {
+            formInputs.forEach(input => input.disabled = true);
+            saveInfoBtn.style.display = 'none';
+            editInfoBtn.style.display = 'flex';
+            
+            // Sauvegarder les données (simulation)
+            const userData = {
+                name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+            
+            localStorage.setItem('userProfile', JSON.stringify(userData));
+            updateProfileDisplay();
+            
+            alert('Informations sauvegardées avec succès !');
+        });
+
+        // Charger les données du profil
+        function loadProfileData() {
+            const savedData = localStorage.getItem('userProfile');
+            if (savedData) {
+                const userData = JSON.parse(savedData);
+                document.getElementById('fullName').value = userData.name || 'Jean Dupont';
+                document.getElementById('email').value = userData.email || 'jean.dupont@email.com';
+                document.getElementById('phone').value = userData.phone || '+229 01 23 45 67';
+            }
+            updateProfileDisplay();
+        }
+
+        // Mettre à jour l'affichage du profil
+        function updateProfileDisplay() {
+            const userName = document.getElementById('fullName').value;
+            const userEmail = document.getElementById('email').value;
+            
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userEmail').textContent = userEmail;
+            document.getElementById('userAvatar').textContent = getInitials(userName);
+        }
+
+        // Obtenir les initiales du nom
+        function getInitials(name) {
+            return name.split(' ').map(word => word[0]).join('').toUpperCase();
+        }
+
+        // Gestion des favoris
+        const favoriteRemoveBtns = document.querySelectorAll('.favorite-remove');
+        const clearFavoritesBtn = document.getElementById('clearFavorites');
+
+        favoriteRemoveBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.favorite-card');
+                card.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    card.remove();
+                    updateFavoritesCount();
+                }, 300);
+            });
+        });
+
+        clearFavoritesBtn.addEventListener('click', function() {
+            if (confirm('Voulez-vous vraiment supprimer tous vos favoris ?')) {
+                document.querySelectorAll('.favorite-card').forEach(card => {
+                    card.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => card.remove(), 300);
+                });
+                setTimeout(updateFavoritesCount, 400);
+            }
+        });
+
+        function updateFavoritesCount() {
+            const favoritesCount = document.querySelectorAll('.favorite-card').length;
+            document.querySelector('.stat-number:nth-child(2)').textContent = favoritesCount;
+        }
+
+        // Ajouter au panier depuis les favoris
+        const favoriteCartBtns = document.querySelectorAll('.favorite-cart');
+        favoriteCartBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productName = this.closest('.favorite-card').querySelector('.favorite-name').textContent;
+                alert(`"${productName}" ajouté au panier !`);
+            });
+        });
+
+        // Initialisation
+        window.addEventListener('load', function() {
+            loadProfileData();
+            console.log('✅ Page profil chargée');
+        });
+
+        // Gestion recherche mobile
+        document.querySelector('.search-icon-mobile')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const searchTerm = document.querySelector('.search_input').value;
+            if (searchTerm.trim()) {
+                window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+
+        // Gestion bouton recherche
+        document.querySelector('.search_button')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const searchTerm = document.querySelector('.search_input').value;
+            if (searchTerm.trim()) {
+                window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+        // ============================================
+        // GESTION NAVIGATION MOBILE - UNIFIÉE
+        // ============================================
+
+        // Menu mobile overlay
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobileCategoryIcon = document.getElementById('mobileCategoryIcon');
+        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+
+        // Modals
+        const modals = {
+            login: document.getElementById('loginModal'),
+            register: document.getElementById('registerModal'),
+            sellerRegister: document.getElementById('sellerRegisterModal'),
+        };
+
+        // Ouvrir le menu mobile
+        if (mobileCategoryIcon) {
+            mobileCategoryIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                openMobileOverlay();
+            });
+        }
+
+        // Fermer le menu mobile
+        if (mobileCloseBtn) {
+            mobileCloseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeMobileOverlay();
+            });
+        }
+
+        // Fermer en cliquant à l'extérieur
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', function(e) {
+                if (e.target === mobileOverlay) {
+                    closeMobileOverlay();
+                }
+            });
+        }
+
+        // Fermer avec la touche Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileOverlay.classList.contains('active')) {
+                closeMobileOverlay();
+            }
+        });
+
+        function openMobileOverlay() {
+            if (mobileOverlay) {
+                mobileOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeMobileOverlay() {
+            if (mobileOverlay) {
+                mobileOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Navigation dans le menu mobile
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                closeMobileOverlay();
+            });
+        });
+
+    </script>
+</body>
+</html>
