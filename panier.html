@@ -47,10 +47,14 @@
         /* PAGE HEADER */
         .page-header {
             margin-bottom: 40px;
-            color:var(--darkblue);
+            color: var(--darkblue);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
         }
 
         .page-title {
@@ -215,14 +219,6 @@
             font-size: 0.85em;
             color: var(--success);
             margin-top: 5px;
-        }
-
-        .item-stock.low-stock {
-            color: var(--warning);
-        }
-
-        .item-stock.out-of-stock {
-            color: var(--danger);
         }
 
         /* CART SUMMARY */
@@ -515,68 +511,213 @@
             }
         }
 
-        /* RESPONSIVE */
+        /* ============================================
+           RESPONSIVE CORRECTIONS POUR PANIER
+           ============================================ */
+
+        /* TABLET (max-width: 1024px) */
         @media (max-width: 1024px) {
             .cart-layout {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .cart-summary {
                 position: static;
+                top: auto;
+            }
+
+            .main-content {
+                padding: 30px 15px;
             }
         }
 
+        /* MOBILE (max-width: 768px) */
         @media (max-width: 768px) {
             .main-content {
-                padding: 20px 15px;
+                padding: 15px 10px 80px !important; /* +80px pour bottom nav */
             }
 
             .page-header {
-                padding: 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                padding: 15px !important;
+                margin-bottom: 20px !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                text-align: left !important;
+                border-radius: 10px !important;
             }
 
             .page-title {
-                font-size: 1.5em;
+                font-size: 1.5em !important;
+            }
+
+            .cart-items {
+                padding: 15px !important;
+                border-radius: 15px !important;
             }
 
             .cart-item {
-                grid-template-columns: 80px 1fr;
-                gap: 15px;
+                grid-template-columns: 80px 1fr !important;
+                gap: 15px !important;
+                padding: 15px 10px !important;
             }
 
             .item-image {
-                width: 80px;
-                height: 80px;
+                width: 80px !important;
+                height: 80px !important;
             }
 
             .item-actions {
-                grid-column: 1 / -1;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
+                grid-column: 1 / -1 !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-top: 10px !important;
+                padding-top: 15px !important;
+                border-top: 1px solid var(--light) !important;
+            }
+
+            .item-price {
+                font-size: 1.3em !important;
+            }
+
+            .quantity-controls {
+                margin: 0 !important;
+            }
+
+            .cart-summary {
+                padding: 20px 15px !important;
+                border-radius: 15px !important;
+                margin-top: 20px !important;
+            }
+
+            .summary-title {
+                font-size: 1.3em !important;
+                margin-bottom: 15px !important;
+            }
+
+            .total-value {
+                font-size: 1.5em !important;
             }
 
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 15px !important;
+            }
+
+            .product-card {
+                border-radius: 10px !important;
+            }
+
+            .product-image {
+                height: 140px !important;
+            }
+
+            .product-name {
+                font-size: 0.85em !important;
+            }
+
+            .product-price {
+                font-size: 1.1em !important;
+            }
+
+            /* S'assurer que le toast n'est pas caché par la bottom nav */
+            .toast {
+                bottom: 100px !important;
+                right: 15px !important;
+                left: 15px !important;
+                max-width: calc(100% - 30px) !important;
             }
         }
 
+        /* SMALL MOBILE (max-width: 480px) */
         @media (max-width: 480px) {
+            .main-content {
+                padding: 10px 8px 80px !important;
+            }
+
+            .page-header {
+                padding: 12px !important;
+                margin-bottom: 15px !important;
+            }
+
             .cart-item {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                text-align: center !important;
             }
 
             .item-image {
-                width: 100%;
-                height: 150px;
+                width: 100% !important;
+                height: 150px !important;
+                margin: 0 auto 15px !important;
+            }
+
+            .item-details {
+                text-align: left !important;
+            }
+
+            .item-variants {
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
+            .item-actions {
+                flex-direction: column !important;
+                gap: 15px !important;
+                align-items: stretch !important;
+            }
+
+            .quantity-controls {
+                justify-content: center !important;
+                margin: 10px 0 !important;
+            }
+
+            .item-remove {
+                justify-content: center !important;
+            }
+
+            .cart-summary {
+                padding: 15px 12px !important;
+            }
+
+            .promo-input-group {
+                flex-direction: column !important;
+            }
+
+            .promo-input, .promo-btn {
+                width: 100% !important;
             }
 
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .checkout-btn, .continue-shopping {
+                padding: 16px !important;
+                font-size: 1em !important;
+            }
+
+            /* Espacement pour le footer */
+            footer {
+                margin-bottom: 80px !important;
+            }
+        }
+
+        /* DESKTOP SEULEMENT (min-width: 769px) */
+        @media (min-width: 769px) {
+            /* Cacher la bottom nav sur desktop */
+            .bottom-nav {
+                display: none;
+            }
+            
+            body {
+                padding-bottom: 0 !important;
+            }
+            
+            footer {
+                margin-bottom: 0 !important;
             }
         }
     </style>
@@ -584,11 +725,12 @@
 <body>
     <!-- Loader -->
     <div id="pageLoader"><div class="spinner"></div></div>
+    
     <!-- NAVIGATION -->
-     <nav>
+    <nav>
         <div class="navBar">
             <div class="navBar_connexion_inscription">
-                <p class="navBar_connexion_inscrption_text" >
+                <p class="navBar_connexion_inscription_text" >
                     Bonjour!
                     <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
                     <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
@@ -599,19 +741,20 @@
                 <div class="nav-mobile-logo">
                     <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
                         <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
-                     </a>
+                    </a>
                 </div>
                 <div class="mobile-icone">
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
-                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>               
-                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCountMobile">0</span>
+                    </a>
                 </div>
             </div>
             <div class="logo_searchBar_button">
                 <div class="nav_logo">
-                        <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
-                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
-                        </a>
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
                 </div>
                 <div class="search_input_button">
                     <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
@@ -625,7 +768,7 @@
                 </div>
                 <div class="button_icons">
                     <button class="button_vendre" id="vendreBtn">Vendre</button>
-                    <!-- <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a> -->
+                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
                     <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    
                     <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
                 </div>
@@ -648,6 +791,7 @@
             </div>
         </div>
     </nav>
+
     <!-- MAIN CONTENT -->
     <main class="main-content">
         <!-- Breadcrumb -->
@@ -707,57 +851,58 @@
                 </div>
             </div>
         </div>
-        <!-- MOBILE OVERLAY MENU CORRIGÉ -->
-<div class="mobile-overlay" id="mobileOverlay">
-    <div class="mobile-overlay-header">
-        <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
-        <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
-    </div>
-    
-    <div class="mobile-overlay-content">
-        <!-- Navigation Links -->
-        <div class="mobile-nav-section">
-            <h3>Navigation</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="profil-acheteur.html">Mon Profil</a></li>
-                <li><a href="favoris.html">Mes Favoris</a></li>
-                <li><a href="panier.html">Mon Panier</a></li>
-                <li><a href="vendeur.html">Espace Vendeur</a></li>
-            </ul>
-        </div>
+        
+        <!-- MOBILE OVERLAY MENU -->
+        <div class="mobile-overlay" id="mobileOverlay">
+            <div class="mobile-overlay-header">
+                <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
+                <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+            </div>
+            
+            <div class="mobile-overlay-content">
+                <!-- Navigation Links -->
+                <div class="mobile-nav-section">
+                    <h3>Navigation</h3>
+                    <ul class="mobile-nav-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="profil-acheteur.html">Mon Profil</a></li>
+                        <li><a href="favoris.html">Mes Favoris</a></li>
+                        <li><a href="panier.html">Mon Panier</a></li>
+                        <li><a href="vendeur.html">Espace Vendeur</a></li>
+                    </ul>
+                </div>
 
-        <!-- Categories Section -->
-        <div class="mobile-nav-section">
-            <h3>Catégories</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="categorie.html">Toutes les catégories</a></li>
-                <li><a href="produits.html?categorie=telephones">Téléphones</a></li>
-                <li><a href="produits.html?categorie=ordinateurs">Ordinateurs</a></li>
-                <li><a href="produits.html?categorie=electronique">Électronique</a></li>
-                <li><a href="produits.html?categorie=mode">Mode</a></li>
-            </ul>
-        </div>
+                <!-- Categories Section -->
+                <div class="mobile-nav-section">
+                    <h3>Catégories</h3>
+                    <ul class="mobile-nav-links">
+                        <li><a href="categorie.html">Toutes les catégories</a></li>
+                        <li><a href="produits.html?categorie=telephones">Téléphones</a></li>
+                        <li><a href="produits.html?categorie=ordinateurs">Ordinateurs</a></li>
+                        <li><a href="produits.html?categorie=electronique">Électronique</a></li>
+                        <li><a href="produits.html?categorie=mode">Mode</a></li>
+                    </ul>
+                </div>
 
-        <!-- Informations -->
-        <div class="mobile-nav-section">
-            <h3>Informations</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html#frais">Nos Frais</a></li>
-                <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
-                <li><a href="index.html#outils">Nos Outils</a></li>
-                <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
-            </ul>
-        </div>
-    </div>
+                <!-- Informations -->
+                <div class="mobile-nav-section">
+                    <h3>Informations</h3>
+                    <ul class="mobile-nav-links">
+                        <li><a href="index.html#frais">Nos Frais</a></li>
+                        <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
+                        <li><a href="index.html#outils">Nos Outils</a></li>
+                        <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
+                    </ul>
+                </div>
+            </div>
 
-    <div class="mobile-overlay-footer">
-        <div class="mobile-auth-buttons">
-            <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
-            <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
+            <div class="mobile-overlay-footer">
+                <div class="mobile-auth-buttons">
+                    <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
+                    <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
     </main>
 
     <!-- FOOTER -->
@@ -766,8 +911,8 @@
             <div class="footer-section footer-logo-section">
                 <div class="nav-mobile-logo">
                     <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
-                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
-                        </a>
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
                 </div>
                 <p class="footer-description">
                     La marketplace de référence pour vendre et acheter en toute sécurité. 
@@ -841,6 +986,28 @@
         </div>
     </footer>
 
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-container">
+            <a href="index.html" class="nav-item active">
+                <i class="bi bi-house nav-icon"></i>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a href="categorie.html" class="nav-item">
+                <i class="bi bi-grid-3x3-gap nav-icon"></i>
+                <span class="nav-label">Catégories</span>
+            </a>
+            <a href="favoris.html" class="nav-item">
+                <i class="bi bi-heart nav-icon"></i>
+                <span class="nav-label">Favoris</span>
+            </a>
+            <a href="profil-acheteur.html" class="nav-item">
+                <i class="bi bi-person nav-icon"></i>
+                <span class="nav-label">Compte</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast">
         <i class="bi bi-check-circle" style="font-size: 1.5em; color: var(--success);"></i>
@@ -849,22 +1016,27 @@
     </div>
 
     <script>
+        // ============================================
+        // GESTION DU LOADER
+        // ============================================
         window.addEventListener('load', () => {
-    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
-});
+            setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
+        });
+
         function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
-    document.querySelectorAll('#cartCount').forEach(b => {
-        b.textContent = total;
-        b.style.display = total > 0 ? 'flex' : 'none';
-    });
-}
-window.addEventListener('load', updateCartBadge);
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+            document.querySelectorAll('#cartCount, #cartCountMobile').forEach(b => {
+                b.textContent = total;
+                b.style.display = total > 0 ? 'flex' : 'none';
+            });
+        }
+        
+        window.addEventListener('load', updateCartBadge);
+
         // ============================================
         // GESTION DU PANIER
         // ============================================
-
         let cart = [];
         let appliedPromo = null;
 
@@ -885,6 +1057,7 @@ window.addEventListener('load', updateCartBadge);
             try {
                 localStorage.setItem('cart', JSON.stringify(cart));
                 updateCartCount();
+                updateCartBadge();
             } catch (error) {
                 console.error('Erreur sauvegarde panier:', error);
             }
@@ -1039,15 +1212,15 @@ window.addEventListener('load', updateCartBadge);
             showToast('Quantité mise à jour', 'success');
         }
 
-       function removeItem(index) {
-    const name = cart[index].name;
-    if (confirm(`Supprimer "${name}" du panier ?`)) {
-        cart.splice(index, 1);
-        saveCart();
-        renderCart();
-        showToast(`${name} supprimĂ©`, 'success');
-    }
-}
+        function removeItem(index) {
+            const name = cart[index].name;
+            if (confirm(`Supprimer "${name}" du panier ?`)) {
+                cart.splice(index, 1);
+                saveCart();
+                renderCart();
+                showToast(`${name} supprimé`, 'success');
+            }
+        }
 
         // Appliquer code promo
         function applyPromo() {
@@ -1134,26 +1307,57 @@ window.addEventListener('load', updateCartBadge);
                 window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
             }
         });
+
         // Gestion du burger mobile
-const mobileOverlay = document.getElementById('mobileOverlay');
-const mobileOpenBtn = document.getElementById('mobileCategoryIcon');
-const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobileOpenBtn = document.getElementById('mobileCategoryIcon');
+        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
 
-mobileOpenBtn.addEventListener('click', () => {
-    mobileOverlay.style.display = 'block';
-});
+        if (mobileOpenBtn) {
+            mobileOpenBtn.addEventListener('click', () => {
+                mobileOverlay.style.display = 'block';
+            });
+        }
 
-mobileCloseBtn.addEventListener('click', () => {
-    mobileOverlay.style.display = 'none';
-});
+        if (mobileCloseBtn) {
+            mobileCloseBtn.addEventListener('click', () => {
+                mobileOverlay.style.display = 'none';
+            });
+        }
 
-// Optionnel : fermer le menu si on clique en dehors
-mobileOverlay.addEventListener('click', (e) => {
-    if (e.target === mobileOverlay) {
-        mobileOverlay.style.display = 'none';
-    }
-});
+        // Optionnel : fermer le menu si on clique en dehors
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileOverlay) {
+                    mobileOverlay.style.display = 'none';
+                }
+            });
+        }
 
+        // Gestion des boutons de connexion
+        document.getElementById('loginBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Ajoute ta logique de connexion ici
+            console.log('Bouton connexion cliqué');
+        });
+
+        document.getElementById('registerBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Ajoute ta logique d'inscription ici
+            console.log('Bouton inscription cliqué');
+        });
+
+        document.getElementById('mobileLoginBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Ajoute ta logique de connexion mobile ici
+            console.log('Bouton connexion mobile cliqué');
+        });
+
+        document.getElementById('mobileRegisterBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Ajoute ta logique d'inscription mobile ici
+            console.log('Bouton inscription mobile cliqué');
+        });
     </script>
 </body>
 </html>

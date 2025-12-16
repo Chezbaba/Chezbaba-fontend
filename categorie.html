@@ -7,228 +7,349 @@
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        /* LAYOUT PRINCIPAL - 2 COLONNES */
-        .main-content {
-            padding: 40px 20px;
+        /* ===== SECTION CATÉGORIES PRINCIPALE ===== */
+        .categories-main {
+            padding: 40px 0 100px;
+            background-color: var(--background-light);
+        }
+
+        .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .page-title {
+        .categories-header {
             text-align: center;
-            font-size: 2.2em;
-            color: var(--darkgray1);
-            font-weight: 700;
             margin-bottom: 40px;
         }
 
-        .categories-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            min-height: auto;
-            align-items: start;
-        }
-
-        /* COLONNE GAUCHE - Liste des catégories */
-        .categories-sidebar {
-            background-color: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 20px 0;
-            height: fit-content;
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
-            position: sticky;
-            top: 100px;
-        }
-
-        .categories-sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .categories-sidebar::-webkit-scrollbar-track {
-            background: var(--lightgray);
-            border-radius: 10px;
-        }
-
-        .categories-sidebar::-webkit-scrollbar-thumb {
-            background: var(--blue);
-            border-radius: 10px;
-        }
-
-        .category-list-item {
-            padding: 18px 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-            color: var(--darkgray1);
-            text-decoration: none;
-        }
-
-        .category-list-item:hover {
-            background-color: var(--lightgray);
-            border-left-color: var(--blue);
-            color: var(--blue);
-        }
-
-        .category-list-item.active {
-            background-color: #9ACD32;
-            border-left-color: var(--blue);
-            color: var(--blue);
-            font-weight: 600;
-        }
-
-        .category-list-icon {
-            font-size: 1.5em;
-            width: 30px;
-            text-align: center;
-        }
-
-        .category-list-info {
-            flex: 1;
-        }
-
-        .category-list-name {
-            font-size: 1em;
-            font-weight: 500;
-        }
-
-        .category-list-count {
-            font-size: 0.85em;
-            color: var(--darkgray);
-            margin-top: 2px;
-        }
-
-        /* COLONNE DROITE - Détails de la catégorie */
-        .category-details {
-            background-color: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 40px;
-        }
-
-        .category-details-header {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .category-details-icon {
-            font-size: 4em;
-            color: var(--blue);
-            margin-bottom: 20px;
-        }
-
-        .category-details-title {
-            font-size: 2em;
-            color: var(--darkgray1);
+        .categories-header h1 {
+            font-size: 2.2rem;
             font-weight: 700;
+            color: var(--darkgray1);
             margin-bottom: 10px;
         }
 
-        .category-details-description {
+        .categories-header p {
             color: var(--darkgray);
-            font-size: 1.1em;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Sous-catégories dans les détails */
-        .subcategories-section {
-            margin-bottom: 50px;
+        /* ===== GRILLE DES CATÉGORIES ===== */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
         }
 
-        .subcategories-title {
-            font-size: 1.5em;
-            color: var(--darkgray1);
+        /* ===== CARTE DE CATÉGORIE (Style Grille) ===== */
+        .category-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--lightgray1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: #9ACD32;
+        }
+
+        /* Image de la catégorie */
+        .category-image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover .category-image {
+            transform: scale(1.05);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #9ACD32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        /* Contenu de la carte */
+        .category-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--darkgray1);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .category-desc {
+            font-size: 0.95rem;
+            color: var(--darkgray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        /* Statistiques et bouton */
+        .category-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--lightgray1);
+            margin-top: auto;
+        }
+
+        .category-stats {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-count {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #9ACD32;
+        }
+
+        .last-update {
+            font-size: 0.8rem;
+            color: var(--darkgray);
+        }
+
+        .category-arrow {
+            width: 40px;
+            height: 40px;
+            background: #9ACD32;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-arrow {
+            transform: rotate(-45deg);
+            background: var(--blue);
+        }
+
+        /* ===== PAGE DE DÉTAIL DES CATÉGORIES ===== */
+        .category-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--white);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            display: none;
+        }
+
+        .category-detail-page.active {
+            transform: translateX(0);
+            display: block;
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #9ACD32, var(--blue));
+            color: var(--white);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .detail-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .detail-content {
+            padding: 25px;
+        }
+
+        /* ===== SOUS-CATÉGORIES ===== */
+        .subcategories-section {
+            margin-bottom: 40px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--darkgray1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--lightgray1);
+        }
+
+        .subtitle i {
+            color: #9ACD32;
         }
 
         .subcategories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            gap: 15px;
         }
 
         .subcategory-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px 15px;
             text-align: center;
-            padding: 25px 15px;
-            background: linear-gradient(135deg, var(--lightgray) 0%, #f8f9ff 100%);
-            border-radius: 15px;
-            transition: all 0.3s ease;
             text-decoration: none;
             color: var(--darkgray1);
-            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--lightgray1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .subcategory-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #9ACD32;
+            color: #9ACD32;
+        }
+
+        .subcategory-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f0f9ff, #e6f7ff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
             color: var(--blue);
         }
 
-        .subcategory-card img {
-            max-width: 100%;
-            max-height: 100%;
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
         .subcategory-name {
-            font-size: 0.95em;
+            font-size: 0.95rem;
             font-weight: 500;
+            line-height: 1.3;
         }
 
-        /* Produits populaires dans les détails */
-        .popular-products-section {
+        /* ===== PRODUITS POPULAIRES ===== */
+        .products-section {
             margin-top: 40px;
-        }
-
-        .popular-products-title {
-            font-size: 1.5em;
-            color: var(--darkgray1);
-            font-weight: 600;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--lightgray1);
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .product-card {
-            background-color: var(--lightgray);
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .product-image {
             width: 100%;
-            height: 150px;
+            height: 180px;
             object-fit: cover;
-            background: var(--white);
-            display: block;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 55%;
-            object-fit: cover;
-            display: block;
+            background-color: #f5f5f5;
         }
 
         .product-info {
@@ -236,19 +357,20 @@
         }
 
         .product-name {
-            font-size: 0.9em;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 10px;
             color: var(--darkgray1);
             display: -webkit-box;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
         .product-price {
+            font-size: 1.2rem;
             font-weight: 700;
-            color: var(--blue);
-            font-size: 1.1em;
+            color: #9ACD32;
             margin-bottom: 8px;
         }
 
@@ -256,7 +378,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.85em;
+            font-size: 0.85rem;
             color: var(--darkgray);
         }
 
@@ -264,69 +386,114 @@
             color: #ffc107;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-
-        .badge-new {
-            background-color: #9ACD32;
-            color: var(--white);
-        }
-
-        .badge-hot {
-            background: linear-gradient(135deg, var(--orange), #FFB347);
-            color: var(--white);
-        }
-
-        /* Bouton Voir plus */
-        .voir-plus-section {
+        /* ===== BOUTON VOIR PLUS ===== */
+        .see-more-container {
             text-align: center;
             margin-top: 40px;
             padding-top: 30px;
-            border-top: 2px solid var(--lightgray1);
+            border-top: 1px solid var(--lightgray1);
         }
 
-        .voir-plus-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 30px;
-            background-color:#9ACD32;
-            color: white;
+        .see-more-btn {
+            background: linear-gradient(135deg, #9ACD32, var(--blue));
+            color: var(--white);
             border: none;
+            padding: 12px 40px;
             border-radius: 25px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            font-size: 1em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .voir-plus-btn:hover {
-            transform: translateY(-2px);
+        .see-more-btn:hover {
+            transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(49, 140, 231, 0.3);
-            color: white;
         }
 
-        /* État caché des sections */
-        .category-content {
-            display: none;
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .subcategories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
         }
 
-        .category-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
+        @media (max-width: 768px) {
+            .categories-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .categories-header p {
+                font-size: 1rem;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .category-image-container {
+                height: 180px;
+            }
+            
+            .detail-content {
+                padding: 20px;
+            }
+            
+            .subcategories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        @keyframes fadeIn {
+        @media (max-width: 480px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .category-image-container {
+                height: 160px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subcategories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .subcategory-card {
+                padding: 15px 10px;
+            }
+            
+            .subcategory-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -334,355 +501,73 @@
             }
         }
 
-        /* ============================================
-           MEDIA QUERIES RESPONSIVE
-        ============================================ */
-
-        /* TABLETTE (768px - 1024px) */
-        @media (max-width: 1024px) {
-            .categories-layout {
-                grid-template-columns: 250px 1fr;
-                gap: 20px;
-            }
-
-            .categories-sidebar {
-                max-height: calc(100vh - 150px);
-            }
-
-            .category-list-item {
-                padding: 15px 20px;
-            }
-
-            .subcategories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                gap: 15px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 20px;
-            }
-
-            .category-details {
-                padding: 30px;
-            }
+        .category-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
         }
 
-        /* MOBILE (max 768px) */
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 20px 15px;
-            }
+        /* Délais d'animation pour les cartes */
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        .category-card:nth-child(4) { animation-delay: 0.4s; }
+        .category-card:nth-child(5) { animation-delay: 0.5s; }
+        .category-card:nth-child(6) { animation-delay: 0.6s; }
+        .category-card:nth-child(7) { animation-delay: 0.7s; }
+        .category-card:nth-child(8) { animation-delay: 0.8s; }
+        .category-card:nth-child(9) { animation-delay: 0.9s; }
+        .category-card:nth-child(10) { animation-delay: 1.0s; }
+        .category-card:nth-child(11) { animation-delay: 1.1s; }
+        .category-card:nth-child(12) { animation-delay: 1.2s; }
 
-            .page-title {
-                font-size: 1.5em;
-                margin-bottom: 25px;
-            }
-
-            /* Layout en une seule colonne */
-            .categories-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            /* Sidebar devient horizontale scrollable */
-            .categories-sidebar {
-                position: static;
-                max-height: none;
-                overflow-x: auto;
-                overflow-y: visible;
-                padding: 15px 0;
-                display: flex;
-                flex-direction: row;
-                gap: 10px;
-                border-radius: 15px;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .categories-sidebar::-webkit-scrollbar {
-                height: 4px;
-            }
-
-            .category-list-item {
-                min-width: 200px;
-                padding: 15px 20px;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-                border-radius: 10px;
-                flex-shrink: 0;
-            }
-
-            .category-list-item.active {
-                background: linear-gradient(135deg, rgba(49, 140, 231, 0.15) 0%, rgba(49, 140, 231, 0.05) 100%);
-                border-bottom-color: var(--blue);
-            }
-
-            .category-list-item:hover {
-                background-color: rgba(49, 140, 231, 0.1);
-                border-bottom-color: var(--blue);
-            }
-
-            .category-list-icon {
-                font-size: 1.3em;
-            }
-
-            .category-list-name {
-                font-size: 0.9em;
-            }
-
-            .category-list-count {
-                font-size: 0.75em;
-            }
-
-            /* Détails catégorie */
-            .category-details {
-                padding: 25px 15px;
-                border-radius: 15px;
-            }
-
-            .category-details-header {
-                margin-bottom: 30px;
-            }
-
-            .category-details-icon {
-                font-size: 3em;
-                margin-bottom: 15px;
-            }
-
-            .category-details-title {
-                font-size: 1.5em;
-                margin-bottom: 8px;
-            }
-
-            .category-details-description {
-                font-size: 0.95em;
-            }
-
-            /* Sous-catégories */
-            .subcategories-section {
-                margin-bottom: 35px;
-            }
-
-            .subcategories-title {
-                font-size: 1.2em;
-                margin-bottom: 20px;
-                padding-bottom: 12px;
-            }
-
-            .subcategories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-                gap: 12px;
-            }
-
-            .subcategory-card {
-                padding: 20px 10px;
-                border-radius: 12px;
-            }
-
-            .subcategory-name {
-                font-size: 0.85em;
-            }
-
-            /* Produits populaires */
-            .popular-products-section {
-                margin-top: 30px;
-            }
-
-            .popular-products-title {
-                font-size: 1.2em;
-                margin-bottom: 20px;
-                padding-bottom: 12px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-
-            .product-card {
-                border-radius: 12px;
-            }
-
-            .product-image {
-                height: 130px;
-            }
-
-            .product-info {
-                padding: 12px;
-            }
-
-            .product-name {
-                font-size: 0.85em;
-                margin-bottom: 8px;
-            }
-
-            .product-price {
-                font-size: 1em;
-                margin-bottom: 6px;
-            }
-
-            .product-rating {
-                font-size: 0.8em;
-            }
-
-            .badge {
-                padding: 3px 8px;
-                font-size: 0.7em;
-                margin-top: 6px;
-            }
-
-            /* Bouton Voir plus */
-            .voir-plus-btn {
-                padding: 10px 25px;
-                font-size: 0.9em;
-            }
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            border-top: 1px solid var(--lightgray1);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
         }
 
-        /* PETIT MOBILE (max 480px) */
-        @media (max-width: 480px) {
-            .main-content {
-                padding: 15px 10px;
-            }
-
-            .page-title {
-                font-size: 1.3em;
-                margin-bottom: 20px;
-            }
-
-            /* Sidebar horizontale plus compacte */
-            .categories-sidebar {
-                padding: 10px 0;
-            }
-
-            .category-list-item {
-                min-width: 180px;
-                padding: 12px 15px;
-            }
-
-            .category-list-icon {
-                font-size: 1.2em;
-            }
-
-            .category-list-name {
-                font-size: 0.85em;
-            }
-
-            .category-list-count {
-                font-size: 0.7em;
-            }
-
-            /* Détails catégorie */
-            .category-details {
-                padding: 20px 12px;
-            }
-
-            .category-details-icon {
-                font-size: 2.5em;
-            }
-
-            .category-details-title {
-                font-size: 1.3em;
-            }
-
-            .category-details-description {
-                font-size: 0.9em;
-            }
-
-            /* Sous-catégories en une colonne sur très petit écran */
-            .subcategories-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-
-            .subcategory-card {
-                padding: 18px 8px;
-            }
-
-            .subcategory-name {
-                font-size: 0.8em;
-            }
-
-            /* Produits en une colonne */
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .product-image {
-                height: 150px;
-            }
-
-            .product-info {
-                padding: 10px;
-            }
-
-            .product-name {
-                font-size: 0.9em;
-            }
-
-            .voir-plus-btn {
-                padding: 8px 20px;
-                font-size: 0.85em;
-            }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--darkgray);
+            flex: 1;
+            padding: 8px 0;
+            transition: all 0.3s ease;
         }
 
-        /* TRÈS PETIT MOBILE (max 360px) */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 1.2em;
-                margin-bottom: 15px;
-            }
-
-            .category-list-item {
-                min-width: 160px;
-                padding: 10px 12px;
-            }
-
-            .category-details {
-                padding: 15px 10px;
-            }
-
-            .category-details-icon {
-                font-size: 2.2em;
-                margin-bottom: 12px;
-            }
-
-            .category-details-title {
-                font-size: 1.2em;
-            }
-
-            .subcategories-title,
-            .popular-products-title {
-                font-size: 1.1em;
-                margin-bottom: 15px;
-            }
-
-            .subcategories-grid {
-                gap: 8px;
-            }
-
-            .subcategory-card {
-                padding: 15px 6px;
-            }
-
-            .product-card {
-                border-radius: 10px;
-            }
-
-            .product-image {
-                height: 130px;
-            }
+        .nav-item.active {
+            color: #9ACD32;
         }
 
-        /* LANDSCAPE MOBILE */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .categories-sidebar {
-                max-height: 200px;
-                overflow-y: auto;
-            }
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
 
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Pour les écrans larges, masquer la navigation du bas */
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+            
+            .categories-main {
+                padding-bottom: 40px;
             }
         }
     </style>
@@ -690,7 +575,8 @@
 <body>
     <!-- Loader -->
     <div id="pageLoader"><div class="spinner"></div></div>
-    <!-- NAVIGATION -->
+
+    <!-- NAVIGATION (Comme votre page d'accueil) -->
     <nav>
         <div class="navBar">
             <div class="navBar_connexion_inscription">
@@ -705,19 +591,20 @@
                 <div class="nav-mobile-logo">
                     <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
                         <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
-                     </a>
+                    </a>
                 </div>
                 <div class="mobile-icone">
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
-                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>               
-                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCountMobile">0</span>
+                    </a>
                 </div>
             </div>
             <div class="logo_searchBar_button">
                 <div class="nav_logo">
-                        <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
-                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
-                        </a>
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
                 </div>
                 <div class="search_input_button">
                     <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
@@ -732,7 +619,10 @@
                 <div class="button_icons">
                     <button class="button_vendre" id="vendreBtn">Vendre</button>
                     <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
-                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </a>
                     <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
                 </div>
             </div>
@@ -742,1201 +632,592 @@
                         <i class="bi bi-list"></i><span>Catégories</span>
                     </button>
                 </div>
-                <div class="navigation">
-                    <ul>
-                        <li><a href="#frais">Frais</a></li>
-                        <li><a href="#pq_chezBaba">Pourquoi chez Baba?</a></li>
-                        <li><a href="#outils">Outils</a></li>
-                        <li><a href="#comment_vendre">Comment vendre</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </nav>
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <h1 class="page-title">Toutes les catégories</h1>
 
-        <div class="categories-layout">
-            <!-- COLONNE GAUCHE-->
-            <aside class="categories-sidebar">
-                <div class="category-list-item active" data-category="telephones">
-                    <i class="bi bi-phone category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Téléphones & Accessoires</div>
-                        <div class="category-list-count">1,234 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="ordinateurs">
-                    <i class="bi bi-laptop category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Ordinateurs & Bureau</div>
-                        <div class="category-list-count">856 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="electronique">
-                    <i class="bi bi-tv category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Électronique</div>
-                        <div class="category-list-count">2,145 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="quincaillerie">
-                    <i class="bi bi-box category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Quincaillerie</div>
-                        <div class="category-list-count">1290 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="maison">
-                    <i class="bi bi-house category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Maison & Jardin</div>
-                        <div class="category-list-count">987 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="jeux">
-                    <i class="bi bi-controller category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Jeux & Jouets</div>
-                        <div class="category-list-count">654 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="mode">
-                    <i class="bi bi-handbag category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Mode</div>
-                        <div class="category-list-count">1,789 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="travaux">
-                    <i class="bi bi-tools category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Batiment trvaux public</div>
-                        <div class="category-list-count">432 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="vehicules">
-                    <i class="bi bi-car-front category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Véhicules</div>
-                        <div class="category-list-count">321 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="sports">
-                    <i class="bi bi-basket category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Sports & Loisirs</div>
-                        <div class="category-list-count">756 produits</div>
-                    </div>
-                </div>
-                <div class="category-list-item" data-category="beaute">
-                    <i class="bi bi-heart-pulse category-list-icon"></i>
-                    <div class="category-list-info">
-                        <div class="category-list-name">Santé & Beauté</div>
-                        <div class="category-list-count">543 produits</div>
-                    </div>
-                </div>
-            </aside>
-            <!-- COLONNE GAUCHE-->
-            <div class="category-details">
-                <!-- Téléphones & Accessoires -->
-                <div class="category-content active" id="telephones">
-                    <div class="category-details-header">
-                        <i class="bi bi-phone category-details-icon"></i>
-                        <h2 class="category-details-title">Téléphones & Accessoires</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
+    <!-- MAIN CONTENT - GRILLE DES CATÉGORIES -->
+    <main class="categories-main">
+        <div class="container">
+            <div class="categories-header">
+                <h1>Toutes les catégories</h1>
+                <p>Explorez notre large sélection de produits organisés par catégories</p>
+            </div>
 
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
+            <div class="categories-grid">
+                <!-- Catégorie 1: Alimentation -->
+                <div class="category-card" data-category="alimentation">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Alimentation" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-star-fill"></i> Populaire
                         </div>
+                        <div class="category-overlay"></div>
                     </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E);">
+                                <i class="bi bi-cart"></i>
                             </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
+                            <span>Alimentation ...</span>
+                        </div>
+                        <p class="category-desc">
+                            Produits alimentaires frais, épicerie fine, boissons et gourmandises. Des produits locaux aux spécialités internationales.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">1,245 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
                             </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
+                <!-- Catégorie 2: Animaux & Accessoires -->
+                <div class="category-card" data-category="animaux">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Animaux" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
+                                <i class="bi bi-heart"></i>
+                            </div>
+                            <span>Animaux & A...</span>
+                        </div>
+                        <p class="category-desc">
+                            Tout pour vos animaux de compagnie : nourriture, jouets, accessoires et soins. Qualité garantie pour le bien-être de vos compagnons.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">876 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Ordinateurs & Bureau -->
-                <div class="category-content" id="ordinateurs">
-                    <div class="category-details-header">
-                        <i class="bi bi-laptop category-details-icon"></i>
-                        <h2 class="category-details-title">Ordinateurs & Bureau</h2>
-                        <p class="category-details-description">PC portables, de bureau, et accessoires informatiques</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/PCportable.jfif" alt="PC Portables" class="subcategory-icon">
-                                <div class="subcategory-name">PC Portables</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/ordinateurBureau.jfif" alt="PC Bureau" class="subcategory-icon">
-                                <div class="subcategory-name">PC Bureau</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/moniteurs.jfif" alt="Moniteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Moniteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/clavierSouris.jfif" alt="Claviers & Souris" class="subcategory-icon">
-                                <div class="subcategory-name">Claviers & Souris</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/unitécentrale.jfif" alt="Unité Centrale" class="subcategory-icon">
-                                <div class="subcategory-name">Unité Centrale</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/imprimante.jfif" alt="Imprimantes" class="subcategory-icon">
-                                <div class="subcategory-name">Imprimantes</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/webcam.jfif" alt="Webcams" class="subcategory-icon">
-                                <div class="subcategory-name">Webcams</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/mémoire.jfif" alt="Mémoire" class="subcategory-icon">
-                                <div class="subcategory-name">Mémoire</div>
-                            </a>
+                <!-- Catégorie 3: Appareils Photo -->
+                <div class="category-card" data-category="photo">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Appareils Photo" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-bolt-fill"></i> Nouveau
                         </div>
+                        <div class="category-overlay"></div>
                     </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/mac.jpg" alt="MacBook" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">MacBook Pro M3 14" 512Go</div>
-                                    <div class="product-price">850 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Top Vente</div>
-                                </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD166, #FFB347);">
+                                <i class="bi bi-camera"></i>
                             </div>
-                            <div class="product-card">
-                                <img src="img/dell.jpg" alt="Dell" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Dell XPS 15 Intel i7</div>
-                                    <div class="product-price">620 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(56)</span>
-                                    </div>
-                                </div>
+                            <span>Appareils pho...</span>
+                        </div>
+                        <p class="category-desc">
+                            Matériel photo professionnel et amateur. Appareils, objectifs, accessoires pour capturer vos plus beaux souvenirs.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">543 produits</span>
+                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
                             </div>
-                            <div class="product-card">
-                                <img src="img/moniteurs.jfif" alt="Moniteur" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">HP Monitor 27" 4K</div>
-                                    <div class="product-price">180 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(42)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Électronique-->
-                <div class="category-content active" id="electronique">
-                    <div class="category-details-header">
-                        <i class="bi bi-tv category-details-icon"></i>
-                        <h2 class="category-details-title">Électronique</h2>
-                        <p class="category-details-description">TV, audio, photo et vidéo</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/télévision.jfif" alt="Télévisions" class="subcategory-icon">
-                                <div class="subcategory-name">Télévisions</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/canon.jpg" alt="Appareils Photo" class="subcategory-icon">
-                                <div class="subcategory-name">Appareils Photo</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/moniteurs.jfif" alt="Moniteur" class="subcategory-icon">
-                                <div class="subcategory-name">Moniteur</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/projecteurs.jfif" alt="Projecteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Projecteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/DVD.jfif" alt="Audio" class="subcategory-icon">
-                                <div class="subcategory-name">Audio</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/airspod.jfif" alt="Montres connectées" class="subcategory-icon">
-                                <div class="subcategory-name">Montres connectées</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/jbl.jpg" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/television.jpg" alt="Samsung TV" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung TV 55" QLED 4K</div>
-                                    <div class="product-price">450 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(112)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/canon.jpg" alt="Appareil photo" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Canon EOS R6 Mark II</div>
-                                    <div class="product-price">20 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/jbl.jpg" alt="JBL" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">JBL Charge 5 Portable</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Quincaillerie -->
-                <div class="category-content active" id="quincaillerie">
-                    <div class="category-details-header">
-                        <i class="bi bi-box category-details-icon"></i>
-                        <h2 class="category-details-title">Quincaillerie</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Maison & Jardin -->
-                <div class="category-content active" id="maison">
-                    <div class="category-details-header">
-                        <i class="bi bi-house category-details-icon"></i>
-                        <h2 class="category-details-title">Maison & Jardin</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Jeux & Jouets -->
-                <div class="category-content active" id="jeux">
-                    <div class="category-details-header">
-                        <i class="bi bi-controller category-details-icon"></i>
-                        <h2 class="category-details-title">Jeux & Jouets</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Mode -->
-                <div class="category-content active" id="mode">
-                    <div class="category-details-header">
-                        <i class="bi bi-handbag category-details-icon"></i>
-                        <h2 class="category-details-title">Mode</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
                     </div>
                 </div>
 
-                <!-- Batiment trvaux public -->
-                <div class="category-content active" id="travaux">
-                    <div class="category-details-header">
-                        <i class="bi bi-tools category-details-icon"></i>
-                        <h2 class="category-details-title">Batiment trvaux public</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
+                <!-- Catégorie 4: Art & Musique -->
+                <div class="category-card" data-category="art">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Art & Musique" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
                     </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A9E, #FAD0C4);">
+                                <i class="bi bi-palette"></i>
+                            </div>
+                            <span>Art & Musique</span>
                         </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
+                        <p class="category-desc">
+                            Instruments de musique, matériel d'artiste et œuvres d'art uniques. Libérez votre créativité avec nos produits.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">789 produits</span>
+                                <span class="last-update">Mise à jour: Il y a 3 jours</span>
                             </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
                     </div>
                 </div>
 
-                <!-- Véhicules -->
-                <div class="category-content active" id="vehicules">
-                    <div class="category-details-header">
-                        <i class="bi bi-car-front category-details-icon"></i>
-                        <h2 class="category-details-title">Véhicules</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
+                <!-- Catégorie 5: Automobile -->
+                <div class="category-card" data-category="auto">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Automobile" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
                     </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #A1C4FD, #C2E9FB);">
+                                <i class="bi bi-car-front"></i>
+                            </div>
+                            <span>Automobile &...</span>
                         </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
+                        <p class="category-desc">
+                            Pièces détachées, accessoires et produits d'entretien pour votre véhicule. Des marques de qualité pour votre sécurité.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">1,023 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
                             </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
-                    </div>
-                </div>
-                <!-- Sports & Loisirs -->
-                <div class="category-content active" id="sports">
-                    <div class="category-details-header">
-                        <i class="bi bi-basket category-details-icon"></i>
-                        <h2 class="category-details-title">Sports & Loisirs</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
                     </div>
                 </div>
 
-                <!-- Santé & Beauté -->
-                <div class="category-content active" id="beaute">
-                    <div class="category-details-header">
-                        <i class="bi bi-heart-pulse category-details-icon"></i>
-                        <h2 class="category-details-title">Santé & Beauté</h2>
-                        <p class="category-details-description">Découvrez notre large gamme de smartphones, tablettes et accessoires</p>
-                    </div>
-
-                    <div class="subcategories-section">
-                        <h3 class="subcategories-title">Sous-catégories</h3>
-                        <div class="subcategories-grid">
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Smartphone.jfif" alt="Smart Phone" class="subcategory-icon">
-                                <div class="subcategory-name">Smart Phones</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Coques.jfif" alt="Coques & Étuis" class="subcategory-icon">
-                                <div class="subcategory-name">Coques & Étuis</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Cable.jfif" alt="Cable" class="subcategory-icon">
-                                <div class="subcategory-name">Cable</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Powerbank.jfif" alt="Power Bank" class="subcategory-icon">
-                                <div class="subcategory-name">Power Bank</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Ecouteurs.jfif" alt="Ecouteurs" class="subcategory-icon">
-                                <div class="subcategory-name">Ecouteurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Chargeurs.jfif" alt="Chargeurs" class="subcategory-icon">
-                                <div class="subcategory-name">Chargeurs</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/Puce.jfif" alt="Puce" class="subcategory-icon">
-                                <div class="subcategory-name">Puce</div>
-                            </a>
-                            <a href="#" class="subcategory-card">
-                                <img src="img/hautparleur.jfif" alt="Haut-parleurs" class="subcategory-icon">
-                                <div class="subcategory-name">Haut-parleurs</div>
-                            </a>
+                <!-- Catégorie 6: Beauté & Santé -->
+                <div class="category-card" data-category="beaute">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1522338242990-e8a0e5b82c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Beauté & Santé" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-fire"></i> Tendence
                         </div>
+                        <div class="category-overlay"></div>
                     </div>
-
-                    <div class="popular-products-section">
-                        <h3 class="popular-products-title">Produits populaires</h3>
-                        <div class="products-grid">
-                            <div class="product-card">
-                                <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                                    <div class="product-price">50 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★☆</div>
-                                        <span>(124)</span>
-                                    </div>
-                                    <div class="badge badge-new">Nouveau</div>
-                                </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD1FF, #FAD0C4);">
+                                <i class="bi bi-heart-pulse"></i>
                             </div>
-                            <div class="product-card">
-                                <img src="img/samsungS24 Ultra.jfif" alt="Samsung" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">Samsung Galaxy S24 Ultra</div>
-                                    <div class="product-price">8 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(89)</span>
-                                    </div>
-                                    <div class="badge badge-hot">Promo</div>
-                                </div>
+                            <span>Beauté & Santé</span>
+                        </div>
+                        <p class="category-desc">
+                            Produits cosmétiques, soins du corps, parfums et accessoires beauté. Prenez soin de vous avec nos produits de qualité.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">2,156 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
                             </div>
-                            <div class="product-card">
-                                <img src="img/airspod.jfif" alt="AirPods" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">AirPods Pro 2ème génération</div>
-                                    <div class="product-price">75 000 FCFA</div>
-                                    <div class="product-rating">
-                                        <div class="stars">★★★★★</div>
-                                        <span>(203)</span>
-                                    </div>
-                                </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="voir-plus-section">
-                        <a href="#" class="voir-plus-btn">
-                            <i class="bi bi-arrow-right"></i> Voir plus de produits
-                        </a>
                     </div>
                 </div>
 
+                <!-- Catégorie 7: Bébé, Enfants -->
+                <div class="category-card" data-category="bebe">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Bébé & Enfants" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A8B, #FF6A88);">
+                                <i class="bi bi-balloon-heart"></i>
+                            </div>
+                            <span>Bébé, Enfants...</span>
+                        </div>
+                        <p class="category-desc">
+                            Vêtements, jouets, équipements et soins pour bébés et enfants. Sécurité et qualité certifiées pour les petits.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">934 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Catégorie 8: Bijoux & Accessoires -->
+                <div class="category-card" data-category="bijoux">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Bijoux" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FFECD2, #FCB69F);">
+                                <i class="bi bi-gem"></i>
+                            </div>
+                            <span>Bijoux & Acce...</span>
+                        </div>
+                        <p class="category-desc">
+                            Bijoux en or, argent, pierres précieuses. Accessoires mode pour toutes les occasions et tous les styles.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">687 produits</span>
+                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Catégorie 9: Bricolage & Outils -->
+                <div class="category-card" data-category="bricolage">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Bricolage" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #84FAB0, #8FD3F4);">
+                                <i class="bi bi-tools"></i>
+                            </div>
+                            <span>Bricolage & O...</span>
+                        </div>
+                        <p class="category-desc">
+                            Outils, matériaux et équipements pour tous vos projets de bricolage. Professionnels et amateurs trouveront leur bonheur.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">1,145 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Catégorie 10: Électroménager -->
+                <div class="category-card" data-category="electromenager">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Électroménager" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #D4FC79, #96E6A1);">
+                                <i class="bi bi-lightning-charge"></i>
+                            </div>
+                            <span>Electroménag...</span>
+                        </div>
+                        <p class="category-desc">
+                            Appareils électroménagers pour votre cuisine et votre maison. Des marques reconnues pour plus de confort au quotidien.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">892 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Catégorie 11: Électronique -->
+                <div class="category-card" data-category="electronique">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Électronique" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-star-fill"></i> Populaire
+                        </div>
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FCCF31, #F55555);">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+                            <span>Electronique</span>
+                        </div>
+                        <p class="category-desc">
+                            Téléphones, ordinateurs, tablettes et accessoires électroniques. Les dernières technologies à des prix compétitifs.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">3,456 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 12: Informatique -->
+                <div class="category-card" data-category="informatique">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Informatique" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #A3BFFA, #6991C7);">
+                                <i class="bi bi-laptop"></i>
+                            </div>
+                            <span>Informatique ...</span>
+                        </div>
+                        <p class="category-desc">
+                            Ordinateurs, composants, logiciels et accessoires informatiques. Pour le travail, les études ou les loisirs.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">2,189 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 13: Jeux & Jouets -->
+                <div class="category-card" data-category="jeux">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Jeux & Jouets" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #E0C3FC, #8EC5FC);">
+                                <i class="bi bi-controller"></i>
+                            </div>
+                            <span>Jeux & Jouets</span>
+                        </div>
+                        <p class="category-desc">
+                            Jouets pour enfants, jeux de société, puzzles et jeux éducatifs. Des heures de divertissement pour toute la famille.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">1,567 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 14: Jeux Vidéo -->
+                <div class="category-card" data-category="jeuxvideo">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Jeux Vidéo" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-fire"></i> Tendence
+                        </div>
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FAD961, #F76B1C);">
+                                <i class="bi bi-joystick"></i>
+                            </div>
+                            <span>Jeux Vidéo & ...</span>
+                        </div>
+                        <p class="category-desc">
+                            Consoles, jeux vidéo, accessoires gaming et équipements esport. Vivez l'expérience gaming ultime.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">876 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 15: Livres -->
+                <div class="category-card" data-category="livres">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Livres" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FFDEE9, #B5FFFC);">
+                                <i class="bi bi-book"></i>
+                            </div>
+                            <span>Livres</span>
+                        </div>
+                        <p class="category-desc">
+                            Romans, essais, bandes dessinées, livres jeunesse et ouvrages spécialisés. Des milliers de titres disponibles.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">4,321 produits</span>
+                                <span class="last-update">Mise à jour: Hier</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 16: Maison & Cuisine -->
+                <div class="category-card" data-category="maison">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Maison & Cuisine" 
+                             class="category-image">
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF);">
+                                <i class="bi bi-house"></i>
+                            </div>
+                            <span>Maison & Cui...</span>
+                        </div>
+                        <p class="category-desc">
+                            Décoration, ustensiles de cuisine, linge de maison et accessoires pour embellir et équiper votre intérieur.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">2,987 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 17: Meubles & Décoration -->
+                <div class="category-card" data-category="meubles">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Meubles" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-bolt-fill"></i> Nouveau
+                        </div>
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD1FF, #FAD0C4);">
+                                <i class="bi bi-lamp"></i>
+                            </div>
+                            <span>Meubles & Dé...</span>
+                        </div>
+                        <p class="category-desc">
+                            Meubles contemporains, classiques et design. Décoration intérieure pour créer un espace unique et accueillant.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">1,234 produits</span>
+                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catégorie 18: Mode & Vêtements -->
+                <div class="category-card" data-category="mode">
+                    <div class="category-image-container">
+                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             alt="Mode" 
+                             class="category-image">
+                        <div class="category-badge">
+                            <i class="bi bi-fire"></i> Tendence
+                        </div>
+                        <div class="category-overlay"></div>
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <div class="category-icon" style="background: linear-gradient(135deg, #A1C4FD, #C2E9FB);">
+                                <i class="bi bi-handbag"></i>
+                            </div>
+                            <span>Mode & Vête...</span>
+                        </div>
+                        <p class="category-desc">
+                            Vêtements, chaussures, accessoires mode pour hommes, femmes et enfants. Les dernières tendances à porter.
+                        </p>
+                        <div class="category-footer">
+                            <div class="category-stats">
+                                <span class="product-count">5,678 produits</span>
+                                <span class="last-update">Mise à jour: Aujourd'hui</span>
+                            </div>
+                            <div class="category-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
-        <!-- MOBILE OVERLAY MENU CORRIGÉ -->
-<div class="mobile-overlay" id="mobileOverlay">
-    <div class="mobile-overlay-header">
-        <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
-        <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
-    </div>
-    
-    <div class="mobile-overlay-content">
-        <!-- Navigation Links -->
-        <div class="mobile-nav-section">
-            <h3>Navigation</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="profil.html">Mon Profil</a></li>
-                <!-- <li><a href="favoris.html">Mes Favoris</a></li> -->
-                <li><a href="panier.html">Mon Panier</a></li>
-                <li><a href="vendeur.html">Espace Vendeur</a></li>
-            </ul>
-        </div>
-
-        <!-- Categories Section -->
-        <div class="mobile-nav-section">
-            <h3>Catégories</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="categorie.html">Toutes les catégories</a></li>
-                <li><a href="produits.html?categorie=telephones">Téléphones</a></li>
-                <li><a href="produits.html?categorie=ordinateurs">Ordinateurs</a></li>
-                <li><a href="produits.html?categorie=electronique">Électronique</a></li>
-                <li><a href="produits.html?categorie=mode">Mode</a></li>
-            </ul>
-        </div>
-
-        <!-- Informations -->
-        <div class="mobile-nav-section">
-            <h3>Informations</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html#frais">Nos Frais</a></li>
-                <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
-                <li><a href="index.html#outils">Nos Outils</a></li>
-                <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="mobile-overlay-footer">
-        <div class="mobile-auth-buttons">
-            <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
-            <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
-        </div>
-    </div>
-</div>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER (Comme votre page d'accueil) -->
     <footer>
         <div class="footer-container">
             <div class="footer-section footer-logo-section">
                 <div class="nav-mobile-logo">
                     <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
-                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
-                        </a>
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
                 </div>
                 <p class="footer-description">
                     La marketplace de référence pour vendre et acheter en toute sécurité. 
@@ -1961,12 +1242,14 @@
             <div class="footer-section">
                 <h3>Liens rapides</h3>
                 <ul class="footer-links">
-                    <li><a href="#frais">Nos frais</a></li>
-                    <li><a href="#pq_chezBaba">Pourquoi ChezBaba</a></li>
-                    <li><a href="#outils">Nos outils</a></li>
-                    <li><a href="#comment_vendre">Comment vendre</a></li>
+                    <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
+                    <li><a href="compte.html">Mon compte</a></li>
+                    <li><a href="categorie.html">Catégories</a></li>
+                    <li><a href="panier.html">Panier</a></li>
+                    <li><a href="favoris.html">Favoris</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                     <li><a href="#">À propos</a></li>
-                    <li><a href="#">Carrières</a></li>
+                    <li><a href="#top">Retour en haut</a></li>
                 </ul>
             </div>
 
@@ -2010,115 +1293,302 @@
         </div>
     </footer>
 
-    <script>
-    window.addEventListener('load', () => {
-    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
-});
-        function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
-    document.querySelectorAll('#cartCount').forEach(b => {
-        b.textContent = total;
-        b.style.display = total > 0 ? 'flex' : 'none';
-    });
-}
-window.addEventListener('load', updateCartBadge);
-        // Gestion du changement de catégorie
-        const categoryItems = document.querySelectorAll('.category-list-item');
-        const categoryContents = document.querySelectorAll('.category-content');
+    <!-- BOTTOM NAVIGATION (Mobile) -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="bi bi-house nav-icon"></i>
+            <span class="nav-label">Accueil</span>
+        </a>
+        <a href="categorie.html" class="nav-item active">
+            <i class="bi bi-grid-3x3-gap nav-icon"></i>
+            <span class="nav-label">Catégories</span>
+        </a>
+        <a href="favoris.html" class="nav-item">
+            <i class="bi bi-heart nav-icon"></i>
+            <span class="nav-label">Favoris</span>
+        </a>
+        <a href="profil-acheteur.html" class="nav-item">
+            <i class="bi bi-person nav-icon"></i>
+            <span class="nav-label">Compte</span>
+        </a>
+    </div>
 
-        categoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                categoryItems.forEach(cat => cat.classList.remove('active'));
-                this.classList.add('active');
-                categoryContents.forEach(content => content.classList.remove('active'));
-                const categoryId = this.getAttribute('data-category');
-                document.getElementById(categoryId).classList.add('active');
-                
-                // Scroll vers le haut de la page pour voir le contenu
-                window.scrollTo({
-                    top: document.querySelector('.main-content').offsetTop - 100,
-                    behavior: 'smooth'
+    <!-- PAGE DE DÉTAIL DES CATÉGORIES -->
+    <div class="category-detail-page" id="detailPage">
+        <div class="detail-header">
+            <button class="back-button" id="backButton">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <h1 class="detail-title" id="detailTitle">Catégorie</h1>
+        </div>
+        
+        <div class="detail-content" id="detailContent">
+            <!-- Le contenu sera chargé dynamiquement -->
+        </div>
+    </div>
+
+    <script>
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation vers les détails des catégories
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const categoryId = this.getAttribute('data-category');
+                    const categoryName = this.querySelector('.category-title span').textContent;
+                    const categoryDesc = this.querySelector('.category-desc').textContent;
+                    
+                    openCategoryDetail(categoryId, categoryName, categoryDesc);
                 });
             });
+
+            // Bouton retour
+            document.getElementById('backButton').addEventListener('click', closeCategoryDetail);
+
+            // Initialiser la navigation du bas
+            initBottomNavigation();
+
+            // Mettre à jour les badges du panier
+            updateCartBadge();
+
+            // Animation au scroll
+            initScrollAnimations();
         });
 
-        // Gestion du bouton Voir plus
-        document.querySelectorAll('.voir-plus-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const category = this.closest('.category-content').id;
-                // Redirection vers la page produits avec la catégorie
-                window.location.href = `produits.html?categorie=${category}`;
-            });
-        });
+        // ===== FONCTIONS =====
+        function openCategoryDetail(categoryId, categoryName, categoryDesc) {
+            // Mettre à jour le titre
+            document.getElementById('detailTitle').textContent = categoryName;
 
-        // AJOUT AUTOMATIQUE DES LIENS PRODUITS
-        document.querySelectorAll('.subcategory-card').forEach(card => {
-            const subcategoryName = card.querySelector('.subcategory-name').textContent.trim();
-            const categorySlug = subcategoryName
-                .toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
+            // Générer le contenu HTML selon la catégorie
+            const detailContent = document.getElementById('detailContent');
             
-            card.href = `produits.html?categorie=${categorySlug}`;
-        });
+            // Données de test pour les sous-catégories et produits
+            const subcategories = getSubcategories(categoryId);
+            const products = getProducts(categoryId);
+            
+            detailContent.innerHTML = `
+                <p style="color: var(--darkgray); margin-bottom: 30px; font-size: 1.05rem; line-height: 1.6;">
+                    ${categoryDesc}
+                </p>
+                
+                ${subcategories.length > 0 ? `
+                <div class="subcategories-section">
+                    <h3 class="subtitle">
+                        <i class="bi bi-grid"></i>
+                        Sous-catégories
+                    </h3>
+                    <div class="subcategories-grid">
+                        ${subcategories.map(sub => `
+                            <a href="produits.html?categorie=${categoryId}&sub=${sub.id}" class="subcategory-card">
+                                <div class="subcategory-icon">
+                                    <i class="bi ${sub.icon}"></i>
+                                </div>
+                                <div class="subcategory-name">${sub.name}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                ${products.length > 0 ? `
+                <div class="products-section">
+                    <h3 class="subtitle">
+                        <i class="bi bi-star"></i>
+                        Produits populaires
+                    </h3>
+                    <div class="products-grid">
+                        ${products.map(product => `
+                            <div class="product-card" data-product-id="${product.id}" onclick="window.location.href='produit.html?id=${product.id}'">
+                                <img src="${product.image}" alt="${product.name}" class="product-image">
+                                <div class="product-info">
+                                    <div class="product-name">${product.name}</div>
+                                    <div class="product-price">${product.price}</div>
+                                    <div class="product-rating">
+                                        <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                                        <span>(${product.rating})</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="see-more-container">
+                    <button class="see-more-btn" onclick="window.location.href='produits.html?categorie=${categoryId}'">
+                        <i class="bi bi-arrow-right-circle"></i>
+                        Voir tous les produits
+                    </button>
+                </div>
+            `;
 
-        // Animation smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // Afficher la page de détail avec animation
+            const detailPage = document.getElementById('detailPage');
+            detailPage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCategoryDetail() {
+            const detailPage = document.getElementById('detailPage');
+            detailPage.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function getSubcategories(categoryId) {
+            // Données de test pour les sous-catégories
+            const subcategoriesData = {
+                'alimentation': [
+                    { id: 'epicerie', name: 'Épicerie', icon: 'bi-basket' },
+                    { id: 'boissons', name: 'Boissons', icon: 'bi-cup-straw' },
+                    { id: 'fruits', name: 'Fruits & Légumes', icon: 'bi-apple' },
+                    { id: 'viandes', name: 'Viandes & Poissons', icon: 'bi-egg-fried' },
+                    { id: 'laitiers', name: 'Produits Laitiers', icon: 'bi-cup-hot' },
+                    { id: 'patisserie', name: 'Pâtisserie', icon: 'bi-cake' }
+                ],
+                'electronique': [
+                    { id: 'telephones', name: 'Téléphones', icon: 'bi-phone' },
+                    { id: 'ordinateurs', name: 'Ordinateurs', icon: 'bi-laptop' },
+                    { id: 'tablettes', name: 'Tablettes', icon: 'bi-tablet' },
+                    { id: 'accessoires', name: 'Accessoires', icon: 'bi-headphones' }
+                ],
+                'mode': [
+                    { id: 'vetements', name: 'Vêtements', icon: 'bi-tshirt' },
+                    { id: 'chaussures', name: 'Chaussures', icon: 'bi-shoe' },
+                    { id: 'accessoires', name: 'Accessoires', icon: 'bi-bag' },
+                    { id: 'bijoux', name: 'Bijoux', icon: 'bi-gem' }
+                ]
+            };
+            
+            return subcategoriesData[categoryId] || [];
+        }
+
+        function getProducts(categoryId) {
+            // Données de test pour les produits
+            const productsData = {
+                'alimentation': [
+                    {
+                        id: 1,
+                        name: 'Panier de Fruits Frais Bio',
+                        price: '15,99 €',
+                        rating: 4.5,
+                        image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+                    },
+                    {
+                        id: 2,
+                        name: 'Vin Rouge Bordeaux AOC',
+                        price: '24,50 €',
+                        rating: 4.7,
+                        image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+                    },
+                    {
+                        id: 3,
+                        name: 'Fromage Affiné 6 Mois',
+                        price: '18,75 €',
+                        rating: 4.8,
+                        image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+                    }
+                ],
+                'electronique': [
+                    {
+                        id: 4,
+                        name: 'Smartphone Premium 128GB',
+                        price: '699 €',
+                        rating: 4.6,
+                        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+                    },
+                    {
+                        id: 5,
+                        name: 'Écouteurs Sans Fil',
+                        price: '89 €',
+                        rating: 4.4,
+                        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+                    }
+                ]
+            };
+            
+            return productsData[categoryId] || [];
+        }
+
+        function initBottomNavigation() {
+            const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (this.classList.contains('active')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        function updateCartBadge() {
+            // Simulation de données pour le panier
+            const cartCount = 5;
+            const cartBadge = document.getElementById('cartCount');
+            const cartBadgeMobile = document.getElementById('cartCountMobile');
+            
+            if (cartBadge) cartBadge.textContent = cartCount;
+            if (cartBadgeMobile) cartBadgeMobile.textContent = cartCount;
+            
+            // Cacher les badges si 0
+            if (cartCount === 0) {
+                if (cartBadge) cartBadge.style.display = 'none';
+                if (cartBadgeMobile) cartBadgeMobile.style.display = 'none';
+            }
+        }
+
+        function initScrollAnimations() {
+            // Animation au scroll avec Intersection Observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observer toutes les cartes
+            document.querySelectorAll('.category-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Gestion de la barre de recherche
+        const searchInput = document.querySelector('.search_input');
+        const searchButton = document.querySelector('.search_button');
+        
+        if (searchButton) {
+            searchButton.addEventListener('click', function() {
+                if (searchInput.value.trim()) {
+                    window.location.href = `produits.html?search=${encodeURIComponent(searchInput.value)}`;
                 }
             });
+        }
+        
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    window.location.href = `produits.html?search=${encodeURIComponent(this.value)}`;
+                }
+            });
+        }
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('pageLoader');
+                if (loader) loader.classList.add('hidden');
+            }, 500);
         });
-        // AJOUT AUTOMATIQUE DES LIENS PRODUITS
-        document.querySelectorAll('.subcategory-card').forEach(card => {
-            const subcategoryName = card.querySelector('.subcategory-name').textContent.trim();
-            const categorySlug = subcategoryName
-                .toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
-            
-            card.href = `produits.html?categorie=${categorySlug}`;
-        });
-
-        // Animation du logo
-        document.querySelector('.logo_link').addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1) rotate(2deg)';
-        });
-
-        document.querySelector('.logo_link').addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) rotate(0deg)';
-        });
-
-        console.log('Page Catégories ChezBaba chargée! 🚀');
-          // Gestion du burger mobile
-const mobileOverlay = document.getElementById('mobileOverlay');
-const mobileOpenBtn = document.getElementById('mobileCategoryIcon');
-const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-
-mobileOpenBtn.addEventListener('click', () => {
-    mobileOverlay.style.display = 'block';
-});
-
-mobileCloseBtn.addEventListener('click', () => {
-    mobileOverlay.style.display = 'none';
-});
-
-// Optionnel : fermer le menu si on clique en dehors
-mobileOverlay.addEventListener('click', (e) => {
-    if (e.target === mobileOverlay) {
-        mobileOverlay.style.display = 'none';
-    }
-});
     </script>
 </body>
 </html>
