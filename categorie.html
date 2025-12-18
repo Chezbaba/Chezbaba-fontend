@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         .categories-main {
-            padding: 40px 20px 100px;
+            padding: 20px 10px 80px; /* Réduit de 40px/20px à 20px/10px */
             background-color: var(--lightgray);
             min-height: calc(100vh - 200px);
         }
@@ -16,66 +16,66 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 10px; /* Réduit de 15px à 10px */
         }
 
         .page-header {
             display: flex;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            padding: 20px;
+            gap: 15px; /* Réduit de 20px à 15px */
+            margin-bottom: 20px; /* Réduit de 30px à 20px */
+            padding: 15px; /* Réduit de 20px à 15px */
             background: var(--white);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 12px; /* Réduit de 15px à 12px */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06); /* Ombre plus légère */
         }
 
         .back-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 50px;
-            height: 50px;
+            min-width: 45px; /* Réduit de 50px à 45px */
+            height: 45px;
             background: var(--lightgray);
             border: 2px solid var(--lightgray1);
-            border-radius: 12px;
+            border-radius: 10px; /* Réduit de 12px à 10px */
             cursor: pointer;
             transition: all 0.3s ease;
             color: var(--darkgray1);
-            font-size: 1.5em;
+            font-size: 1.3em; /* Réduit de 1.5em à 1.3em */
         }
 
         .back-button:hover {
             background: var(--green);
             color: var(--white);
             border-color: var(--green);
-            transform: translateX(-3px);
+            transform: translateX(-2px); /* Réduit de -3px à -2px */
         }
 
         .page-title {
-            font-size: 2em;
+            font-size: 1.8em; /* Réduit de 2em à 1.8em */
             color: var(--darkgray1);
             font-weight: 700;
             margin: 0;
             flex: 1;
         }
 
-        /* ===== GRILLE CATÉGORIES OPTIMISÉE ===== */
+        /* ===== GRILLE CATÉGORIES TRÈS OPTIMISÉE ===== */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px; /* Réduit de 25px à 20px */
+            gap: 15px; /* Réduit à 15px seulement */
         }
 
-        /* CARTE CATÉGORIE */
+        /* CARTE CATÉGORIE TRÈS COMPACTE */
         .category-card {
             background: var(--white);
-            border-radius: 16px; /* Réduit de 20px à 16px */
+            border-radius: 12px; /* Réduit de 16px à 12px */
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Réduit l'ombre */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* Ombre très légère */
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 1.5px solid transparent; /* Réduit de 2px à 1.5px */
             display: flex;
             flex-direction: column;
             aspect-ratio: 1 / 1;
@@ -84,15 +84,15 @@
         }
 
         .category-card:hover {
-            transform: translateY(-6px); /* Réduit de 8px à 6px */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Réduit l'ombre */
+            transform: translateY(-4px); /* Réduit de 6px à 4px */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Ombre réduite */
             border-color: var(--green);
         }
 
         .category-image-container {
             position: relative;
             width: 100%;
-            height: 68%; /* Réduit de 70% à 68% */
+            height: 70%; /* Augmenté pour plus d'image */
             overflow: hidden;
             background: var(--lightgray);
         }
@@ -105,49 +105,49 @@
         }
 
         .category-card:hover .category-image {
-            transform: scale(1.08); /* Réduit de 1.1 à 1.08 */
+            transform: scale(1.05); /* Réduit de 1.08 à 1.05 */
         }
 
         .category-badge {
             position: absolute;
-            top: 12px; /* Réduit de 15px à 12px */
-            right: 12px; /* Réduit de 15px à 12px */
+            top: 8px; /* Réduit de 12px à 8px */
+            right: 8px; /* Réduit de 12px à 8px */
             background: rgba(255,255,255,0.95);
-            color: #0C1B33; /* Corrigé - retiré linear-gradient incorrect */
-            padding: 5px 12px; /* Réduit le padding */
-            border-radius: 16px; /* Réduit de 20px à 16px */
-            font-size: 0.8em; /* Réduit de 0.85em à 0.8em */
+            color: #0C1B33;
+            padding: 3px 8px; /* Très compact */
+            border-radius: 12px; /* Réduit de 16px à 12px */
+            font-size: 0.75em; /* Réduit de 0.8em à 0.75em */
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 5px; /* Réduit de 6px à 5px */
-            box-shadow: 0 3px 8px rgba(0,0,0,0.12); /* Réduit l'ombre */
+            gap: 4px; /* Réduit de 5px à 4px */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombre très légère */
         }
 
         .category-content {
-            padding: 16px; /* Réduit de 20px à 16px */
+            padding: 12px; /* Réduit de 16px à 12px */
             flex: 1;
             display: flex;
             flex-direction: column;
-            height: 32%; /* Ajusté de 30% à 32% */
+            height: 30%; /* Réduit de 32% à 30% */
             justify-content: center;
         }
 
         .category-title {
             display: flex;
             align-items: center;
-            gap: 10px; /* Réduit de 12px à 10px */
+            gap: 8px; /* Réduit de 10px à 8px */
             margin-bottom: 0;
         }
 
         .category-name {
-            font-size: 1.2em; /* Réduit de 1.4em à 1.2em */
+            font-size: 1.1em; /* Réduit de 1.2em à 1.1em */
             font-weight: 700;
             color: var(--darkgray1);
             line-height: 1.2;
         }
 
-        /* ===== RESPONSIVE OPTIMISÉ ===== */
+        /* ===== RESPONSIVE TRÈS OPTIMISÉ ===== */
         /* Desktop large */
         @media (min-width: 1400px) {
             .container {
@@ -155,8 +155,24 @@
             }
             
             .categories-grid {
-                grid-template-columns: repeat(4, 1fr); /* 4 colonnes sur grand écran */
-                gap: 22px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 18px; /* Un peu plus d'espace sur grand écran */
+            }
+            
+            .category-name {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Desktop extra large */
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1500px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 20px;
             }
             
             .category-name {
@@ -172,11 +188,11 @@
             
             .categories-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 18px;
+                gap: 14px; /* Réduit de 18px à 14px */
             }
             
             .category-name {
-                font-size: 1.15em;
+                font-size: 1.05em;
             }
         }
 
@@ -184,98 +200,51 @@
         @media (max-width: 991px) and (min-width: 768px) {
             .container {
                 max-width: 100%;
-                padding: 0 20px;
+                padding: 0 15px; /* Réduit de 20px à 15px */
             }
             
             .categories-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 16px;
+                gap: 12px; /* Réduit de 16px à 12px */
             }
             
             .page-header {
-                margin-bottom: 25px;
-                padding: 18px;
+                margin-bottom: 18px; /* Réduit de 25px à 18px */
+                padding: 14px; /* Réduit de 18px à 14px */
             }
             
             .category-name {
-                font-size: 1.1em;
+                font-size: 1em;
             }
             
             .category-content {
-                padding: 14px;
+                padding: 10px; /* Réduit de 14px à 10px */
             }
         }
 
         /* Tablette petite / Mobile large */
         @media (max-width: 767px) and (min-width: 576px) {
             .categories-main {
-                padding: 30px 15px 80px;
+                padding: 15px 10px 70px; /* Réduit */
             }
             
             .container {
-                padding: 0 15px;
+                padding: 0 10px; /* Réduit de 15px à 10px */
             }
             
             .categories-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 colonnes sur tablette */
-                gap: 14px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px; /* Réduit de 14px à 10px */
             }
 
             .page-header {
-                padding: 16px;
-                margin-bottom: 20px;
-                gap: 15px;
+                padding: 12px; /* Réduit de 16px à 12px */
+                margin-bottom: 15px; /* Réduit de 20px à 15px */
+                gap: 12px; /* Réduit de 15px à 12px */
             }
 
             .page-title {
-                font-size: 1.6em;
-            }
-            
-            .back-button {
-                min-width: 45px;
-                height: 45px;
-                font-size: 1.3em;
-            }
-
-            .category-name {
-                font-size: 1em;
-            }
-            
-            .category-content {
-                padding: 12px;
-            }
-            
-            .category-badge {
-                font-size: 0.75em;
-                padding: 4px 10px;
-                top: 10px;
-                right: 10px;
-            }
-        }
-
-        /* Mobile */
-        @media (max-width: 575px) {
-            .categories-main {
-                padding: 20px 12px 70px;
-            }
-            
-            .container {
-                padding: 0 10px;
-            }
-            
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur mobile */
-                gap: 12px; /* Espacement réduit */
-            }
-
-            .page-header {
-                padding: 14px;
-                margin-bottom: 18px;
-                gap: 12px;
-            }
-
-            .page-title {
-                font-size: 1.4em;
+                font-size: 1.4em; /* Réduit de 1.6em à 1.4em */
             }
             
             .back-button {
@@ -285,33 +254,81 @@
             }
 
             .category-name {
-                font-size: 0.95em;
-                font-weight: 600;
+                font-size: 0.95em; /* Réduit de 1em à 0.95em */
             }
             
             .category-content {
-                padding: 10px;
-            }
-            
-            .category-image-container {
-                height: 65%; /* Plus d'espace pour l'image */
+                padding: 8px 10px; /* Réduit */
             }
             
             .category-badge {
                 font-size: 0.7em;
-                padding: 3px 8px;
-                top: 8px;
-                right: 8px;
-                border-radius: 12px;
+                padding: 2px 6px; /* Encore plus compact */
+                top: 6px;
+                right: 6px;
+                border-radius: 10px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 575px) {
+            .categories-main {
+                padding: 10px 8px 60px; /* Réduit au minimum */
+            }
+            
+            .container {
+                padding: 0 8px; /* Réduit au minimum */
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px; /* Très petit espacement */
+            }
+
+            .page-header {
+                padding: 10px; /* Réduit au minimum */
+                margin-bottom: 12px; /* Réduit au minimum */
+                gap: 10px; /* Réduit au minimum */
+            }
+
+            .page-title {
+                font-size: 1.2em; /* Réduit */
+            }
+            
+            .back-button {
+                min-width: 35px;
+                height: 35px;
+                font-size: 1.1em;
+            }
+
+            .category-name {
+                font-size: 0.9em; /* Très petit mais lisible */
+                font-weight: 600;
+            }
+            
+            .category-content {
+                padding: 8px; /* Réduit au minimum */
+            }
+            
+            .category-image-container {
+                height: 65%;
+            }
+            
+            .category-badge {
+                font-size: 0.65em; /* Très petit */
+                padding: 2px 5px;
+                top: 5px;
+                right: 5px;
+                border-radius: 8px;
             }
             
             .category-card {
-                border-radius: 14px;
-                box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+                border-radius: 10px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06); /* Ombre très légère */
             }
             
             .category-card:hover {
-                transform: translateY(-4px);
+                transform: translateY(-2px); /* Très subtil */
             }
         }
 
@@ -319,58 +336,71 @@
         @media (max-width: 375px) {
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px; /* Espacement encore réduit */
+                gap: 6px; /* Espacement minimal */
             }
             
             .page-title {
-                font-size: 1.3em;
+                font-size: 1.1em; /* Très compact */
             }
             
             .category-name {
-                font-size: 0.9em;
+                font-size: 0.85em; /* Très petit mais lisible */
+                line-height: 1.1;
             }
             
             .category-content {
-                padding: 8px 10px;
+                padding: 6px 8px; /* Minimal */
             }
             
             .categories-main {
-                padding: 15px 8px 70px;
+                padding: 8px 6px 60px; /* Minimal */
             }
             
             .container {
-                padding: 0 8px;
+                padding: 0 6px; /* Minimal */
+            }
+            
+            .page-header {
+                padding: 8px;
+                gap: 8px;
             }
         }
 
-        /* Extra large screen */
-        @media (min-width: 1600px) {
-            .container {
-                max-width: 1500px;
-            }
-            
-            .categories-grid {
-                grid-template-columns: repeat(5, 1fr); /* 5 colonnes sur écran extra large */
-                gap: 24px;
-            }
-            
-            .category-name {
-                font-size: 1.4em;
-            }
-        }
-
-        /* Hauteur limitée pour les grands écrans */
-        @media (min-height: 900px) and (min-width: 1200px) {
-            .category-card {
-                aspect-ratio: 1 / 0.9; /* Un peu plus court en hauteur */
-            }
-            
+        /* Mode portrait mobile (hauteur importante) */
+        @media (max-height: 700px) and (max-width: 575px) {
             .category-image-container {
-                height: 65%;
+                height: 60%; /* Moins d'espace pour l'image */
             }
             
             .category-content {
-                height: 35%;
+                height: 40%; /* Plus d'espace pour le texte */
+            }
+            
+            .category-name {
+                font-size: 0.8em; /* Un peu plus petit */
+            }
+        }
+
+        /* Mode paysage mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .category-card {
+                aspect-ratio: 1 / 0.8; /* Plus court en hauteur */
+            }
+            
+            .category-image-container {
+                height: 60%;
+            }
+        }
+
+        /* Optimisation pour les écrans carrés (comme certaines tablettes) */
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .category-name {
+                font-size: 1em;
             }
         }
     </style>
