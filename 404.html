@@ -3,675 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChezBaba - Marketplace</title>
+    <title>Page introuvable - ChezBaba</title>
     <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* ===== PAGE 404 STYLES ===== */
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .error-icon {
+            font-size: 120px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .error-code {
+            font-size: 8em;
+            font-weight: 900;
+            color: #2c3e50;
+            line-height: 1;
+            margin: 0;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+        }
+
+        .error-title {
+            font-size: 2.5em;
+            color: #34495e;
+            margin: 20px 0 10px;
+            font-weight: 700;
+        }
+
+        .error-message {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .error-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .action-btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn.primary {
+            background: #0C1B33;
+            color: white;
+            border: 2px solid #0C1B33;
+        }
+
+        .action-btn.primary:hover {
+            background: #1A2B4D;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(12, 27, 51, 0.2);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: #0C1B33;
+            border: 2px solid #0C1B33;
+        }
+
+        .action-btn.secondary:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+
+        .search-container h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input-wrapper input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input-wrapper input:focus {
+            outline: none;
+            border-color: #0C1B33;
+        }
+
+        .search-input-wrapper button {
+            padding: 15px 25px;
+            background: #0C1B33;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .search-input-wrapper button:hover {
+            background: #1A2B4D;
+        }
+
+        /* Categories suggestions */
+        .categories-suggestions {
+            margin-top: 40px;
+        }
+
+        .categories-suggestions h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: #0C1B33;
+        }
+
+        .category-card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #0C1B33;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6em;
+            }
+            
+            .error-title {
+                font-size: 2em;
+            }
+            
+            .error-message {
+                font-size: 1.1em;
+            }
+            
+            .error-icon {
+                font-size: 100px;
+            }
+            
+            .action-btn {
+                padding: 14px 28px;
+                font-size: 1em;
+            }
+            
+            .search-input-wrapper {
+                flex-direction: column;
+            }
+            
+            .search-input-wrapper input,
+            .search-input-wrapper button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 4em;
+            }
+            
+            .error-title {
+                font-size: 1.5em;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animation for the 404 */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .error-code {
+            animation: glitch 0.5s ease 1s;
+        }
+    </style>
 </head>
 <body>
 <!-- Loader -->
-    <div id="pageLoader"><div class="spinner"></div></div>    <!-- NAVIGATION -->
-    <nav>
-        <div class="navBar">
-            <div class="navBar_connexion_inscription">
-                <p class="navBar_connexion_inscrption_text">
-                    Bonjour!
-                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
-                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
-                    <a href="#" class="aide_link">Aide</a>
-                </p>
+<div id="pageLoader"><div class="spinner"></div></div>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="navBar">
+        <div class="navBar_connexion_inscription">
+            <p class="navBar_connexion_inscription_text">
+                Bonjour!
+                <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                <a href="#" class="aide_link">Aide</a>
+            </p>
+        </div>
+        <div class="logo-icone-mobile">
+            <div class="nav-mobile-logo">
+                <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                    <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                </a>
             </div>
-            <div class="logo-icone-mobile">
-                <div class="nav-mobile-logo">
-                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
-                        Chez<span class="baba">Baba</span>
-                    </a>
-                </div>
-                <div class="mobile-icone">
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a><a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    <a href="profil.html" class="icone"><i class="bi bi-person"></i></a>
-                </div>
-            </div>
-            <div class="logo_searchBar_button">
-                <div class="nav_logo">
-                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
-                        Chez<span class="baba">Baba</span>
-                    </a>
-                </div>
-                <div class="search_input_button">
-                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
-                    <div class="search-icon-mobile">
-                        <i class="bi bi-search"></i>
-                    </div>
-                    <button type="submit" class="search_button" name="q">Rechercher</button>
-                </div>
-                <div class="mobile-category-icon" id="mobileCategoryIcon">
-                    <i class="bi bi-grid-3x3-gap"></i>
-                </div>
-                <div class="button_icons">
-                    <button class="button_vendre" id="vendreBtn">Vendre</button>
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a><a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    <a href="profil.html" class="icone"><i class="bi bi-person"></i></a>
-                </div>
-            </div>
-            <div class="categorie_navigation">
-                <div class="categorie">
-                    <button id="openCategories" class="categorieBtn" onclick="window.location.href='categorie.html'">
-                        <i class="bi bi-list"></i><span>Catégories</span>
-                    </button>
-                </div>
-                <div class="navigation">
-                    <ul>
-                        <li><a href="#frais">Frais</a></li>
-                        <li><a href="#pq_chezBaba">Pourquoi chez Baba?</a></li>
-                        <li><a href="#outils">Outils</a></li>
-                        <li><a href="#comment_vendre">Comment vendre</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                    </ul>
-                </div>
+            <div class="mobile-icone">
+                <a href="panier.html" class="icone" style="position: relative;">
+                    <i class="bi bi-cart3"></i>
+                    <span class="cart-badge" id="cartCountMobile">0</span>
+                </a>
             </div>
         </div>
-    </nav>
+        <div class="logo_searchBar_button">
+            <div class="nav_logo">
+                <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                    <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                </a>
+            </div>
+            <div class="search_input_button">
+                <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                <div class="search-icon-mobile">
+                    <i class="bi bi-search"></i>
+                </div>
+                <button type="submit" class="search_button" name="q">Rechercher</button>
+            </div>
+            <div class="mobile-category-icon" id="mobileCategoryIcon">
+                <i class="bi bi-grid-3x3-gap"></i>
+            </div>
+            <div class="button_icons">
+                <button class="button_vendre" id="vendreBtn">Vendre</button>
+                <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                <a href="panier.html" class="icone" style="position: relative;">
+                    <i class="bi bi-cart3"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </a>
+                <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+            </div>
+        </div>
+        <div class="categorie_navigation">
+            <div class="categorie"></div>
+        </div>
+    </div>
+</nav>
 
-    <!-- MAIN CONTENT -->
+<!-- MAIN CONTENT -->
+<main>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+            
+            <h1 class="error-code">😂DORHI!!</h1>
+        
+            <h2 class="error-title">Champion toi tu es là et puis c'est toi tu appuies partout quoi  genre jeu ou bien??</h2>
+        
+        <p class="error-message">
+            Désolé, la page que vous recherchez semble s'être égarée. 
+            Peut-être a-t-elle été déplacée ou n'existe-t-elle plus.
+        </p>
 
-       <main style="text-align: center; padding: 100px 20px;">
-            <h1 style="font-size: 8em; color: #ddd;">404</h1>
-            <h2 style="color: #333;">Page introuvable</h2>
-            <a href="index.html" style="display: inline-block; padding: 15px 40px; background: #318ce7; color: white; text-decoration: none; border-radius: 25px;">
-            Retour Ă  l'accueil
+        <div class="error-actions">
+            <a href="index.html" class="action-btn primary">
+                <i class="bi bi-house-door"></i>
+                Retour à l'accueil
             </a>
-        </main>
- 
+            <a href="javascript:history.back()" class="action-btn secondary">
+                <i class="bi bi-arrow-left"></i>
+                Page précédente
+            </a>
+        </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section footer-logo-section">
-                <h2>Chez<span class="baba">Baba</span></h2>
-                <p class="footer-description">
-                    La marketplace de référence pour vendre et acheter en toute sécurité. 
-                    Rejoignez des millions d'utilisateurs qui nous font confiance.
-                </p>
-                <div class="footer-social">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <i class="bi bi-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">
-                        <i class="bi bi-linkedin"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h3>Liens rapides</h3>
-                <ul class="footer-links">
-                    <li><a href="#frais">Nos frais</a></li>
-                    <li><a href="#pq_chezBaba">Pourquoi ChezBaba</a></li>
-                    <li><a href="#outils">Nos outils</a></li>
-                    <li><a href="#comment_vendre">Comment vendre</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="#">Carrières</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Centre d'aide</a></li>
-                    <li><a href="#">Service client</a></li>
-                    <li><a href="#">Signaler problème</a></li>
-                    <li><a href="#">Guide vendeur</a></li>
-                    <li><a href="#">Guide acheteur</a></li>
-                    <li><a href="#">Sécurité</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <div class="footer-contact-info">
-                    <strong>Email:</strong><br>
-                    contact@chezbaba.com<br><br>
-                    <strong>Tél:</strong><br>
-                    +229 01 56 12 40 50<br><br>
-                    <strong>Adresse:</strong><br>
-                    Cotonou Akpaka LomNava
-                </div>
+        <div class="search-container">
+            <h3>Recherchez plutôt un produit</h3>
+            <div class="search-input-wrapper">
+                <input type="text" id="404Search" placeholder="Rechercher un produit...">
+                <button type="button" onclick="searchFrom404()">
+                    <i class="bi bi-search"></i> Rechercher
+                </button>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div class="footer-bottom-content">
-                <div class="footer-copyright">
-                    © 2024 ChezBaba. Tous droits réservés.
-                </div>
-                <div class="footer-legal">
-                    <a href="#">Conditions</a>
-                    <a href="#">Confidentialité</a>
-                    <a href="#">Cookies</a>
-                    <a href="#">Mentions légales</a>
-                </div>
+        <div class="categories-suggestions">
+            <h3>Ou explorez nos catégories populaires</h3>
+            <div class="categories-grid">
+                <a href="produits.html?categorie=telephones" class="category-card">
+                    <i class="bi bi-phone"></i>
+                    <span>Téléphones</span>
+                </a>
+                <a href="produits.html?categorie=ordinateurs" class="category-card">
+                    <i class="bi bi-laptop"></i>
+                    <span>Ordinateurs</span>
+                </a>
+                <a href="produits.html?categorie=electronique" class="category-card">
+                    <i class="bi bi-tv"></i>
+                    <span>Électronique</span>
+                </a>
+                <a href="produits.html?categorie=mode" class="category-card">
+                    <i class="bi bi-tshirt"></i>
+                    <span>Mode</span>
+                </a>
             </div>
         </div>
-    </footer>
+    </div>
+</main>
 
-    <!-- MOBILE OVERLAY MENU -->
-    <div class="mobile-overlay" id="mobileOverlay">
-        <div class="mobile-overlay-header">
-            <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
-            <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
-        </div>
-        
-        <div class="mobile-overlay-content">
-            <!-- Navigation Links -->
-            <div class="mobile-nav-section">
-                <h3>Navigation</h3>
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="profil.html">Mon Profil</a></li>
-                    <li><a href="favoris.html">Mes Favoris</a></li>
-                    <li><a href="panier.html">Mon Panier</a></li>
-                    <li><a href="vendeur.html">Espace Vendeur</a></li>
-                </ul>
+<!-- FOOTER -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section footer-logo-section">
+            <div class="nav-mobile-logo">
+                <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                    <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                </a>
             </div>
-
-            <!-- Categories Section -->
-            <div class="mobile-nav-section">
-                <h3>Catégories</h3>
-                <ul class="mobile-nav-links">
-                    <li><a href="categorie.html">Toutes les catégories</a></li>
-                    <li><a href="produits.html?categorie=telephones">Téléphones</a></li>
-                    <li><a href="produits.html?categorie=ordinateurs">Ordinateurs</a></li>
-                    <li><a href="produits.html?categorie=electronique">Électronique</a></li>
-                    <li><a href="produits.html?categorie=mode">Mode</a></li>
-                </ul>
-            </div>
-
-            <!-- Informations -->
-            <div class="mobile-nav-section">
-                <h3>Informations</h3>
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html#frais">Nos Frais</a></li>
-                    <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
-                    <li><a href="index.html#outils">Nos Outils</a></li>
-                    <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
-                </ul>
+            <p class="footer-description">
+                La marketplace de référence pour vendre et acheter en toute sécurité. 
+                Rejoignez des millions d'utilisateurs qui nous font confiance.
+            </p>
+            <div class="footer-social">
+                <a href="#" class="social-link" aria-label="Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <i class="bi bi-twitter"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i class="bi bi-linkedin"></i>
+                </a>
             </div>
         </div>
 
-        <div class="mobile-overlay-footer">
-            <div class="mobile-auth-buttons">
-                <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
-                <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
+        <div class="footer-section">
+            <h3>Liens rapides</h3>
+            <ul class="footer-links">
+                <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
+                <li><a href="compte.html">Mon compte</a></li>
+                <li><a href="categories.html">Catégories</a></li>
+                <li><a href="panier.html">Panier</a></li>
+                <li><a href="favoris.html">Favoris</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">À propos</a></li>
+                <li><a href="index.html">Retour en haut</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Support</h3>
+            <ul class="footer-links">
+                <li><a href="#">Centre d'aide</a></li>
+                <li><a href="#">Service client</a></li>
+                <li><a href="#">Signaler problème</a></li>
+                <li><a href="#">Guide vendeur</a></li>
+                <li><a href="#">Guide acheteur</a></li>
+                <li><a href="#">Sécurité</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <div class="footer-contact-info">
+                <strong>Email:</strong><br>
+                contact@chezbaba.com<br><br>
+                <strong>Tél:</strong><br>
+                +229 01 56 12 40 50<br><br>
+                <strong>Adresse:</strong><br>
+                Cotonou Akpaka LomNava
             </div>
         </div>
     </div>
 
-    <!-- MODALS -->
-    <!-- Modal Connexion -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-header">
-                <h2>Connexion Chez<span class="baba">Baba</span></h2>
-                <p>Connectez-vous à votre compte</p>
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="footer-copyright">
+                © 2024 ChezBaba. Tous droits réservés.
             </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Mot de passe</label>
-                    <input type="password" id="loginPassword" name="password" required>
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="btn-primary">Se connecter</button>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <p><a href="#">Mot de passe oublié?</a></p>
-                <p>Pas de compte? <a href="#" id="switchToRegister">Inscrivez-vous</a></p>
+            <div class="footer-legal">
+                <a href="#">Conditions</a>
+                <a href="#">Confidentialité</a>
+                <a href="#">Cookies</a>
+                <a href="#">Mentions légales</a>
             </div>
         </div>
     </div>
+</footer>
 
-    <!-- Modal Inscription -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-header">
-                <h2>Inscription Chez<span class="baba">Baba</span></h2>
-                <p>Créez votre compte</p>
-            </div>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="registerName">Nom complet</label>
-                    <input type="text" id="registerName" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email</label>
-                    <input type="email" id="registerEmail" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Mot de passe</label>
-                    <input type="password" id="registerPassword" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerConfirmPassword">Confirmer</label>
-                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="btn-primary">Créer mon compte</button>
-                    <button type="button" class="btn-secondary" id="registerAsSeller">Devenir vendeur</button>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <p>Déjà un compte? <a href="#" id="switchToLogin">Connectez-vous</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Inscription Vendeur -->
-    <div id="sellerRegisterModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="seller-highlight">
-                <h3>🏪 Compte Vendeur Premium</h3>
-                <p>Outils avancés pour développer votre business</p>
-            </div>
-            <div class="modal-header">
-                <h2>Inscription Vendeur</h2>
-                <p>Créez votre boutique</p>
-            </div>
-            <form id="sellerRegisterForm">
-                <div class="form-group">
-                    <label for="sellerName">Nom complet</label>
-                    <input type="text" id="sellerName" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerEmail">Email professionnel</label>
-                    <input type="email" id="sellerEmail" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerPhone">Téléphone</label>
-                    <input type="tel" id="sellerPhone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="shopName">Nom boutique</label>
-                    <input type="text" id="shopName" name="shopName" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerPassword">Mot de passe</label>
-                    <input type="password" id="sellerPassword" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerConfirmPassword">Confirmer</label>
-                    <input type="password" id="sellerConfirmPassword" name="confirmPassword" required>
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="btn-primary">Créer ma boutique</button>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <p>Déjà vendeur? <a href="#" id="switchToLoginFromSeller">Connectez-vous</a></p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        window.addEventListener('load', () => {
-    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
-});
-        // ======================================
-
-        // ======================================
-        function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
-    document.querySelectorAll('#cartCount').forEach(b => {
-        b.textContent = total;
-        b.style.display = total > 0 ? 'flex' : 'none';
+<script>
+    // ===== FONCTIONS SPÉCIFIQUES À LA PAGE 404 =====
+    window.addEventListener('load', () => {
+        setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
     });
-}
-window.addEventListener('load', updateCartBadge);
-        // ============================================
-        // GESTION NAVIGATION MOBILE - UNIFIÉE
-        // ============================================
 
-        // Menu mobile overlay
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        const mobileCategoryIcon = document.getElementById('mobileCategoryIcon');
-        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-
-        // Modals
-        const modals = {
-            login: document.getElementById('loginModal'),
-            register: document.getElementById('registerModal'),
-            sellerRegister: document.getElementById('sellerRegisterModal'),
-        };
-
-        // Ouvrir le menu mobile
-        if (mobileCategoryIcon) {
-            mobileCategoryIcon.addEventListener('click', function(e) {
-                e.preventDefault();
-                openMobileOverlay();
-            });
-        }
-
-        // Fermer le menu mobile
-        if (mobileCloseBtn) {
-            mobileCloseBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                closeMobileOverlay();
-            });
-        }
-
-        // Fermer en cliquant à l'extérieur
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', function(e) {
-                if (e.target === mobileOverlay) {
-                    closeMobileOverlay();
-                }
-            });
-        }
-
-        // Fermer avec la touche Échap
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileOverlay.classList.contains('active')) {
-                closeMobileOverlay();
-            }
-        });
-
-        function openMobileOverlay() {
-            if (mobileOverlay) {
-                mobileOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeMobileOverlay() {
-            if (mobileOverlay) {
-                mobileOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        // Navigation dans le menu mobile
-        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                closeMobileOverlay();
-            });
-        });
-
-        // ============================================
-        // RECHERCHE MOBILE - UNIFIÉE
-        // ============================================
-
-        // Recherche avec l'icône mobile
+    // Recherche depuis la page 404
+    function searchFrom404() {
+        const searchInput = document.getElementById('404Search');
+        const searchTerm = searchInput.value.trim();
         
-        document.querySelectorAll('.search-icon-mobile').forEach(icon => {
-            icon.addEventListener('click', function(e) {
-                e.preventDefault();
-                const searchInput = this.closest('.search_input_button').querySelector('.search_input');
-                const searchTerm = searchInput.value.trim();
-                
-                if (searchTerm) {
-                    window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
-                } else {
-                    searchInput.focus();
-                }
-            });
-        });
-
-        // Recherche avec le bouton (desktop)
-        document.querySelectorAll('.search_button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const searchInput = this.closest('.search_input_button').querySelector('.search_input');
-                const searchTerm = searchInput.value.trim();
-                
-                if (searchTerm) {
-                    window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
-                }
-            });
-        });
-
-        // Recherche avec Entrée
-        document.querySelectorAll('.search_input').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const searchTerm = this.value.trim();
-                    
-                    if (searchTerm) {
-                        window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
-                    }
-                }
-            });
-        });
-
-        // ============================================
-        // MODALS - UNIFIÉES
-        // ============================================
-
-        function openModal(modalName) {
-            closeAllModals();
-            closeMobileOverlay();
-            if (modals[modalName]) {
-                modals[modalName].classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeAllModals() {
-            Object.values(modals).forEach(modal => {
-                if (modal) modal.classList.remove('active');
-            });
-            document.body.style.overflow = '';
-        }
-
-        // Gestion des modals de connexion/inscription
-        document.addEventListener('DOMContentLoaded', function() {
-            // Boutons de connexion
-            document.querySelectorAll('#loginBtn, #mobileLoginBtn').forEach(btn => {
-                if (btn) {
-                    btn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        openModal('login');
-                    });
-                }
-            });
-
-            // Boutons d'inscription
-            document.querySelectorAll('#registerBtn, #mobileRegisterBtn').forEach(btn => {
-                if (btn) {
-                    btn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        openModal('register');
-                    });
-                }
-            });
-
-            // Bouton vendre
-            const vendreBtn = document.getElementById('vendreBtn');
-            if (vendreBtn) {
-                vendreBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal('sellerRegister');
-                });
-            }
-
-            // Bouton sell dans hero
-            const sellBtn = document.getElementById('sellBtn');
-            if (sellBtn) {
-                sellBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openModal('sellerRegister');
-                });
-            }
-
-            // Bouton explore
-            const exploreBtn = document.getElementById('exploreBtn');
-            if (exploreBtn) {
-                exploreBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.location.href = 'categorie.html';
-                });
-            }
-        });
-
-        // Switches entre les modals
-        document.getElementById('switchToRegister')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('register');
-        });
-
-        document.getElementById('switchToLogin')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('login');
-        });
-
-        document.getElementById('switchToLoginFromSeller')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('login');
-        });
-
-        document.getElementById('registerAsSeller')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('sellerRegister');
-        });
-
-        // Fermer les modals
-        document.querySelectorAll('.modal-close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', closeAllModals);
-        });
-
-        window.addEventListener('click', (e) => {
-            Object.values(modals).forEach(modal => {
-                if (e.target === modal) {
-                    closeAllModals();
-                }
-            });
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeAllModals();
-                closeMobileOverlay();
-            }
-        });
-
-        // ============================================
-        // ANIMATIONS
-        // ============================================
-
-        // Animation au défilement
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.slide-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Animation du logo
-        document.querySelector('.logo_link')?.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1) rotate(2deg)';
-        });
-
-        document.querySelector('.logo_link')?.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) rotate(0deg)';
-        });
-
-        // ============================================
-        // GESTION DES FORMULAIRES
-        // ============================================
-
-        function showSuccessMessage(message, form) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'success-message';
-            successDiv.textContent = message;
-            form.insertBefore(successDiv, form.firstChild);
-            
+        if (searchTerm) {
+            window.location.href = `produits.html?search=${encodeURIComponent(searchTerm)}`;
+        } else {
+            searchInput.focus();
+            searchInput.style.borderColor = '#e74c3c';
             setTimeout(() => {
-                successDiv.remove();
-                closeAllModals();
-            }, 3000);
+                searchInput.style.borderColor = '#e0e0e0';
+            }, 1000);
         }
+    }
 
-        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+    // Recherche avec Enter
+    document.getElementById('404Search')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (email && password) {
-                showSuccessMessage('Connexion réussie! Bienvenue sur ChezBaba.', e.target);
-            }
+            searchFrom404();
+        }
+    });
+
+    // ===== FONCTIONS GÉNÉRALES =====
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+        document.querySelectorAll('#cartCount, #cartCountMobile').forEach(b => {
+            b.textContent = total;
+            b.style.display = total > 0 ? 'flex' : 'none';
         });
+    }
+    
+    window.addEventListener('load', updateCartBadge);
 
-        document.getElementById('registerForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('Les mots de passe ne correspondent pas.');
-                return;
-            }
-            
-            if (name && email && password) {
-                showSuccessMessage('Compte créé avec succès! Bienvenue dans la communauté ChezBaba.', e.target);
-            }
-        });
-
-        document.getElementById('sellerRegisterForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('sellerName').value;
-            const email = document.getElementById('sellerEmail').value;
-            const phone = document.getElementById('sellerPhone').value;
-            const shopName = document.getElementById('shopName').value;
-            const password = document.getElementById('sellerPassword').value;
-            const confirmPassword = document.getElementById('sellerConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('Les mots de passe ne correspondent pas.');
-                return;
-            }
-            
-            if (name && email && phone && shopName && password) {
-                showSuccessMessage('Boutique créée avec succès! Vous pouvez maintenant commencer à vendre.', e.target);
-            }
-        });
-
-        // ============================================
-        // NAVIGATION SMOOTH
-        // ============================================
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        console.log('ChezBaba Marketplace loaded successfully! 🚀');
-    </script>
+    // ===== ANIMATION GLITCH POUR LE 404 =====
+    const errorCode = document.querySelector('.error-code');
+    if (errorCode) {
+        setInterval(() => {
+            errorCode.style.animation = 'glitch 0.3s ease';
+            setTimeout(() => {
+                errorCode.style.animation = '';
+            }, 300);
+        }, 5000);
+    }
+</script>
 </body>
 </html>
