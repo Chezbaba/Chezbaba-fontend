@@ -7,69 +7,93 @@
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        /* ===== SECTION CATÉGORIES PRINCIPALE ===== */
         .categories-main {
-            padding: 40px 0 100px;
-            background-color: var(--background-light);
+            padding: 40px 20px 100px;
+            background-color: var(--lightgray);
+            min-height: calc(100vh - 200px);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
 
-        .categories-header {
-            text-align: center;
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             margin-bottom: 40px;
+            padding: 20px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .categories-header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            height: 50px;
+            background: var(--lightgray);
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             color: var(--darkgray1);
-            margin-bottom: 10px;
+            font-size: 1.5em;
         }
 
-        .categories-header p {
-            color: var(--darkgray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
+        .back-button:hover {
+            background: var(--green);
+            color: var(--white);
+            border-color: var(--green);
+            transform: translateX(-3px);
         }
 
-        /* ===== GRILLE DES CATÉGORIES ===== */
+        .page-title {
+            font-size: 2em;
+            color: var(--darkgray1);
+            font-weight: 700;
+            margin: 0;
+            flex: 1;
+        }
+
+        /* GRILLE CATÉGORIES */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
-        /* ===== CARTE DE CATÉGORIE (Style Grille) ===== */
+        /* CARTE CATÉGORIE */
         .category-card {
             background: var(--white);
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             cursor: pointer;
-            height: 100%;
+            border: 2px solid transparent;
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--lightgray1);
+            aspect-ratio: 1 / 1;
+            text-decoration: none;
+            color: inherit;
         }
 
         .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border-color: #9ACD32;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--green);
         }
 
-        /* Image de la catégorie */
         .category-image-container {
             position: relative;
-            height: 200px;
+            width: 100%;
+            height: 70%;
             overflow: hidden;
+            background: var(--lightgray);
         }
 
         .category-image {
@@ -80,507 +104,110 @@
         }
 
         .category-card:hover .category-image {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         .category-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #9ACD32;
-            padding: 6px 12px;
+            background: rgba(255,255,255,0.95);
+            color:linear-gradient(135deg, #0C1B33, #1A2B4D);
+;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.85em;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .category-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-        }
-
-        /* Contenu de la carte */
         .category-content {
             padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
+            height: 30%;
+            justify-content: center;
         }
 
         .category-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--darkgray1);
-            margin-bottom: 8px;
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .category-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: var(--white);
-            flex-shrink: 0;
-        }
-
-        .category-desc {
-            font-size: 0.95rem;
-            color: var(--darkgray);
-            line-height: 1.5;
-            margin-bottom: 15px;
-            flex: 1;
-        }
-
-        /* Statistiques et bouton */
-        .category-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid var(--lightgray1);
-            margin-top: auto;
-        }
-
-        .category-stats {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-count {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #9ACD32;
-        }
-
-        .last-update {
-            font-size: 0.8rem;
-            color: var(--darkgray);
-        }
-
-        .category-arrow {
-            width: 40px;
-            height: 40px;
-            background: #9ACD32;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .category-card:hover .category-arrow {
-            transform: rotate(-45deg);
-            background: var(--blue);
-        }
-
-        /* ===== PAGE DE DÉTAIL DES CATÉGORIES ===== */
-        .category-detail-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--white);
-            z-index: 2000;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            display: none;
-        }
-
-        .category-detail-page.active {
-            transform: translateX(0);
-            display: block;
-        }
-
-        .detail-header {
-            background: linear-gradient(135deg, #9ACD32, var(--blue));
-            color: var(--white);
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        .detail-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            flex: 1;
-        }
-
-        .detail-content {
-            padding: 25px;
-        }
-
-        /* ===== SOUS-CATÉGORIES ===== */
-        .subcategories-section {
-            margin-bottom: 40px;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--darkgray1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--lightgray1);
-        }
-
-        .subtitle i {
-            color: #9ACD32;
-        }
-
-        .subcategories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .subcategory-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 20px 15px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--darkgray1);
-            transition: all 0.3s ease;
-            border: 1px solid var(--lightgray1);
-            display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0;
         }
 
-        .subcategory-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            border-color: #9ACD32;
-            color: #9ACD32;
-        }
+       
 
-        .subcategory-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #f0f9ff, #e6f7ff);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: var(--blue);
-        }
-
-        .subcategory-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        /* ===== PRODUITS POPULAIRES ===== */
-        .products-section {
-            margin-top: 40px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background-color: #f5f5f5;
-        }
-
-        .product-info {
-            padding: 15px;
-        }
-
-        .product-name {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--darkgray1);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
+        .category-name {
+            font-size: 1.4em;
             font-weight: 700;
-            color: #9ACD32;
-            margin-bottom: 8px;
+            color: var(--darkgray1);
+            line-height: 1.2;
         }
 
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.85rem;
-            color: var(--darkgray);
-        }
-
-        .stars {
-            color: #ffc107;
-        }
-
-        /* ===== BOUTON VOIR PLUS ===== */
-        .see-more-container {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--lightgray1);
-        }
-
-        .see-more-btn {
-            background: linear-gradient(135deg, #9ACD32, var(--blue));
-            color: var(--white);
-            border: none;
-            padding: 12px 40px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .see-more-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(49, 140, 231, 0.3);
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .categories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
             
-            .subcategories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            .category-name {
+                font-size: 1.3em;
             }
         }
 
         @media (max-width: 768px) {
-            .categories-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .categories-header p {
-                font-size: 1rem;
+            .categories-main {
+                padding: 20px 15px 80px;
             }
             
             .categories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .category-image-container {
-                height: 180px;
-            }
-            
-            .detail-content {
-                padding: 20px;
-            }
-            
-            .subcategories-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
-            
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
+
+            .page-header {
+                padding: 15px;
+                margin-bottom: 25px;
+            }
+
+            .page-title {
+                font-size: 1.5em;
+            }
+
+            .category-name {
+                font-size: 1.1em;
             }
         }
 
         @media (max-width: 480px) {
             .categories-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .category-image-container {
-                height: 160px;
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .subcategories-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                gap: 12px;
             }
-            
-            .subcategory-card {
-                padding: 15px 10px;
+
+            .page-title {
+                font-size: 1.3em;
             }
-            
-            .subcategory-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-        }
 
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .category-card {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        /* Délais d'animation pour les cartes */
-        .category-card:nth-child(1) { animation-delay: 0.1s; }
-        .category-card:nth-child(2) { animation-delay: 0.2s; }
-        .category-card:nth-child(3) { animation-delay: 0.3s; }
-        .category-card:nth-child(4) { animation-delay: 0.4s; }
-        .category-card:nth-child(5) { animation-delay: 0.5s; }
-        .category-card:nth-child(6) { animation-delay: 0.6s; }
-        .category-card:nth-child(7) { animation-delay: 0.7s; }
-        .category-card:nth-child(8) { animation-delay: 0.8s; }
-        .category-card:nth-child(9) { animation-delay: 0.9s; }
-        .category-card:nth-child(10) { animation-delay: 1.0s; }
-        .category-card:nth-child(11) { animation-delay: 1.1s; }
-        .category-card:nth-child(12) { animation-delay: 1.2s; }
-
-        /* ===== BOTTOM NAVIGATION ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: var(--white);
-            border-top: 1px solid var(--lightgray1);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 1000;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--darkgray);
-            flex: 1;
-            padding: 8px 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item.active {
-            color: #9ACD32;
-        }
-
-        .nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-
-        .nav-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        /* Pour les écrans larges, masquer la navigation du bas */
-        @media (min-width: 769px) {
-            .bottom-nav {
-                display: none;
-            }
-            
-            .categories-main {
-                padding-bottom: 40px;
+            .category-name {
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loader -->
     <div id="pageLoader"><div class="spinner"></div></div>
 
-    <!-- NAVIGATION (Comme votre page d'accueil) -->
     <nav>
         <div class="navBar">
             <div class="navBar_connexion_inscription">
-                <p class="navBar_connexion_inscription_text" >
+                <p class="navBar_connexion_inscription_text">
                     Bonjour!
                     <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
                     <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
@@ -589,7 +216,7 @@
             </div>
             <div class="logo-icone-mobile">
                 <div class="nav-mobile-logo">
-                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                    <a href="index.html" class="mobile-logo">
                         <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
                     </a>
                 </div>
@@ -602,7 +229,7 @@
             </div>
             <div class="logo_searchBar_button">
                 <div class="nav_logo">
-                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                    <a href="index.html" class="logo_link">
                         <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
                     </a>
                 </div>
@@ -628,7 +255,7 @@
             </div>
             <div class="categorie_navigation">
                 <div class="categorie">
-                    <button id="openCategories" class="categorieBtn" onclick="window.location.href='categorie.html'">
+                    <button id="openCategories" class="categorieBtn">
                         <i class="bi bi-list"></i><span>Catégories</span>
                     </button>
                 </div>
@@ -636,581 +263,166 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT - GRILLE DES CATÉGORIES -->
     <main class="categories-main">
         <div class="container">
-            <div class="categories-header">
-                <h1>Toutes les catégories</h1>
-                <p>Explorez notre large sélection de produits organisés par catégories</p>
+            <div class="page-header">
+                <button class="back-button" onclick="window.location.href='index.html'">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Catégories</h1>
             </div>
 
             <div class="categories-grid">
-                <!-- Catégorie 1: Alimentation -->
-                <div class="category-card" data-category="alimentation">
+                <!-- Téléphones -->
+                <a href="produits.html?categorie=telephones" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Alimentation" 
-                             class="category-image">
+                        <img src="img/Smartphone.jfif" alt="Téléphones" class="category-image">
                         <div class="category-badge">
                             <i class="bi bi-star-fill"></i> Populaire
                         </div>
-                        <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E);">
-                                <i class="bi bi-cart"></i>
-                            </div>
-                            <span>Alimentation ...</span>
-                        </div>
-                        <p class="category-desc">
-                            Produits alimentaires frais, épicerie fine, boissons et gourmandises. Des produits locaux aux spécialités internationales.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">1,245 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+
+                            <span class="category-name">Téléphones & Accessoires</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 2: Animaux & Accessoires -->
-                <div class="category-card" data-category="animaux">
+                <!-- Ordinateurs -->
+                <a href="produits.html?categorie=ordinateurs" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Animaux" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
+                        <img src="img/PCportable.jfif" alt="Ordinateurs" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
-                                <i class="bi bi-heart"></i>
-                            </div>
-                            <span>Animaux & A...</span>
-                        </div>
-                        <p class="category-desc">
-                            Tout pour vos animaux de compagnie : nourriture, jouets, accessoires et soins. Qualité garantie pour le bien-être de vos compagnons.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">876 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Ordinateurs & Bureau</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 3: Appareils Photo -->
-                <div class="category-card" data-category="photo">
+                <!-- Électronique -->
+                <a href="produits.html?categorie=electronique" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Appareils Photo" 
-                             class="category-image">
+                        <img src="img/télévision.jfif" alt="Électronique" class="category-image">
                         <div class="category-badge">
                             <i class="bi bi-bolt-fill"></i> Nouveau
                         </div>
-                        <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD166, #FFB347);">
-                                <i class="bi bi-camera"></i>
-                            </div>
-                            <span>Appareils pho...</span>
-                        </div>
-                        <p class="category-desc">
-                            Matériel photo professionnel et amateur. Appareils, objectifs, accessoires pour capturer vos plus beaux souvenirs.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">543 produits</span>
-                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Électronique</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 4: Art & Musique -->
-                <div class="category-card" data-category="art">
+                <!-- Quincaillerie -->
+                <a href="produits.html?categorie=quincaillerie" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Art & Musique" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
+                        <img src="img/clavierSouris.jfif" alt="Quincaillerie" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A9E, #FAD0C4);">
-                                <i class="bi bi-palette"></i>
-                            </div>
-                            <span>Art & Musique</span>
-                        </div>
-                        <p class="category-desc">
-                            Instruments de musique, matériel d'artiste et œuvres d'art uniques. Libérez votre créativité avec nos produits.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">789 produits</span>
-                                <span class="last-update">Mise à jour: Il y a 3 jours</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Quincaillerie</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 5: Automobile -->
-                <div class="category-card" data-category="auto">
+                <!-- Maison & Jardin -->
+                <a href="produits.html?categorie=maison" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Automobile" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
+                        <img src="img/unitécentrale.jfif" alt="Maison & Jardin" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #A1C4FD, #C2E9FB);">
-                                <i class="bi bi-car-front"></i>
-                            </div>
-                            <span>Automobile &...</span>
-                        </div>
-                        <p class="category-desc">
-                            Pièces détachées, accessoires et produits d'entretien pour votre véhicule. Des marques de qualité pour votre sécurité.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">1,023 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+
+                            <span class="category-name">Maison & Jardin</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 6: Beauté & Santé -->
-                <div class="category-card" data-category="beaute">
+                <!-- Jeux & Jouets -->
+                <a href="produits.html?categorie=jeux" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1522338242990-e8a0e5b82c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Beauté & Santé" 
-                             class="category-image">
+                        <img src="img/imprimante.jfif" alt="Jeux & Jouets" class="category-image">
                         <div class="category-badge">
-                            <i class="bi bi-fire"></i> Tendence
+                            <i class="bi bi-fire"></i> Tendance
                         </div>
-                        <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD1FF, #FAD0C4);">
-                                <i class="bi bi-heart-pulse"></i>
-                            </div>
-                            <span>Beauté & Santé</span>
-                        </div>
-                        <p class="category-desc">
-                            Produits cosmétiques, soins du corps, parfums et accessoires beauté. Prenez soin de vous avec nos produits de qualité.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">2,156 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Jeux & Jouets</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 7: Bébé, Enfants -->
-                <div class="category-card" data-category="bebe">
+                <!-- Mode -->
+                <a href="produits.html?categorie=mode" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Bébé & Enfants" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A8B, #FF6A88);">
-                                <i class="bi bi-balloon-heart"></i>
-                            </div>
-                            <span>Bébé, Enfants...</span>
-                        </div>
-                        <p class="category-desc">
-                            Vêtements, jouets, équipements et soins pour bébés et enfants. Sécurité et qualité certifiées pour les petits.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">934 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 8: Bijoux & Accessoires -->
-                <div class="category-card" data-category="bijoux">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Bijoux" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FFECD2, #FCB69F);">
-                                <i class="bi bi-gem"></i>
-                            </div>
-                            <span>Bijoux & Acce...</span>
-                        </div>
-                        <p class="category-desc">
-                            Bijoux en or, argent, pierres précieuses. Accessoires mode pour toutes les occasions et tous les styles.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">687 produits</span>
-                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 9: Bricolage & Outils -->
-                <div class="category-card" data-category="bricolage">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Bricolage" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #84FAB0, #8FD3F4);">
-                                <i class="bi bi-tools"></i>
-                            </div>
-                            <span>Bricolage & O...</span>
-                        </div>
-                        <p class="category-desc">
-                            Outils, matériaux et équipements pour tous vos projets de bricolage. Professionnels et amateurs trouveront leur bonheur.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">1,145 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 10: Électroménager -->
-                <div class="category-card" data-category="electromenager">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Électroménager" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #D4FC79, #96E6A1);">
-                                <i class="bi bi-lightning-charge"></i>
-                            </div>
-                            <span>Electroménag...</span>
-                        </div>
-                        <p class="category-desc">
-                            Appareils électroménagers pour votre cuisine et votre maison. Des marques reconnues pour plus de confort au quotidien.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">892 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 11: Électronique -->
-                <div class="category-card" data-category="electronique">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Électronique" 
-                             class="category-image">
+                        <img src="img/webcam.jfif" alt="Mode" class="category-image">
                         <div class="category-badge">
                             <i class="bi bi-star-fill"></i> Populaire
                         </div>
-                        <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FCCF31, #F55555);">
-                                <i class="bi bi-cpu"></i>
-                            </div>
-                            <span>Electronique</span>
-                        </div>
-                        <p class="category-desc">
-                            Téléphones, ordinateurs, tablettes et accessoires électroniques. Les dernières technologies à des prix compétitifs.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">3,456 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Mode</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 12: Informatique -->
-                <div class="category-card" data-category="informatique">
+                <!-- Batiment travaux public -->
+                <a href="produits.html?categorie=travaux" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Informatique" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
+                        <img src="img/mémoire.jfif" alt="Batiment travaux public" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #A3BFFA, #6991C7);">
-                                <i class="bi bi-laptop"></i>
-                            </div>
-                            <span>Informatique ...</span>
-                        </div>
-                        <p class="category-desc">
-                            Ordinateurs, composants, logiciels et accessoires informatiques. Pour le travail, les études ou les loisirs.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">2,189 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Batiment travaux public</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <!-- Catégorie 13: Jeux & Jouets -->
-                <div class="category-card" data-category="jeux">
+                <!-- Véhicules -->
+                <a href="produits.html?categorie=vehicules" class="category-card">
                     <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Jeux & Jouets" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
+                        <img src="img/voiture.jfif" alt="Véhicules" class="category-image">
+                         <div class="category-badge">
+                            <i class="bi bi-fire"></i> Tendance
+                        </div>
                     </div>
                     <div class="category-content">
                         <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #E0C3FC, #8EC5FC);">
-                                <i class="bi bi-controller"></i>
-                            </div>
-                            <span>Jeux & Jouets</span>
-                        </div>
-                        <p class="category-desc">
-                            Jouets pour enfants, jeux de société, puzzles et jeux éducatifs. Des heures de divertissement pour toute la famille.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">1,567 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
+                            <span class="category-name">Véhicules</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Catégorie 14: Jeux Vidéo -->
-                <div class="category-card" data-category="jeuxvideo">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Jeux Vidéo" 
-                             class="category-image">
-                        <div class="category-badge">
-                            <i class="bi bi-fire"></i> Tendence
-                        </div>
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FAD961, #F76B1C);">
-                                <i class="bi bi-joystick"></i>
-                            </div>
-                            <span>Jeux Vidéo & ...</span>
-                        </div>
-                        <p class="category-desc">
-                            Consoles, jeux vidéo, accessoires gaming et équipements esport. Vivez l'expérience gaming ultime.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">876 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 15: Livres -->
-                <div class="category-card" data-category="livres">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Livres" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FFDEE9, #B5FFFC);">
-                                <i class="bi bi-book"></i>
-                            </div>
-                            <span>Livres</span>
-                        </div>
-                        <p class="category-desc">
-                            Romans, essais, bandes dessinées, livres jeunesse et ouvrages spécialisés. Des milliers de titres disponibles.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">4,321 produits</span>
-                                <span class="last-update">Mise à jour: Hier</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 16: Maison & Cuisine -->
-                <div class="category-card" data-category="maison">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Maison & Cuisine" 
-                             class="category-image">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF);">
-                                <i class="bi bi-house"></i>
-                            </div>
-                            <span>Maison & Cui...</span>
-                        </div>
-                        <p class="category-desc">
-                            Décoration, ustensiles de cuisine, linge de maison et accessoires pour embellir et équiper votre intérieur.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">2,987 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 17: Meubles & Décoration -->
-                <div class="category-card" data-category="meubles">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Meubles" 
-                             class="category-image">
-                        <div class="category-badge">
-                            <i class="bi bi-bolt-fill"></i> Nouveau
-                        </div>
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #FFD1FF, #FAD0C4);">
-                                <i class="bi bi-lamp"></i>
-                            </div>
-                            <span>Meubles & Dé...</span>
-                        </div>
-                        <p class="category-desc">
-                            Meubles contemporains, classiques et design. Décoration intérieure pour créer un espace unique et accueillant.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">1,234 produits</span>
-                                <span class="last-update">Mise à jour: Il y a 2 jours</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catégorie 18: Mode & Vêtements -->
-                <div class="category-card" data-category="mode">
-                    <div class="category-image-container">
-                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                             alt="Mode" 
-                             class="category-image">
-                        <div class="category-badge">
-                            <i class="bi bi-fire"></i> Tendence
-                        </div>
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-title">
-                            <div class="category-icon" style="background: linear-gradient(135deg, #A1C4FD, #C2E9FB);">
-                                <i class="bi bi-handbag"></i>
-                            </div>
-                            <span>Mode & Vête...</span>
-                        </div>
-                        <p class="category-desc">
-                            Vêtements, chaussures, accessoires mode pour hommes, femmes et enfants. Les dernières tendances à porter.
-                        </p>
-                        <div class="category-footer">
-                            <div class="category-stats">
-                                <span class="product-count">5,678 produits</span>
-                                <span class="last-update">Mise à jour: Aujourd'hui</span>
-                            </div>
-                            <div class="category-arrow">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </a>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER (Comme votre page d'accueil) -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="bi bi-house nav-icon"></i>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a href="categorie.html" class="nav-item active">
+                <i class="bi bi-grid-3x3-gap nav-icon"></i>
+                <span class="nav-label">Catégories</span>
+            </a>
+            <a href="favoris.html" class="nav-item">
+                <i class="bi bi-heart nav-icon"></i>
+                <span class="nav-label">Favoris</span>
+            </a>
+            <a href="profil-acheteur.html" class="nav-item">
+                <i class="bi bi-person nav-icon"></i>
+                <span class="nav-label">Compte</span>
+            </a>
+        </div>
+    </div>
+
+   <!-- FOOTER -->
     <footer>
         <div class="footer-container">
             <div class="footer-section footer-logo-section">
@@ -1244,12 +456,12 @@
                 <ul class="footer-links">
                     <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
                     <li><a href="compte.html">Mon compte</a></li>
-                    <li><a href="categorie.html">Catégories</a></li>
+                    <li><a href="categories.html">Catégories</a></li>
                     <li><a href="panier.html">Panier</a></li>
                     <li><a href="favoris.html">Favoris</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="#">À propos</a></li>
-                    <li><a href="#top">Retour en haut</a></li>
+                    <li><a href="index.html">Retour en haut</a></li>
                 </ul>
             </div>
 
@@ -1293,302 +505,21 @@
         </div>
     </footer>
 
-    <!-- BOTTOM NAVIGATION (Mobile) -->
-    <div class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <i class="bi bi-house nav-icon"></i>
-            <span class="nav-label">Accueil</span>
-        </a>
-        <a href="categorie.html" class="nav-item active">
-            <i class="bi bi-grid-3x3-gap nav-icon"></i>
-            <span class="nav-label">Catégories</span>
-        </a>
-        <a href="favoris.html" class="nav-item">
-            <i class="bi bi-heart nav-icon"></i>
-            <span class="nav-label">Favoris</span>
-        </a>
-        <a href="profil-acheteur.html" class="nav-item">
-            <i class="bi bi-person nav-icon"></i>
-            <span class="nav-label">Compte</span>
-        </a>
-    </div>
-
-    <!-- PAGE DE DÉTAIL DES CATÉGORIES -->
-    <div class="category-detail-page" id="detailPage">
-        <div class="detail-header">
-            <button class="back-button" id="backButton">
-                <i class="bi bi-arrow-left"></i>
-            </button>
-            <h1 class="detail-title" id="detailTitle">Catégorie</h1>
-        </div>
-        
-        <div class="detail-content" id="detailContent">
-            <!-- Le contenu sera chargé dynamiquement -->
-        </div>
-    </div>
-
     <script>
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navigation vers les détails des catégories
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const categoryId = this.getAttribute('data-category');
-                    const categoryName = this.querySelector('.category-title span').textContent;
-                    const categoryDesc = this.querySelector('.category-desc').textContent;
-                    
-                    openCategoryDetail(categoryId, categoryName, categoryDesc);
-                });
-            });
-
-            // Bouton retour
-            document.getElementById('backButton').addEventListener('click', closeCategoryDetail);
-
-            // Initialiser la navigation du bas
-            initBottomNavigation();
-
-            // Mettre à jour les badges du panier
-            updateCartBadge();
-
-            // Animation au scroll
-            initScrollAnimations();
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
         });
-
-        // ===== FONCTIONS =====
-        function openCategoryDetail(categoryId, categoryName, categoryDesc) {
-            // Mettre à jour le titre
-            document.getElementById('detailTitle').textContent = categoryName;
-
-            // Générer le contenu HTML selon la catégorie
-            const detailContent = document.getElementById('detailContent');
-            
-            // Données de test pour les sous-catégories et produits
-            const subcategories = getSubcategories(categoryId);
-            const products = getProducts(categoryId);
-            
-            detailContent.innerHTML = `
-                <p style="color: var(--darkgray); margin-bottom: 30px; font-size: 1.05rem; line-height: 1.6;">
-                    ${categoryDesc}
-                </p>
-                
-                ${subcategories.length > 0 ? `
-                <div class="subcategories-section">
-                    <h3 class="subtitle">
-                        <i class="bi bi-grid"></i>
-                        Sous-catégories
-                    </h3>
-                    <div class="subcategories-grid">
-                        ${subcategories.map(sub => `
-                            <a href="produits.html?categorie=${categoryId}&sub=${sub.id}" class="subcategory-card">
-                                <div class="subcategory-icon">
-                                    <i class="bi ${sub.icon}"></i>
-                                </div>
-                                <div class="subcategory-name">${sub.name}</div>
-                            </a>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-                
-                ${products.length > 0 ? `
-                <div class="products-section">
-                    <h3 class="subtitle">
-                        <i class="bi bi-star"></i>
-                        Produits populaires
-                    </h3>
-                    <div class="products-grid">
-                        ${products.map(product => `
-                            <div class="product-card" data-product-id="${product.id}" onclick="window.location.href='produit.html?id=${product.id}'">
-                                <img src="${product.image}" alt="${product.name}" class="product-image">
-                                <div class="product-info">
-                                    <div class="product-name">${product.name}</div>
-                                    <div class="product-price">${product.price}</div>
-                                    <div class="product-rating">
-                                        <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
-                                        <span>(${product.rating})</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-                
-                <div class="see-more-container">
-                    <button class="see-more-btn" onclick="window.location.href='produits.html?categorie=${categoryId}'">
-                        <i class="bi bi-arrow-right-circle"></i>
-                        Voir tous les produits
-                    </button>
-                </div>
-            `;
-
-            // Afficher la page de détail avec animation
-            const detailPage = document.getElementById('detailPage');
-            detailPage.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCategoryDetail() {
-            const detailPage = document.getElementById('detailPage');
-            detailPage.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function getSubcategories(categoryId) {
-            // Données de test pour les sous-catégories
-            const subcategoriesData = {
-                'alimentation': [
-                    { id: 'epicerie', name: 'Épicerie', icon: 'bi-basket' },
-                    { id: 'boissons', name: 'Boissons', icon: 'bi-cup-straw' },
-                    { id: 'fruits', name: 'Fruits & Légumes', icon: 'bi-apple' },
-                    { id: 'viandes', name: 'Viandes & Poissons', icon: 'bi-egg-fried' },
-                    { id: 'laitiers', name: 'Produits Laitiers', icon: 'bi-cup-hot' },
-                    { id: 'patisserie', name: 'Pâtisserie', icon: 'bi-cake' }
-                ],
-                'electronique': [
-                    { id: 'telephones', name: 'Téléphones', icon: 'bi-phone' },
-                    { id: 'ordinateurs', name: 'Ordinateurs', icon: 'bi-laptop' },
-                    { id: 'tablettes', name: 'Tablettes', icon: 'bi-tablet' },
-                    { id: 'accessoires', name: 'Accessoires', icon: 'bi-headphones' }
-                ],
-                'mode': [
-                    { id: 'vetements', name: 'Vêtements', icon: 'bi-tshirt' },
-                    { id: 'chaussures', name: 'Chaussures', icon: 'bi-shoe' },
-                    { id: 'accessoires', name: 'Accessoires', icon: 'bi-bag' },
-                    { id: 'bijoux', name: 'Bijoux', icon: 'bi-gem' }
-                ]
-            };
-            
-            return subcategoriesData[categoryId] || [];
-        }
-
-        function getProducts(categoryId) {
-            // Données de test pour les produits
-            const productsData = {
-                'alimentation': [
-                    {
-                        id: 1,
-                        name: 'Panier de Fruits Frais Bio',
-                        price: '15,99 €',
-                        rating: 4.5,
-                        image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    },
-                    {
-                        id: 2,
-                        name: 'Vin Rouge Bordeaux AOC',
-                        price: '24,50 €',
-                        rating: 4.7,
-                        image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    },
-                    {
-                        id: 3,
-                        name: 'Fromage Affiné 6 Mois',
-                        price: '18,75 €',
-                        rating: 4.8,
-                        image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    }
-                ],
-                'electronique': [
-                    {
-                        id: 4,
-                        name: 'Smartphone Premium 128GB',
-                        price: '699 €',
-                        rating: 4.6,
-                        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    },
-                    {
-                        id: 5,
-                        name: 'Écouteurs Sans Fil',
-                        price: '89 €',
-                        rating: 4.4,
-                        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    }
-                ]
-            };
-            
-            return productsData[categoryId] || [];
-        }
-
-        function initBottomNavigation() {
-            const navItems = document.querySelectorAll('.bottom-nav .nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (this.classList.contains('active')) {
-                        e.preventDefault();
-                        return;
-                    }
-                    
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        }
 
         function updateCartBadge() {
-            // Simulation de données pour le panier
-            const cartCount = 5;
-            const cartBadge = document.getElementById('cartCount');
-            const cartBadgeMobile = document.getElementById('cartCountMobile');
-            
-            if (cartBadge) cartBadge.textContent = cartCount;
-            if (cartBadgeMobile) cartBadgeMobile.textContent = cartCount;
-            
-            // Cacher les badges si 0
-            if (cartCount === 0) {
-                if (cartBadge) cartBadge.style.display = 'none';
-                if (cartBadgeMobile) cartBadgeMobile.style.display = 'none';
-            }
-        }
-
-        function initScrollAnimations() {
-            // Animation au scroll avec Intersection Observer
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            // Observer toutes les cartes
-            document.querySelectorAll('.category-card').forEach(card => {
-                observer.observe(card);
-            });
-        }
-
-        // Gestion de la barre de recherche
-        const searchInput = document.querySelector('.search_input');
-        const searchButton = document.querySelector('.search_button');
-        
-        if (searchButton) {
-            searchButton.addEventListener('click', function() {
-                if (searchInput.value.trim()) {
-                    window.location.href = `produits.html?search=${encodeURIComponent(searchInput.value)}`;
-                }
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+            document.querySelectorAll('#cartCount, #cartCountMobile').forEach(b => {
+                b.textContent = total;
+                b.style.display = total > 0 ? 'flex' : 'none';
             });
         }
         
-        if (searchInput) {
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && this.value.trim()) {
-                    window.location.href = `produits.html?search=${encodeURIComponent(this.value)}`;
-                }
-            });
-        }
-
-        // Loader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('pageLoader');
-                if (loader) loader.classList.add('hidden');
-            }, 500);
-        });
+        updateCartBadge();
     </script>
 </body>
 </html>

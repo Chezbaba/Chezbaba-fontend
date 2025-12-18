@@ -1,1401 +1,1153 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartphones - ChezBaba</title>
-    <link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        /* MAIN CONTENT */
-        .main-content {
-            padding: 40px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* BREADCRUMB */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            font-size: 0.9em;
-            color: var(--darkgray);
-        }
-
-        .breadcrumb a {
-            color: var(--blue);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--orange);
-        }
-
-        .breadcrumb-separator {
-            color: var(--darkgray);
-        }
-
-        /* HEADER SECTION */
-        .page-header {
-            background: linear-gradient(135deg, var(--blue), #4A9EF2);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            color: var(--white);
-            text-align: center;
-        }
-
-        .page-title {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .page-description {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .products-count {
-            margin-top: 15px;
-            font-size: 1em;
-            opacity: 0.8;
-        }
-
-        /* FILTERS & SORT */
-        .filters-section {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        /* SIDEBAR FILTERS */
-        .filters-sidebar {
-            background-color: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 25px;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-
-        .filter-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: var(--darkgray1);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--lightgray);
-        }
-
-        .filter-group {
-            margin-bottom: 25px;
-        }
-
-        .filter-group-title {
-            font-size: 1em;
-            font-weight: 600;
-            color: var(--darkgray1);
-            margin-bottom: 12px;
-        }
-
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .filter-option:hover {
-            color: var(--blue);
-        }
-
-        .filter-option input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .price-range {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .price-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid var(--lightgray);
-            border-radius: 8px;
-            font-size: 0.9em;
-        }
-
-        .filter-button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--blue), #4A9EF2);
-            color: var(--white);
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin-top: 15px;
-        }
-
-        .filter-button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* MAIN PRODUCTS AREA */
-        .products-area {
-            background-color: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-
-        /* SORT BAR */
-        .sort-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--lightgray);
-        }
-
-        .results-info {
-            font-size: 1em;
-            color: var(--darkgray);
-        }
-
-        .sort-options {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .sort-select {
-            padding: 10px 15px;
-            border: 1px solid var(--lightgray);
-            border-radius: 10px;
-            font-size: 0.95em;
-            cursor: pointer;
-            background-color: var(--white);
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 5px;
-        }
-
-        .view-btn {
-            padding: 10px;
-            background-color: var(--lightgray);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .view-btn.active {
-            background-color: var(--blue);
-            color: var(--white);
-        }
-
-        /* PRODUCTS GRID */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 2fr));
-            gap: 25px;
-        }
-
-        .product-card {
-            background-color: var(--lightgray);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            background: var(--white);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 600;
-            z-index: 1;
-        }
-
-        .badge-new {
-            background: linear-gradient(135deg, var(--blue), #4A9EF2);
-            color: var(--white);
-        }
-
-        .badge-hot {
-            background: linear-gradient(135deg, var(--orange), #FFB347);
-            color: var(--white);
-        }
-
-        .badge-promo {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: var(--white);
-        }
-
-        .product-info {
-            padding: 20px;
-        }
-
-        .product-name {
-            font-size: 1em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--darkgray1);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-price {
-            font-weight: 700;
-            color: var(--blue);
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-
-        .product-old-price {
-            text-decoration: line-through;
-            color: var(--darkgray);
-            font-size: 0.9em;
-            margin-left: 8px;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-            color: var(--darkgray);
-            margin-bottom: 12px;
-        }
-
-        .stars {
-            color: #ffc107;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-add-cart {
-            flex: 1;
-            padding: 10px;
-            background: linear-gradient(135deg, var(--blue), #4A9EF2);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .btn-add-cart:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-favorite {
-            padding: 10px;
-            background-color: var(--lightgray);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-favorite:hover {
-            background-color: var(--orange);
-            color: var(--white);
-        }
-
-        /* PAGINATION */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 40px;
-        }
-
-        .pagination-btn {
-            padding: 10px 15px;
-            background-color: var(--lightgray);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .pagination-btn:hover {
-            background-color: var(--blue);
-            color: var(--white);
-        }
-
-        .pagination-btn.active {
-            background-color: var(--blue);
-            color: var(--white);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-       /* ============================================
-   AMÉLIORATIONS RESPONSIVE CHEZBABA
-   À ajouter dans votre fichier CSS existant
-   ============================================ */
-
-/* Tablettes (768px - 1024px) */
-@media (max-width: 1024px) {
-    /* Navigation */
-    .navBar {
-        padding: 0 15px;
-    }
-
-    .navigation ul {
-        gap: 15px;
-    }
-
-    .navigation ul li a {
-        font-size: 0.9em;
-    }
-
-    /* Filtres */
-    .filters-section {
-        grid-template-columns: 200px 1fr;
-        gap: 20px;
-    }
-
-    .filters-sidebar {
-        padding: 20px;
-    }
-
-    .filter-title {
-        font-size: 1.1em;
-    }
-
-    /* Produits */
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-  
-
-    .product-image {
-        height: 180px;
-    }
-
-    .product-info {
-        padding: 15px;
-    }
-
-    .product-name {
-        font-size: 0.95em;
-        margin-top: 20px;
-    }
-
-    .product-price {
-        font-size: 1.2em;
-    }
-}
-
-/* Petites tablettes et grands mobiles (481px - 768px) */
-@media (max-width: 768px) {
-    /* En-tête page */
-    .page-header {
-        padding: 25px 20px;
-        border-radius: 15px;
-    }
-
-    .page-title {
-        font-size: 1.8em;
-        margin-bottom: 8px;
-    }
-
-    .page-description {
-        font-size: 1em;
-    }
-
-    .products-count {
-        font-size: 0.9em;
-        margin-top: 10px;
-    }
-
-    /* Filtres devient mobile */
-    .filters-section {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .filters-sidebar {
-        position: static;
-        top: auto;
-        margin-bottom: 20px;
-        padding: 20px;
-    }
-
-    /* Barre de tri */
-    .sort-bar {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-        padding-bottom: 15px;
-    }
-
-    .results-info {
-        text-align: center;
-    }
-
-    .sort-options {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .sort-select {
-        flex: 1;
-        min-width: 150px;
-    }
-
-    /* Grille produits */
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .product-image {
-        height: 160px;
-    }
-
-    .product-info {
-        padding: 12px;
-    }
-
-    .product-name {
-        font-size: 0.9em;
-        margin-bottom: 8px;
-    }
-
-    .product-price {
-        font-size: 1.1em;
-        margin-bottom: 8px;
-    }
-
-    .product-old-price {
-        font-size: 0.85em;
-        display: block;
-        margin-left: 0;
-        margin-top: 3px;
-    }
-
-    .product-rating {
-        font-size: 0.85em;
-        margin-bottom: 10px;
-    }
-
-    .product-actions {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .btn-add-cart,
-    .btn-favorite {
-        width: 100%;
-        padding: 8px;
-        font-size: 0.9em;
-    }
-
-    /* Badges */
-    .product-badge {
-        top: 10px;
-        right: 10px;
-        padding: 5px 10px;
-        font-size: 0.7em;
-    }
-
-    /* Pagination */
-    .pagination {
-        gap: 5px;
-        flex-wrap: wrap;
-        margin-top: 30px;
-    }
-
-    .pagination-btn {
-        padding: 8px 12px;
-        font-size: 0.9em;
-    }
-
-    /* Breadcrumb */
-    .breadcrumb {
-        font-size: 0.85em;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-
-    /* Footer */
-    .footer-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        padding: 30px 20px;
-    }
-
-    .footer-section {
-        text-align: center;
-    }
-}
-
-/* Mobiles (320px - 480px) */
-@media (max-width: 480px) {
-    /* Main content */
-    .main-content {
-        padding: 15px 10px;
-    }
-
-    /* En-tête */
-    .page-header {
-        padding: 20px 15px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-    }
-
-    .page-title {
-        font-size: 1.5em;
-    }
-
-    .page-description {
-        font-size: 0.95em;
-    }
-
-    .products-count {
-        font-size: 0.85em;
-    }
-
-    /* Breadcrumb */
-    .breadcrumb {
-        font-size: 0.8em;
-        gap: 5px;
-        margin-bottom: 15px;
-    }
-
-    /* Filtres sidebar */
-    .filters-sidebar {
-        padding: 15px;
-        border-radius: 15px;
-        display: none;
-    }
-
-    .filter-title {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        padding-bottom: 12px;
-    }
-
-    .filter-group {
-        margin-bottom: 20px;
-    }
-
-    .filter-group-title {
-        font-size: 0.95em;
-        margin-bottom: 10px;
-    }
-
-    .filter-option {
-        padding: 6px 0;
-        font-size: 0.9em;
-    }
-
-    .filter-option input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-    }
-
-    .price-range {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .price-input {
-        padding: 8px;
-        font-size: 0.85em;
-    }
-
-    .filter-button {
-        padding: 10px;
-        font-size: 0.95em;
-        margin-top: 12px;
-    }
-
-    /* Zone produits */
-    .products-area {
-        padding: 15px;
-        border-radius: 15px;
-    }
-
-    /* Barre de tri */
-    .sort-bar {
-        margin-bottom: 20px;
-        padding-bottom: 12px;
-    }
-
-    .results-info {
-        font-size: 0.9em;
-    }
-
-    .sort-options {
-        gap: 8px;
-    }
-
-    .sort-options > span {
-        display: none; /* Cache "Trier par:" sur mobile */
-    }
-
-    .sort-select {
-        width: 100%;
-        padding: 8px 12px;
-        font-size: 0.9em;
-    }
-
-    .view-toggle {
-        width: 100%;
-        justify-content: center;
-        margin-top: 8px;
-    }
-
-    .view-btn {
-        padding: 8px 12px;
-    }
-
-    /* Grille produits - 1 colonne sur très petit écran */
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .product-card {
-        border-radius: 12px;
-    }
-
-    .product-image {
-        height: 200px;
-    }
-
-    .product-info {
-        padding: 15px;
-    }
-
-    .product-name {
-        font-size: 1em;
-        margin-bottom: 10px;
-    }
-
-    .product-price {
-        font-size: 1.3em;
-        margin-bottom: 10px;
-    }
-
-    .product-old-price {
-        font-size: 0.9em;
-    }
-
-    .product-rating {
-        font-size: 0.9em;
-        margin-bottom: 12px;
-    }
-
-    .product-actions {
-        gap: 10px;
-    }
-
-    .btn-add-cart {
-        padding: 10px;
-        font-size: 0.95em;
-    }
-
-    .btn-favorite {
-        padding: 10px;
-    }
-
-    /* Badges */
-    .product-badge {
-        top: 8px;
-        right: 8px;
-        padding: 4px 8px;
-        font-size: 0.65em;
-    }
-
-    /* Pagination */
-    .pagination {
-        gap: 5px;
-        margin-top: 25px;
-    }
-
-    .pagination-btn {
-        padding: 6px 10px;
-        font-size: 0.85em;
-        min-width: 35px;
-    }
-
-    /* Cache les pages intermédiaires sur mobile */
-    .pagination .pagination-btn:nth-child(n+6):not(:last-child):not(:nth-last-child(2)) {
-        display: none;
-    }
-}
-
-/* Très petits écrans (< 360px) */
-@media (max-width: 360px) {
-    .page-title {
-        font-size: 1.3em;
-    }
-
-    .product-price {
-        font-size: 1.2em;
-    }
-
-    .btn-add-cart {
-        font-size: 0.9em;
-        padding: 8px;
-    }
-
-    .products-area {
-        padding: 12px;
-    }
-
-    .filters-sidebar {
-        padding: 12px;
-    }
-}
-
-/* Orientation paysage mobile */
-@media (max-width: 768px) and (orientation: landscape) {
-    .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .product-image {
-        height: 140px;
-    }
-
-    .page-header {
-        padding: 20px;
-    }
-
-    .page-title {
-        font-size: 1.6em;
-    }
-}
-
-/* Améliorations tactiles pour mobile */
-@media (max-width: 768px) {
-
-    .filter-option {
-        padding: 10px 0;
-        margin: 2px 0;
-    }
-
-    .btn-add-cart,
-    .btn-favorite,
-    .filter-button,
-    .pagination-btn {
-        min-height: 44px;
-    }
-    .product-card{
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-
-
-        
-    }
-
-   
-    .product-card:hover {
-        transform: none;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
-    .product-card:active {
-        transform: scale(0.98);
-    }
-
-    .btn-add-cart:active,
-    .btn-favorite:active,
-    .filter-button:active {
-        transform: scale(0.95);
-    }
-}
-
-/* Optimisations performance mobile */
-@media (max-width: 768px) {
-    /* Réduit les ombres complexes */
-    .product-card {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .filters-sidebar,
-    .products-area {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    /* Simplifie les transitions */
-    .product-card,
-    .btn-add-cart,
-    .btn-favorite {
-        transition: transform 0.2s ease;
-    }
-}
-
-/* Dark mode compatible */
-@media (prefers-color-scheme: dark) {
-    @media (max-width: 768px) {
-        .product-card,
-        .filters-sidebar,
-        .products-area {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-    }
-}
-
-    </style>
-</head>
-<body>
-    <!-- Loader -->
-    <div id="pageLoader"><div class="spinner"></div></div>
-    <!-- NAVIGATION -->
-   <nav>
-        <div class="navBar">
-            <div class="navBar_connexion_inscription">
-                <p class="navBar_connexion_inscription_text" >
-                    Bonjour!
-                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
-                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
-                    <a href="#" class="aide_link">Aide</a>
-                </p>
-            </div>
-            <div class="logo-icone-mobile">
-                <div class="nav-mobile-logo">
-                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
-                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
-                     </a>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Produits - ChezBaba</title>
+        <link rel="stylesheet" href="common.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <style>
+            /* ===== CONTENEUR PRINCIPAL ===== */
+            .products-main {
+                padding: 40px 20px 100px;
+                background-color: var(--lightgray);
+                min-height: calc(100vh - 200px);
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            /* ===== HEADER PAGE PRODUITS ===== */
+            .page-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 30px;
+                padding: 20px;
+                background: var(--white);
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            }
+
+            .back-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 50px;
+                height: 50px;
+                background: var(--lightgray);
+                border: 2px solid var(--lightgray1);
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                color: var(--darkgray1);
+                font-size: 1.5em;
+            }
+
+            .back-button:hover {
+                background: var(--green);
+                color: var(--white);
+                border-color: var(--green);
+                transform: translateX(-3px);
+            }
+
+            .page-title {
+                font-size: 1.8em;
+                color: var(--darkgray1);
+                font-weight: 700;
+                margin: 0;
+                flex: 1;
+            }
+
+            .category-info {
+                font-size: 0.95em;
+                color: var(--darkgray);
+                margin-top: 5px;
+            }
+
+            /* ===== FILTRES ET TRI ===== */
+            .products-controls {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+                padding: 15px 20px;
+                background: var(--white);
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            }
+
+            .products-count {
+                font-size: 0.95em;
+                color: var(--darkgray);
+            }
+
+            .sort-select {
+                padding: 8px 15px;
+                border: 1px solid var(--lightgray1);
+                border-radius: 8px;
+                background: var(--white);
+                color: var(--darkgray1);
+                font-size: 0.9em;
+                cursor: pointer;
+            }
+
+            /* ===== GRILLE PRODUITS ===== */
+            .products-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            /* ===== CARTE PRODUIT (PETITS CARRÉS) ===== */
+            .product-card {
+                background: var(--white);
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+                transition: all 0.3s ease;
+                position: relative;
+                border: 1px solid var(--lightgray1);
+                aspect-ratio: 1 / 1.3; /* Format carte */
+            }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            }
+
+            /* Badge "Neuf" seulement */
+            .new-badge {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: linear-gradient(135deg, #0C1B33, #1A2B4D);
+                color: var(--white);
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-size: 0.85em;
+                font-weight: 700;
+                z-index: 2;
+            }
+
+            /* Image produit */
+            .product-image-container {
+                width: 100%;
+                height: 55%;
+                overflow: hidden;
+                background: var(--lightgray);
+                position: relative;
+            }
+
+            .product-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+
+            .product-card:hover .product-image {
+                transform: scale(1.05);
+            }
+
+            /* Contenu produit */
+            .product-content {
+                padding: 15px;
+                height: 45%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .product-name {
+                font-size: 0.9em;
+                font-weight: 600;
+                color: var(--darkgray1);
+                margin-bottom: 8px;
+                line-height: 1.4;
+                height: 38px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            /* Prix */
+            .product-price {
+                font-size: 1.1em;
+                font-weight: 700;
+                color: var(--green);
+                margin-bottom: 8px;
+            }
+
+            /* Évaluation et stats */
+            .product-stats {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 10px;
+                font-size: 0.8em;
+                color: var(--darkgray);
+            }
+
+            .product-rating {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+            }
+
+            .stars {
+                color: #ffc107;
+                font-size: 0.9em;
+            }
+
+            .rating-number {
+                margin-left: 3px;
+                font-weight: 500;
+            }
+
+            .sold-count, .stock-count {
+                display: flex;
+                align-items: center;
+                gap: 3px;
+            }
+
+            /* Vendeur */
+            .product-seller {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding-top: 10px;
+                border-top: 1px solid var(--lightgray1);
+                margin-top: auto;
+            }
+
+            .seller-logo {
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                object-fit: cover;
+                background: var(--lightgray);
+            }
+
+            .seller-name {
+                font-size: 0.8em;
+                color: var(--darkgray1);
+                font-weight: 500;
+            }
+
+            /* Actions */
+            .product-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            .action-btn {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--lightgray);
+                color: var(--darkgray);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 1em;
+            }
+
+            .action-btn:hover {
+                background: var(--green);
+                color: var(--white);
+                transform: scale(1.1);
+            }
+
+            .favorite-btn.active {
+                color: #ff6b6b;
+                background: rgba(255, 107, 107, 0.1);
+            }
+
+            .cart-btn.active {
+                color: var(--green);
+                background: rgba(189, 254, 0, 0.1);
+            }
+
+            /* ===== PAGINATION ===== */
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 40px;
+                padding: 20px;
+            }
+
+            .page-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--white);
+                color: var(--darkgray1);
+                border: 1px solid var(--lightgray1);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 0.9em;
+                font-weight: 500;
+            }
+
+            .page-btn:hover {
+                background: var(--green);
+                color: var(--white);
+                border-color: var(--green);
+            }
+
+            .page-btn.active {
+                background: var(--green);
+                color: var(--white);
+                border-color: var(--green);
+            }
+
+            /* ===== RESPONSIVE ===== */
+            /* Tablette */
+            @media (max-width: 1024px) {
+                .products-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 15px;
+                }
+                
+                .product-card {
+                    aspect-ratio: 1 / 1.35;
+                }
+            }
+
+            /* Mobile */
+            @media (max-width: 768px) {
+                .products-main {
+                    padding: 20px 15px 80px;
+                }
+                
+                .products-grid {
+                    grid-template-columns: repeat(2, 1fr); /* 2 par ligne */
+                    gap: 12px;
+                }
+
+                .page-header {
+                    padding: 15px;
+                    margin-bottom: 20px;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 15px;
+                }
+
+                .back-button {
+                    min-width: 45px;
+                    height: 45px;
+                    font-size: 1.3em;
+                }
+
+                .page-title {
+                    font-size: 1.5em;
+                }
+                
+                .products-controls {
+                    flex-direction: column;
+                    gap: 15px;
+                    align-items: stretch;
+                }
+                
+                .product-card {
+                    border-radius: 10px;
+                    aspect-ratio: 1 / 1.4;
+                }
+                
+                .product-image-container {
+                    height: 50%;
+                }
+                
+                .product-content {
+                    padding: 12px;
+                    height: 50%;
+                }
+                
+                .product-name {
+                    font-size: 0.85em;
+                    height: 36px;
+                }
+                
+                .product-price {
+                    font-size: 1em;
+                }
+                
+                .product-stats {
+                    font-size: 0.75em;
+                }
+                
+                .action-btn {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 0.95em;
+                }
+            }
+
+            /* Petit mobile */
+            @media (max-width: 480px) {
+                .products-grid {
+                    grid-template-columns: repeat(2, 1fr); /* Toujours 2 par ligne */
+                    gap: 10px;
+                }
+                
+                .product-card {
+                    aspect-ratio: 1 / 1.45;
+                }
+                
+                .product-image-container {
+                    height: 48%;
+                }
+                
+                .product-content {
+                    padding: 10px;
+                    height: 52%;
+                }
+                
+                .product-name {
+                    font-size: 0.8em;
+                    height: 34px;
+                    margin-bottom: 6px;
+                }
+                
+                .product-price {
+                    font-size: 0.95em;
+                    margin-bottom: 6px;
+                }
+                
+                .product-stats {
+                    gap: 6px;
+                    margin-bottom: 8px;
+                }
+                
+                .product-seller {
+                    padding-top: 8px;
+                }
+                
+                .seller-logo {
+                    width: 20px;
+                    height: 20px;
+                }
+                
+                .seller-name {
+                    font-size: 0.75em;
+                }
+            }
+
+            /* Très petit mobile */
+            @media (max-width: 360px) {
+                .products-grid {
+                    grid-template-columns: repeat(2, 1fr); /* Toujours 2 par ligne */
+                    gap: 8px;
+                }
+                
+                .product-card {
+                    aspect-ratio: 1 / 1.5;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Loader -->
+        <div id="pageLoader"><div class="spinner"></div></div>
+
+        <!-- NAVIGATION (identique à categorie.html) -->
+        <nav>
+            <div class="navBar">
+                <div class="navBar_connexion_inscription">
+                    <p class="navBar_connexion_inscription_text">
+                        Bonjour!
+                        <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                        <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                        <a href="#" class="aide_link">Aide</a>
+                    </p>
                 </div>
-                <div class="mobile-icone">
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
-                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>               
-                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                <div class="logo-icone-mobile">
+                    <div class="nav-mobile-logo">
+                        <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                        </a>
+                    </div>
+                    <div class="mobile-icone">
+                        <a href="panier.html" class="icone" style="position: relative;">
+                            <i class="bi bi-cart3"></i>
+                            <span class="cart-badge" id="cartCountMobile">0</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="logo_searchBar_button">
-                <div class="nav_logo">
+                <div class="logo_searchBar_button">
+                    <div class="nav_logo">
                         <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
                             <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
                         </a>
-                </div>
-                <div class="search_input_button">
-                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
-                    <div class="search-icon-mobile">
-                        <i class="bi bi-search"></i>
                     </div>
-                    <button type="submit" class="search_button" name="q">Rechercher</button>
+                    <div class="search_input_button">
+                        <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                        <div class="search-icon-mobile">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <button type="submit" class="search_button" name="q">Rechercher</button>
+                    </div>
+                    <div class="mobile-category-icon" id="mobileCategoryIcon">
+                        <i class="bi bi-grid-3x3-gap"></i>
+                    </div>
+                    <div class="button_icons">
+                        <button class="button_vendre" id="vendreBtn">Vendre</button>
+                        <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                        <a href="panier.html" class="icone" style="position: relative;">
+                            <i class="bi bi-cart3"></i>
+                            <span class="cart-badge" id="cartCount">0</span>
+                        </a>
+                        <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                    </div>
                 </div>
-                <div class="mobile-category-icon" id="mobileCategoryIcon">
-                    <i class="bi bi-grid-3x3-gap"></i>
-                </div>
-                <div class="button_icons">
-                    <button class="button_vendre" id="vendreBtn">Vendre</button>
-                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
-                    <a href="panier.html" class="icone" style="position: relative;"><i class="bi bi-cart3"></i><span class="cart-badge" id="cartCount">0</span></a>                    
-                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                <div class="categorie_navigation">
+                    <div class="categorie">
+                        <button id="openCategories" class="categorieBtn">
+                            <i class="bi bi-list"></i><span>Catégories</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="categorie_navigation">
-                <div class="categorie">
-                    <button id="openCategories" class="categorieBtn" onclick="window.location.href='categorie.html'">
-                        <i class="bi bi-list"></i><span>Catégories</span>
+        </nav>
+
+        <!-- CONTENU PRINCIPAL -->
+        <main class="products-main">
+            <div class="container">
+                <!-- HEADER -->
+                <div class="page-header">
+                    <button class="back-button" onclick="window.location.href='categorie.html'">
+                        <i class="bi bi-arrow-left"></i>
                     </button>
-                </div>
-                <div class="navigation">
-                    <ul>
-                        <li><a href="#frais">Frais</a></li>
-                        <li><a href="#pq_chezBaba">Pourquoi chez Baba?</a></li>
-                        <li><a href="#outils">Outils</a></li>
-                        <li><a href="#comment_vendre">Comment vendre</a></li>
-                        <li><a href="#apropos">À propos</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-            <a href="index.html">Accueil</a>
-            <span class="breadcrumb-separator">›</span>
-            <a href="categorie.html">Catégories</a>
-            <span class="breadcrumb-separator">›</span>
-            <a href="#">Téléphones & Accessoires</a>
-            <span class="breadcrumb-separator">›</span>
-            <span>Smartphones</span>
-        </div>
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title">Smartphones</h1>
-            <p class="page-description">Découvrez notre sélection de smartphones dernière génération</p>
-            <p class="products-count"><i class="bi bi-box"></i> 156 produits disponibles</p>
-        </div>
-
-        <!-- Filters & Products -->
-        <div class="filters-section">
-            <!-- Sidebar Filters -->
-            <aside class="filters-sidebar">
-                <h2 class="filter-title">Filtres</h2>
-
-                <!-- Prix -->
-                <div class="filter-group">
-                    <div class="filter-group-title">Prix (FCFA)</div>
-                    <div class="price-range">
-                        <input type="number" class="price-input" placeholder="Min" id="priceMin">
-                        <input type="number" class="price-input" placeholder="Max" id="priceMax">
+                    <div>
+                        <h1 class="page-title" id="pageCategoryTitle">Produits</h1>
+                        <div class="category-info" id="categoryDescription">Découvrez tous nos produits</div>
                     </div>
                 </div>
 
-                <!-- Marque -->
-                <div class="filter-group">
-                    <div class="filter-group-title">Marque</div>
-                    <label class="filter-option">
-                        <input type="checkbox" name="brand" value="apple">
-                        <span>Apple</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="brand" value="samsung">
-                        <span>Samsung</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="brand" value="xiaomi">
-                        <span>Xiaomi</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="brand" value="oppo">
-                        <span>Oppo</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="brand" value="tecno">
-                        <span>Tecno</span>
-                    </label>
-                </div>
-
-                <!-- État -->
-                <div class="filter-group">
-                    <div class="filter-group-title">État</div>
-                    <label class="filter-option">
-                        <input type="checkbox" name="condition" value="new">
-                        <span>Neuf</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="condition" value="used">
-                        <span>Occasion</span>
-                    </label>
-                </div>
-
-                <!-- Stockage -->
-                <div class="filter-group">
-                    <div class="filter-group-title">Stockage</div>
-                    <label class="filter-option">
-                        <input type="checkbox" name="storage" value="64">
-                        <span>64 Go</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="storage" value="128">
-                        <span>128 Go</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="storage" value="256">
-                        <span>256 Go</span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="storage" value="512">
-                        <span>512 Go</span>
-                    </label>
-                </div>
-
-                <button class="filter-button">Appliquer les filtres</button>
-            </aside>
-
-            <!-- Products Area -->
-            <div class="products-area">
-                <!-- Sort Bar -->
-                <div class="sort-bar">
-                    <div class="results-info">
-                        <strong>156 produits</strong> trouvés
+                <!-- CONTROLES -->
+                <div class="products-controls">
+                    <div class="products-count">
+                        <span id="productsCount">24</span> produits trouvés
                     </div>
-                    <div class="sort-options">
-                        <span>Trier par:</span>
-                        <select class="sort-select">
-                            <option value="pertinence">Pertinence</option>
-                            <option value="price-asc">Prix croissant</option>
-                            <option value="price-desc">Prix décroissant</option>
-                            <option value="new">Plus récents</option>
-                            <option value="popular">Les plus populaires</option>
-                        </select>
-                        <div class="view-toggle">
-                            <button class="view-btn active"><i class="bi bi-grid-3x3-gap"></i></button>
-                            <button class="view-btn"><i class="bi bi-list"></i></button>
-                        </div>
-                    </div>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="relevant">Pertinence</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                        <option value="rating">Meilleures notes</option>
+                        <option value="newest">Plus récents</option>
+                    </select>
                 </div>
 
-                <!-- Products Grid -->
+                <!-- GRILLE PRODUITS -->
                 <div class="products-grid" id="productsGrid">
-                    <!-- Produit 1 -->
-                    <div class="product-card">
-                        <div class="product-badge badge-new">Nouveau</div>
-                        <img src="img/iphone17.jfif" alt="iPhone 17" class="product-image">
-                        <div class="product-info">
-                            <div class="product-name">iPhone 17 Pro Max 256Go</div>
-                            <div class="product-price">
-                                550 000 FCFA
-                            </div>
-                            <div class="product-rating">
-                                <div class="stars">★★★★★</div>
-                                <span>(124)</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn-add-cart" id="addToCartBtn"><i class="bi bi-cart-plus"></i> Panier</button>
-                                <button class="btn-favorite"><i class="bi bi-heart"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Produit 2 -->
-                    <div class="product-card">
-                        <div class="product-badge badge-hot">Promo</div>
-                        <img src="img/samsungS24 Ultra.jfif" alt="Samsung S24" class="product-image">
-                        <div class="product-info">
-                            <div class="product-name">Samsung Galaxy S24 Ultra 512Go</div>
-                            <div class="product-price">
-                                480 000 FCFA
-                                <span class="product-old-price">550 000 FCFA</span>
-                            </div>
-                            <div class="product-rating">
-                                <div class="stars">★★★★★</div>
-                                <span>(89)</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn-add-cart" id="addToCartBtn"><i class="bi bi-cart-plus"></i> Panier</button>
-                                <button class="btn-favorite" ><i class="bi bi-heart"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Produit 3 -->
-                    <div class="product-card">
-                        <img src="img/Smartphone.jfif" alt="Xiaomi" class="product-image">
-                        <div class="product-info">
-                            <div class="product-name">Xiaomi 14 Pro 256Go</div>
-                            <div class="product-price">320 000 FCFA</div>
-                            <div class="product-rating">
-                                <div class="stars">★★★★☆</div>
-                                <span>(67)</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn-add-cart" id="addToCartBtn"><i class="bi bi-cart-plus"></i> Panier</button>
-                                <button class="btn-favorite"><i class="bi bi-heart"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Produit 4 -->
-                    <div class="product-card">
-                        <div class="product-badge badge-promo">-20%</div>
-                        <img src="img/samsungS24 Ultra.jfif" alt="Oppo" class="product-image">
-                        <div class="product-info">
-                            <div class="product-name">Samsung S24 Ultra 512Go</div>
-                            <div class="product-price">
-                                280 000 FCFA
-                                <span class="product-old-price">350 000 FCFA</span>
-                            </div>
-                            <div class="product-rating">
-                                <div class="stars">★★★★☆</div>
-                                <span>(45)</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn-add-cart" id="addToCartBtn"><i class="bi bi-cart-plus"></i> Panier</button>
-                                <button class="btn-favorite"><i class="bi bi-heart"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ajoute plus de produits ici... -->
+                    <!-- Les produits seront chargés ici par JavaScript -->
                 </div>
 
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button class="pagination-btn" disabled><i class="bi bi-chevron-left"></i></button>
-                    <button class="pagination-btn active">1</button>
-                    <button class="pagination-btn">2</button>
-                    <button class="pagination-btn">3</button>
-                    <button class="pagination-btn">4</button>
-                    <button class="pagination-btn">...</button>
-                    <button class="pagination-btn">10</button>
-                    <button class="pagination-btn"><i class="bi bi-chevron-right"></i></button>
+                <!-- PAGINATION -->
+                <div class="pagination" id="pagination">
+                    <!-- La pagination sera générée par JavaScript -->
                 </div>
             </div>
-        </div>
-        <!-- MOBILE OVERLAY MENU CORRIGÉ -->
-<div class="mobile-overlay" id="mobileOverlay">
-    <div class="mobile-overlay-header">
-        <h2><i class="bi bi-grid-3x3-gap"></i> Menu</h2>
-        <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
-    </div>
-    
-    <div class="mobile-overlay-content">
-        <!-- Navigation Links -->
-        <div class="mobile-nav-section">
-            <h3>Navigation</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="profil.html">Mon Profil</a></li>
-                <li><a href="favoris.html">Mes Favoris</a></li>
-                <li><a href="panier.html">Mon Panier</a></li>
-                <li><a href="vendeur.html">Espace Vendeur</a></li>
-            </ul>
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-container">
+                <a href="index.html" class="nav-item">
+                    <i class="bi bi-house nav-icon"></i>
+                    <span class="nav-label">Accueil</span>
+                </a>
+                <a href="categorie.html" class="nav-item">
+                    <i class="bi bi-grid-3x3-gap nav-icon"></i>
+                    <span class="nav-label">Catégories</span>
+                </a>
+                <a href="favoris.html" class="nav-item">
+                    <i class="bi bi-heart nav-icon"></i>
+                    <span class="nav-label">Favoris</span>
+                </a>
+                <a href="profil-acheteur.html" class="nav-item">
+                    <i class="bi bi-person nav-icon"></i>
+                    <span class="nav-label">Compte</span>
+                </a>
+            </div>
         </div>
 
-        <!-- Categories Section -->
-        <div class="mobile-nav-section">
-            <h3>Catégories</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="categorie.html">Toutes les catégories</a></li>
-                <li><a href="produits.html?categorie=telephones">Téléphones</a></li>
-                <li><a href="produits.html?categorie=ordinateurs">Ordinateurs</a></li>
-                <li><a href="produits.html?categorie=electronique">Électronique</a></li>
-                <li><a href="produits.html?categorie=mode">Mode</a></li>
-            </ul>
-        </div>
-
-        <!-- Informations -->
-        <div class="mobile-nav-section">
-            <h3>Informations</h3>
-            <ul class="mobile-nav-links">
-                <li><a href="index.html#frais">Nos Frais</a></li>
-                <li><a href="index.html#pq_chezBaba">Pourquoi ChezBaba?</a></li>
-                <li><a href="index.html#outils">Nos Outils</a></li>
-                <li><a href="index.html#comment_vendre">Comment Vendre</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="mobile-overlay-footer">
-        <div class="mobile-auth-buttons">
-            <button class="mobile-auth-btn secondary" id="mobileLoginBtn">Connexion</button>
-            <button class="mobile-auth-btn primary" id="mobileRegisterBtn">Inscription</button>
-        </div>
-    </div>
-</div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section footer-logo-section">
-                <div class="nav-mobile-logo">
-                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section footer-logo-section">
+                    <div class="nav-mobile-logo">
+                        <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
                             <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
                         </a>
+                    </div>
+                    <p class="footer-description">
+                        La marketplace de référence pour vendre et acheter en toute sécurité. 
+                        Rejoignez des millions d'utilisateurs qui nous font confiance.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
                 </div>
-                <p class="footer-description">
-                    La marketplace de référence pour vendre et acheter en toute sécurité. 
-                    Rejoignez des millions d'utilisateurs qui nous font confiance.
-                </p>
-                <div class="footer-social">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <i class="bi bi-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">
-                        <i class="bi bi-linkedin"></i>
-                    </a>
+
+                <div class="footer-section">
+                    <h3>Liens rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
+                        <li><a href="compte.html">Mon compte</a></li>
+                        <li><a href="categories.html">Catégories</a></li>
+                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="favoris.html">Favoris</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="index.html">Retour en haut</a></li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="footer-section">
-                <h3>Liens rapides</h3>
-                <ul class="footer-links">
-                    <li><a href="#frais">Nos frais</a></li>
-                    <li><a href="#pq_chezBaba">Pourquoi ChezBaba</a></li>
-                    <li><a href="#outils">Nos outils</a></li>
-                    <li><a href="#comment_vendre">Comment vendre</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="#">Carrières</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Centre d'aide</a></li>
-                    <li><a href="#">Service client</a></li>
-                    <li><a href="#">Signaler problème</a></li>
-                    <li><a href="#">Guide vendeur</a></li>
-                    <li><a href="#">Guide acheteur</a></li>
-                    <li><a href="#">Sécurité</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <div class="footer-contact-info">
-                    <strong>Email:</strong><br>
-                    contact@chezbaba.com<br><br>
-                    <strong>Tél:</strong><br>
-                    +229 01 56 12 40 50<br><br>
-                    <strong>Adresse:</strong><br>
-                    Cotonou Akpaka LomNava
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Service client</a></li>
+                        <li><a href="#">Signaler problème</a></li>
+                        <li><a href="#">Guide vendeur</a></li>
+                        <li><a href="#">Guide acheteur</a></li>
+                        <li><a href="#">Sécurité</a></li>
+                    </ul>
                 </div>
-            </div>
-        </div>
 
-        <div class="footer-bottom">
-            <div class="footer-bottom-content">
-                <div class="footer-copyright">
-                    © 2024 ChezBaba. Tous droits réservés.
-                </div>
-                <div class="footer-legal">
-                    <a href="#">Conditions</a>
-                    <a href="#">Confidentialité</a>
-                    <a href="#">Cookies</a>
-                    <a href="#">Mentions légales</a>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <div class="footer-contact-info">
+                        <strong>Email:</strong><br>
+                        contact@chezbaba.com<br><br>
+                        <strong>Tél:</strong><br>
+                        +229 01 56 12 40 50<br><br>
+                        <strong>Adresse:</strong><br>
+                        Cotonou Akpaka LomNava
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
 
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        © 2024 ChezBaba. Tous droits réservés.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Conditions</a>
+                        <a href="#">Confidentialité</a>
+                        <a href="#">Cookies</a>
+                        <a href="#">Mentions légales</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
-    <script>
-        window.addEventListener('load', () => {
-    setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
-});
-        function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
-    document.querySelectorAll('#cartCount').forEach(b => {
-        b.textContent = total;
-        b.style.display = total > 0 ? 'flex' : 'none';
-    });
-}
-window.addEventListener('load', updateCartBadge);
-        // Animation des cartes produits
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.closest('.btn-add-cart') && !e.target.closest('.btn-favorite')) {
-                    // Redirection vers la page détail produit
-                    window.location.href = 'detail-produit.html';
+        <script>
+            // ===== DONNÉES DES PRODUITS =====
+            const productsData = {
+                telephones: {
+                    name: "Téléphones & Accessoires",
+                    description: "Smartphones, tablettes et accessoires pour mobiles",
+                    products: [
+                        {
+                            id: 1,
+                            name: "iPhone 17 Pro Max 256Go",
+                            price: "50.000,00 XOF",
+                            img: "img/iphone17.jfif",
+                            rating: 5,
+                            sold: 12,
+                            stock: "3C",
+                            seller: "TechZone",
+                            sellerLogo: "https://ui-avatars.com/api/?name=TechZone&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 2,
+                            name: "Samsung Galaxy S24 Ultra",
+                            price: "45.000,00 XOF",
+                            img: "img/samsungS24 Ultra.jfif",
+                            rating: 5,
+                            sold: 8,
+                            stock: "2C",
+                            seller: "MobileStore",
+                            sellerLogo: "https://ui-avatars.com/api/?name=MobileStore&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 3,
+                            name: "AirPods Pro 2ème génération",
+                            price: "25.000,00 XOF",
+                            img: "img/airspod.jfif",
+                            rating: 4.5,
+                            sold: 15,
+                            stock: "5C",
+                            seller: "AudioTech",
+                            sellerLogo: "https://ui-avatars.com/api/?name=AudioTech&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 4,
+                            name: "Xiaomi Redmi Note 13 Pro",
+                            price: "35.000,00 XOF",
+                            img: "img/Smartphone.jfif",
+                            rating: 4.2,
+                            sold: 6,
+                            stock: "4C",
+                            seller: "MobilePlus",
+                            sellerLogo: "https://ui-avatars.com/api/?name=MobilePlus&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 5,
+                            name: "Coque Samsung S24 Ultra silicone",
+                            price: "3.500,00 XOF",
+                            img: "img/Coques.jfif",
+                            rating: 4.8,
+                            sold: 25,
+                            stock: "10C",
+                            seller: "AccessoireShop",
+                            sellerLogo: "https://ui-avatars.com/api/?name=AccessoireShop&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 6,
+                            name: "Câble USB-C 2m rapide",
+                            price: "2.000,00 XOF",
+                            img: "img/Cable.jfif",
+                            rating: 4.0,
+                            sold: 30,
+                            stock: "15C",
+                            seller: "CableStore",
+                            sellerLogo: "https://ui-avatars.com/api/?name=CableStore&background=random",
+                            condition: "Neuf"
+                        }
+                    ]
+                },
+                ordinateurs: {
+                    name: "Ordinateurs & Bureau",
+                    description: "PC portables, de bureau et accessoires informatiques",
+                    products: [
+                        {
+                            id: 7,
+                            name: "MacBook Pro M3 14\" 512Go",
+                            price: "850.000,00 XOF",
+                            img: "img/mac.jpg",
+                            rating: 5,
+                            sold: 3,
+                            stock: "2C",
+                            seller: "AppleStore",
+                            sellerLogo: "https://ui-avatars.com/api/?name=AppleStore&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 8,
+                            name: "Dell XPS 15 Intel i7",
+                            price: "620.000,00 XOF",
+                            img: "img/dell.jpg",
+                            rating: 4.7,
+                            sold: 5,
+                            stock: "3C",
+                            seller: "DellOfficial",
+                            sellerLogo: "https://ui-avatars.com/api/?name=DellOfficial&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 9,
+                            name: "HP Monitor 27\" 4K",
+                            price: "180.000,00 XOF",
+                            img: "img/moniteurs.jfif",
+                            rating: 4.5,
+                            sold: 8,
+                            stock: "4C",
+                            seller: "TechVision",
+                            sellerLogo: "https://ui-avatars.com/api/?name=TechVision&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 10,
+                            name: "Clavier mécanique RGB",
+                            price: "15.000,00 XOF",
+                            img: "img/clavierSouris.jfif",
+                            rating: 4.3,
+                            sold: 12,
+                            stock: "8C",
+                            seller: "GamingTech",
+                            sellerLogo: "https://ui-avatars.com/api/?name=GamingTech&background=random",
+                            condition: "Neuf"
+                        }
+                    ]
+                },
+                electronique: {
+                    name: "Électronique",
+                    description: "TV, audio, photo et vidéo, montres connectées",
+                    products: [
+                        {
+                            id: 11,
+                            name: "Samsung TV 55\" QLED 4K",
+                            price: "450.000,00 XOF",
+                            img: "img/television.jpg",
+                            rating: 4.8,
+                            sold: 4,
+                            stock: "3C",
+                            seller: "TVStore",
+                            sellerLogo: "https://ui-avatars.com/api/?name=TVStore&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 12,
+                            name: "Canon EOS R6 Mark II",
+                            price: "750.000,00 XOF",
+                            img: "img/canon.jpg",
+                            rating: 5,
+                            sold: 2,
+                            stock: "1C",
+                            seller: "PhotoPro",
+                            sellerLogo: "https://ui-avatars.com/api/?name=PhotoPro&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 13,
+                            name: "JBL Charge 5 Portable",
+                            price: "45.000,00 XOF",
+                            img: "img/jbl.jpg",
+                            rating: 4.9,
+                            sold: 10,
+                            stock: "6C",
+                            seller: "AudioWorld",
+                            sellerLogo: "https://ui-avatars.com/api/?name=AudioWorld&background=random",
+                            condition: "Neuf"
+                        },
+                        {
+                            id: 14,
+                            name: "Projecteur Epson 4K",
+                            price: "320.000,00 XOF",
+                            img: "img/projecteurs.jfif",
+                            rating: 4.6,
+                            sold: 3,
+                            stock: "2C",
+                            seller: "HomeCinema",
+                            sellerLogo: "https://ui-avatars.com/api/?name=HomeCinema&background=random",
+                            condition: "Neuf"
+                        }
+                    ]
                 }
-            });
-        });
-
-        // Bouton favoris
-        document.querySelectorAll('.btn-favorite').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.style.backgroundColor = 'var(--orange)';
-                this.style.color = 'var(--white)';
-            });
-        });
-
-       // ============================================
-        // AJOUTER AU PANIER
-        // ============================================
-        document.getElementById('addToCartBtn').addEventListener('click', () => {
-            const cartItem = {
-                id: currentProduct.id,
-                name: currentProduct.name,
-                price: currentPrice,
-                quantity: quantity,
-                color: selectedColor,
-                storage: selectedStorage.size,
-                image: currentProduct.images[0],
-                seller: currentProduct.seller
             };
 
-            // Récupérer panier existant
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
-            // Vérifier si produit existe déjà
-            const existingIndex = cart.findIndex(item => 
-                item.id === cartItem.id && 
-                item.color === cartItem.color && 
-                item.storage === cartItem.storage
-            );
+            // ===== INITIALISATION =====
+            document.addEventListener('DOMContentLoaded', function() {
+                // Loader
+                setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
+                
+                // Récupérer la catégorie depuis l'URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const category = urlParams.get('categorie') || 'telephones';
+                
+                // Charger les produits de la catégorie
+                loadProducts(category);
+                
+                // Initialiser les fonctionnalités
+                initializeFeatures();
+                
+                // Mettre à jour le panier
+                updateCartBadge();
+            });
 
-            if (existingIndex > -1) {
-                // Mettre à jour quantité
-                cart[existingIndex].quantity += quantity;
-            } else {
-                // Ajouter nouveau produit
-                cart.push(cartItem);
+            // ===== CHARGEMENT DES PRODUITS =====
+            function loadProducts(category) {
+                const categoryData = productsData[category];
+                if (!categoryData) {
+                    // Catégorie non trouvée, rediriger vers téléphones
+                    window.location.href = 'produits.html?categorie=telephones';
+                    return;
+                }
+
+                // Mettre à jour le titre
+                document.getElementById('pageCategoryTitle').textContent = categoryData.name;
+                document.getElementById('categoryDescription').textContent = categoryData.description;
+                
+                // Mettre à jour le compteur
+                document.getElementById('productsCount').textContent = categoryData.products.length;
+                
+                // Générer les cartes produits
+                const productsGrid = document.getElementById('productsGrid');
+                productsGrid.innerHTML = categoryData.products.map(product => `
+                    <div class="product-card" data-product-id="${product.id}">
+                        ${product.condition === 'Neuf' ? '<div class="new-badge">Neuf</div>' : ''}
+                        <div class="product-image-container">
+                            <img src="${product.img}" alt="${product.name}" class="product-image">
+                        </div>
+                        <div class="product-content">
+                            <h4 class="product-name">${product.name}</h4>
+                            <div class="product-price">${product.price}</div>
+                            <div class="product-stats">
+                                <div class="product-rating">
+                                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                                    <span class="rating-number">${product.rating.toFixed(1)}</span>
+                                </div>
+                                <div class="sold-count">
+                                    <i class="bi bi-cart-check"></i> Vendus: ${product.sold}
+                                </div>
+                                <div class="stock-count">
+                                    <i class="bi bi-box-seam"></i> Stock: ${product.stock}
+                                </div>
+                            </div>
+                            <div class="product-seller">
+                                <img src="${product.sellerLogo}" alt="${product.seller}" class="seller-logo">
+                                <span class="seller-name">${product.seller}</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="action-btn favorite-btn" title="Ajouter aux favoris">
+                                    <i class="bi bi-heart"></i>
+                                </button>
+                                <button class="action-btn cart-btn" title="Ajouter au panier">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Générer la pagination
+                generatePagination(categoryData.products.length);
+                
+                // Ajouter les événements
+                addProductEventListeners();
+                
+                // Initialiser les états
+                initializeProductStates();
             }
 
-            // Sauvegarder
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Feedback utilisateur
-            showToast('✓ Produit ajouté au panier !', 'success');
-            updateCartCount();
-            
-            // Animation bouton
-            const btn = document.getElementById('addToCartBtn');
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => btn.style.transform = 'scale(1)', 200);
-    
-        });
+            // ===== PAGINATION =====
+            function generatePagination(totalProducts) {
+                const itemsPerPage = 12;
+                const totalPages = Math.ceil(totalProducts / itemsPerPage);
+                
+                if (totalPages <= 1) {
+                    document.getElementById('pagination').style.display = 'none';
+                    return;
+                }
+                
+                let paginationHTML = '';
+                
+                // Bouton précédent
+                paginationHTML += `
+                    <button class="page-btn prev-btn" ${1 === 1 ? 'disabled' : ''}>
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                `;
+                
+                // Pages
+                for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                    paginationHTML += `
+                        <button class="page-btn ${i === 1 ? 'active' : ''}" data-page="${i}">
+                            ${i}
+                        </button>
+                    `;
+                }
+                
+                // Bouton suivant
+                paginationHTML += `
+                    <button class="page-btn next-btn" ${1 === totalPages ? 'disabled' : ''}>
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                `;
+                
+                document.getElementById('pagination').innerHTML = paginationHTML;
+                
+                // Ajouter les événements de pagination
+                document.querySelectorAll('.page-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (this.classList.contains('active') || this.disabled) return;
+                        
+                        // Mettre à jour la page active
+                        document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Ici tu pourrais charger les produits de la page sélectionnée
+                        // Pour l'instant, on scroll juste en haut
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                });
+            }
 
-        // Filtres
-        document.querySelector('.filter-button').addEventListener('click', function() {
-            alert('Filtres appliqués ! (Connexion backend à faire)');
-        });
-        
+            // ===== FONCTIONNALITÉS DES PRODUITS =====
+            function initializeFeatures() {
+                // Tri des produits
+                document.getElementById('sortSelect').addEventListener('change', function() {
+                    // Ici tu pourrais trier les produits selon l'option
+                    console.log('Tri sélectionné:', this.value);
+                    // showNotification('Tri appliqué: ' + this.options[this.selectedIndex].text);
+                });
+            }
 
-        console.log('Page Produits ChezBaba chargée! 🚀');
-    </script>
-</body>
-</html>
+            // Fonctions réutilisables (identique à categorie.html)
+            function toggleFavorite(productId, button) {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const index = favorites.indexOf(productId);
+                
+                if (index === -1) {
+                    favorites.push(productId);
+                    button.classList.add('active');
+                    showNotification('Produit ajouté aux favoris ❤️');
+                } else {
+                    favorites.splice(index, 1);
+                    button.classList.remove('active');
+                    showNotification('Produit retiré des favoris');
+                }
+                
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            }
+
+            function addToCart(productId, button) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const productIndex = cart.findIndex(item => item.id === productId);
+                
+                if (productIndex === -1) {
+                    cart.push({
+                        id: productId,
+                        quantity: 1,
+                        addedAt: new Date().toISOString()
+                    });
+                    button.classList.add('active');
+                    showNotification('Produit ajouté au panier 🛒');
+                } else {
+                    cart[productIndex].quantity += 1;
+                    showNotification('Quantité mise à jour');
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+                
+                setTimeout(() => {
+                    button.classList.remove('active');
+                }, 1000);
+            }
+
+            function updateCartBadge() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+                document.querySelectorAll('#cartCount, #cartCountMobile').forEach(b => {
+                    b.textContent = total;
+                    b.style.display = total > 0 ? 'flex' : 'none';
+                });
+            }
+
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--green);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+
+            // Ajouter les styles d'animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            function addProductEventListeners() {
+                // Boutons favoris
+                document.querySelectorAll('.favorite-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const productCard = this.closest('.product-card');
+                        const productId = parseInt(productCard.dataset.productId);
+                        toggleFavorite(productId, this);
+                    });
+                });
+
+                // Boutons panier
+                document.querySelectorAll('.cart-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const productCard = this.closest('.product-card');
+                        const productId = parseInt(productCard.dataset.productId);
+                        addToCart(productId, this);
+                    });
+                });
+
+                // Clic sur la carte produit
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        if (!e.target.closest('.product-actions')) {
+                            const productId = this.dataset.productId;
+                            window.location.href = `produit-detail.html?id=${productId}`;
+                        }
+                    });
+                });
+            }
+
+            function initializeProductStates() {
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const productId = parseInt(card.dataset.productId);
+                    const favoriteBtn = card.querySelector('.favorite-btn');
+                    const cartBtn = card.querySelector('.cart-btn');
+                    
+                    if (favorites.includes(productId)) {
+                        favoriteBtn.classList.add('active');
+                    }
+                    
+                    const inCart = cart.find(item => item.id === productId);
+                    if (inCart) {
+                        cartBtn.classList.add('active');
+                    }
+                });
+            }
+        </script>
+    </body>
+    </html>
