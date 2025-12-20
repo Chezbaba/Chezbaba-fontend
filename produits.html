@@ -6,6 +6,8 @@
     <title>Produits - ChezBaba</title>
     <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <script src="common.js" defer></script>
+
     <style>
         /* ===== VARIABLES CSS ===== */
         :root {
@@ -125,6 +127,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -1546,5 +1549,230 @@
             });
         }
     </script>
+    <script>
+// ===== FONCTIONS SPÉCIFIQUES À LA PAGE PRODUITS =====
+
+let currentProducts = [];
+
+// Charger les produits par catégorie
+function loadProductsByCategory(category) {
+    const categoryData = {
+        telephones: {
+            name: "Téléphones & Accessoires",
+            description: "Smartphones, tablettes et accessoires pour mobiles",
+            products: ALL_PRODUCTS.filter(p => p.category === 'telephones' || p.category === 'accessoires')
+        },
+        ordinateurs: {
+            name: "Ordinateurs & Bureau",
+            description: "PC portables, de bureau et accessoires informatiques",
+            products: ALL_PRODUCTS.filter(p => p.category === 'ordinateurs')
+        },
+        electronique: {
+            name: "Électronique",
+            description: "TV, audio, photo et vidéo, montres connectées",
+            products: ALL_PRODUCTS.filter(p => p.category === 'electronique')
+        }
+    };
+    
+    const categoryKey = category || 'telephones';
+    const selectedCategory = categoryData[categoryKey] || categoryData.telephones;
+    
+    // Mettre à jour le titre
+    document.getElementById('pageCategoryTitle').textContent = selectedCategory.name;
+    document.getElementById('categoryDescription').textContent = selectedCategory.description;
+    
+    // Stocker les produits courants
+    currentProducts = selectedCategory.products;
+    
+    // Mettre à jour le compteur
+    document.getElementById('productsCount').textContent = currentProducts.length;
+    
+    // Afficher les produits
+    displayProducts(currentProducts);
+    
+    // Générer la pagination
+    generatePagination(currentProducts.length);
+}
+
+// Afficher les produits
+function displayProducts(products) {
+    const productsGrid = document.getElementById('productsGrid');
+    if (!productsGrid) return;
+    
+    productsGrid.innerHTML = products.map(product => `
+        <div class="product-card" data-product-id="${product.id}">
+            ${product.condition === 'Neuf' ? '<div class="new-badge">Neuf</div>' : ''}
+            <div class="product-image-container">
+                <img src="${product.img}" alt="${product.name}" class="product-image" 
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWVlZWUiLz48dGV4dCB4PSI1MCIgeT0iNTAiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiPk5vbiBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg=='">
+                <div class="image-actions">
+                    <button class="image-action-btn favorite-btn" data-id="${product.id}" 
+                            title="${isFavorite(product.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                        <i class="bi ${isFavorite(product.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                    </button>
+                    <button class="image-action-btn cart-btn" data-id="${product.id}" title="Ajouter au panier">
+                        <i class="bi bi-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-content">
+                <h4 class="product-name" title="${product.name}">${product.name}</h4>
+                <div class="product-price">${product.price}</div>
+                <div class="product-stats">
+                    <div class="product-rating">
+                        <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                        <span class="rating-number">${product.rating.toFixed(1)}</span>
+                    </div>
+                    <div class="sold-count">
+                        <i class="bi bi-cart-check"></i> ${product.sold}
+                    </div>
+                </div>
+                <div class="product-seller">
+                    <img src="${product.sellerLogo}" alt="${product.seller}" class="seller-logo" 
+                         onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(product.seller)}&size=40&background=random'">
+                    <span class="seller-name">${product.seller}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Ajouter les événements de clic
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (!e.target.closest('.image-actions')) {
+                const productId = this.dataset.productId;
+                window.location.href = `produit-detail.html?id=${productId}`;
+            }
+        });
+    });
+}
+
+// Trier les produits
+function sortProducts(criteria) {
+    if (!currentProducts.length) return;
+    
+    let sorted = [...currentProducts];
+    
+    switch(criteria) {
+        case 'price-asc':
+            sorted.sort((a, b) => {
+                const priceA = parseInt(a.price.replace(/[^0-9]/g, '')) || 0;
+                const priceB = parseInt(b.price.replace(/[^0-9]/g, '')) || 0;
+                return priceA - priceB;
+            });
+            break;
+        case 'price-desc':
+            sorted.sort((a, b) => {
+                const priceA = parseInt(a.price.replace(/[^0-9]/g, '')) || 0;
+                const priceB = parseInt(b.price.replace(/[^0-9]/g, '')) || 0;
+                return priceB - priceA;
+            });
+            break;
+        case 'rating':
+            sorted.sort((a, b) => b.rating - a.rating);
+            break;
+        case 'newest':
+            sorted.sort((a, b) => b.id - a.id);
+            break;
+        default: // 'relevant'
+            // Ordre par défaut
+    }
+    
+    displayProducts(sorted);
+}
+
+// Générer la pagination
+function generatePagination(totalProducts) {
+    const pagination = document.getElementById('pagination');
+    if (!pagination) return;
+    
+    const itemsPerPage = 12;
+    const totalPages = Math.ceil(totalProducts / itemsPerPage);
+    
+    if (totalPages <= 1) {
+        pagination.style.display = 'none';
+        return;
+    }
+    
+    pagination.style.display = 'flex';
+    
+    let paginationHTML = `
+        <button class="page-btn prev-btn" ${1 === 1 ? 'disabled' : ''}>
+            <i class="bi bi-chevron-left"></i>
+        </button>
+    `;
+    
+    for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+        paginationHTML += `
+            <button class="page-btn ${i === 1 ? 'active' : ''}" data-page="${i}">
+                ${i}
+            </button>
+        `;
+    }
+    
+    paginationHTML += `
+        <button class="page-btn next-btn" ${1 === totalPages ? 'disabled' : ''}>
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    `;
+    
+    pagination.innerHTML = paginationHTML;
+    
+    // Événements de pagination
+    document.querySelectorAll('.page-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (this.classList.contains('active') || this.disabled) return;
+            
+            const page = parseInt(this.dataset.page) || 1;
+            
+            // Mettre à jour la pagination
+            document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Afficher les produits de la page
+            displayProductsForPage(page);
+            
+            // Scroll vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+}
+
+// Afficher les produits d'une page spécifique
+function displayProductsForPage(page) {
+    const itemsPerPage = 12;
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageProducts = currentProducts.slice(startIndex, endIndex);
+    
+    displayProducts(pageProducts);
+}
+
+// ===== INITIALISATION PAGE PRODUITS =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Récupérer la catégorie depuis l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('categorie') || 'telephones';
+    
+    // Charger les produits
+    loadProductsByCategory(category);
+    
+    // Gérer le tri
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            sortProducts(this.value);
+        });
+    }
+    
+    // Bouton retour
+    const backButton = document.querySelector('.back-button');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            window.history.back();
+        });
+    }
+});
+</script>
 </body>
 </html>

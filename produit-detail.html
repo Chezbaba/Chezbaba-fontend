@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail Produit - ChezBaba</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="common.js" defer></script>
+
+    <style>
+        :root {
+            --primary-color: #bdfe00;
+            --secondary-color: #0C1B33;
+            --text-color: #333333;
+            --gray-color: #999999;
+            --light-gray: #f5f5f5;
+            --border-color: #d9d9d9;
+        }
+
+        body {
+            background-color: var(--light-gray);
+        }
+
+        .product-detail-main {
+            padding: 0 0 80px;
+            background-color: var(--light-gray);
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER AVEC ACTIONS ===== */
+        .product-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3em;
+            color: var(--text-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn.active {
+            color: #ff6b6b;
+        }
+
+        /* ===== CARROUSEL D'IMAGES ===== */
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: white;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-color);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* ===== INFOS PRODUIT ===== */
+        .product-info-section {
+            background: white;
+            padding: 20px;
+            margin-top: 8px;
+        }
+
+        .product-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rating-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 0.9em;
+        }
+
+        .rating-number {
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .condition-badge {
+            background: var(--secondary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            color: var(--gray-color);
+            font-size: 0.9em;
+        }
+
+        .product-price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .sold-count {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray-color);
+            font-size: 0.9em;
+        }
+
+        /* ===== DESCRIPTION ===== */
+        .description-section {
+            background: white;
+            padding: 20px;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+        }
+
+        .description-text {
+            color: var(--gray-color);
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        /* ===== VENDEUR ===== */
+        .seller-section {
+            background: white;
+            padding: 20px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .seller-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--light-gray);
+        }
+
+        .seller-details h3 {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+
+        .seller-location {
+            font-size: 0.85em;
+            color: var(--gray-color);
+        }
+
+        .view-shop-btn {
+            padding: 8px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: white;
+            color: var(--text-color);
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .view-shop-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== PRODUITS SIMILAIRES ===== */
+        .similar-products-section {
+            background: white;
+            padding: 20px;
+            margin-top: 8px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .view-more-link {
+            color: #FF6B35;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .similar-products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .similar-product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .similar-product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .similar-product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: var(--light-gray);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #E74C3C;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .similar-favorite-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--text-color);
+            z-index: 2;
+        }
+
+        .similar-product-info {
+            padding: 10px;
+        }
+
+        .similar-product-name {
+            font-size: 0.85em;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .similar-product-price {
+            font-size: 1em;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        /* ===== BOTTOM ACTIONS ===== */
+        .bottom-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .favorite-btn-bottom {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3em;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .favorite-btn-bottom.active {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+        .order-btn {
+            flex: 1;
+            height: 50px;
+            border-radius: 25px;
+            background: #FF6B35;
+            color: white;
+            border: none;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .image-carousel {
+                height: 350px;
+            }
+
+            .product-title {
+                font-size: 1.2em;
+            }
+
+            .product-price {
+                font-size: 1.5em;
+            }
+
+            .similar-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .similar-product-image {
+                height: 130px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-carousel {
+                height: 300px;
+            }
+
+            .product-header {
+                padding: 12px;
+            }
+
+            .product-info-section,
+            .description-section,
+            .seller-section,
+            .similar-products-section {
+                padding: 15px;
+            }
+
+            .similar-product-image {
+                height: 120px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-info-section,
+        .description-section,
+        .seller-section,
+        .similar-products-section {
+            animation: fadeIn 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="pageLoader"><div class="spinner"></div></div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="navBar">
+            <div class="navBar_connexion_inscription">
+                <p class="navBar_connexion_inscription_text">
+                    Bonjour!
+                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="#" class="aide_link">Aide</a>
+                </p>
+            </div>
+            <div class="logo-icone-mobile">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                    </a>
+                </div>
+                <div class="mobile-icone">
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCountMobile">0</span>
+                    </a>
+                </div>
+            </div>
+            <div class="logo_searchBar_button">
+                <div class="nav_logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
+                </div>
+                <div class="search_input_button">
+                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                    <div class="search-icon-mobile">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <button type="submit" class="search_button" name="q">Rechercher</button>
+                </div>
+                <div class="mobile-category-icon" id="mobileCategoryIcon">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
+                <div class="button_icons">
+                    <button class="button_vendre" id="vendreBtn">Vendre</button>
+                    <a href="favoris.html" class="icone"><i class="bi bi-heart"></i></a>
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </a>
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="categorie_navigation">
+                <div class="categorie"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="product-detail-main">
+        <!-- HEADER -->
+        <div class="product-header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div class="header-actions">
+                <button class="action-btn" id="searchBtn">
+                    <i class="bi bi-search"></i>
+                </button>
+                <button class="action-btn" id="shareBtn">
+                    <i class="bi bi-share"></i>
+                </button>
+                <button class="action-btn" id="favoriteHeaderBtn">
+                    <i class="bi bi-heart"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARROUSEL D'IMAGES -->
+        <div class="image-carousel">
+            <div class="carousel-container" id="carouselContainer">
+                <div class="carousel-slide">
+                    <img src="img/iphone17.jfif" alt="Produit" id="mainImage">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/samsungS24 Ultra.jfif" alt="Produit 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/airspod.jfif" alt="Produit 3">
+                </div>
+            </div>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+
+        <!-- INFOS PRODUIT -->
+        <div class="product-info-section">
+            <h1 class="product-title" id="productTitle">iPhone 17 Pro Max 256Go</h1>
+            <div class="product-meta">
+                <div class="rating-badge">
+                    <span class="rating-stars">★★★★★</span>
+                    <span class="rating-number">5.0 (0.0)</span>
+                </div>
+                <span class="condition-badge">Neuf</span>
+                <span class="category-badge">Téléphones & Accessoires</span>
+            </div>
+            <div class="product-price">200.000,00 XOF</div>
+            <div class="stock-info">
+                <i class="bi bi-box-seam" style="color: var(--primary-color);"></i>
+                <span>Stock : <strong>1000</strong></span>
+            </div>
+            <div class="sold-count">
+                <i class="bi bi-cart-check"></i>
+                <span>0 Vendus</span>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="description-section">
+            <h2 class="section-title">Description</h2>
+            <p class="description-text">
+                iPhone 17 Pro Max avec 256Go de stockage. Écran Super Retina XDR de 6.7 pouces. 
+                Puce A18 Pro ultra performante. Système de caméra Pro avancé avec triple appareil photo 48MP.
+                Batterie longue durée. Design en titane premium. Compatible 5G. 
+                État neuf avec garantie constructeur d'un an.
+            </p>
+        </div>
+
+        <!-- VENDEUR -->
+        <div class="seller-section">
+            <div class="seller-info">
+                <img src="https://ui-avatars.com/api/?name=God'sbag&size=100&background=random" alt="Vendeur" class="seller-logo">
+                <div class="seller-details">
+                    <h3>God'sbag</h3>
+                    <div class="seller-location">Benin<br>Cotonou</div>
+                </div>
+            </div>
+            <button class="view-shop-btn" onclick="window.location.href='categorie.html'">
+                <i class="bi bi-eye"></i>
+                Voir La Boutique
+            </button>
+        </div>
+
+        <!-- PRODUITS SIMILAIRES -->
+        <div class="similar-products-section">
+            <div class="section-header">
+                <h2 class="section-title">Produits Similaires</h2>
+                <a href="produits.html" class="view-more-link">Voir Plus</a>
+            </div>
+            <div class="similar-products-grid">
+                <div class="similar-product-card" onclick="window.location.href='produit-detail.html?id=2'">
+                    <img src="img/samsungS24 Ultra.jfif" alt="Produit similaire" class="similar-product-image">
+                    <button class="similar-favorite-btn">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    <div class="similar-product-info">
+                        <div class="similar-product-name">Samsung Galaxy S24 Ultra 512Go</div>
+                        <div class="similar-product-price">180.000,00 XOF</div>
+                    </div>
+                </div>
+
+                <div class="similar-product-card" onclick="window.location.href='produit-detail.html?id=3'">
+                    <div class="discount-badge">-30%</div>
+                    <img src="img/airspod.jfif" alt="Produit similaire" class="similar-product-image">
+                    <button class="similar-favorite-btn">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    <div class="similar-product-info">
+                        <div class="similar-product-name">AirPods Pro 2ème génération</div>
+                        <div class="similar-product-price">75.000,00 XOF</div>
+                    </div>
+                </div>
+
+                <div class="similar-product-card" onclick="window.location.href='produit-detail.html?id=4'">
+                    <img src="img/PCportable.jfif" alt="Produit similaire" class="similar-product-image">
+                    <button class="similar-favorite-btn">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    <div class="similar-product-info">
+                        <div class="similar-product-name">MacBook Pro M3 14" 512Go</div>
+                        <div class="similar-product-price">850.000,00 XOF</div>
+                    </div>
+                </div>
+
+                <div class="similar-product-card" onclick="window.location.href='produit-detail.html?id=5'">
+                    <img src="img/télévision.jfif" alt="Produit similaire" class="similar-product-image">
+                    <button class="similar-favorite-btn">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    <div class="similar-product-info">
+                        <div class="similar-product-name">Samsung TV 55" QLED 4K</div>
+                        <div class="similar-product-price">450.000,00 XOF</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Espace pour le bottom bar -->
+        <div style="height: 80px;"></div>
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="bi bi-house nav-icon"></i>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a href="categorie.html" class="nav-item">
+                <i class="bi bi-grid-3x3-gap nav-icon"></i>
+                <span class="nav-label">Catégories</span>
+            </a>
+            <a href="favoris.html" class="nav-item">
+                <i class="bi bi-heart nav-icon"></i>
+                <span class="nav-label">Favoris</span>
+            </a>
+            <a href="profil-acheteur.html" class="nav-item">
+                <i class="bi bi-person nav-icon"></i>
+                <span class="nav-label">Compte</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section footer-logo-section">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
+                </div>
+                <p class="footer-description">
+                    La marketplace de référence pour vendre et acheter en toute sécurité. 
+                    Rejoignez des millions d'utilisateurs qui nous font confiance.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
+                    <li><a href="compte.html">Mon compte</a></li>
+                    <li><a href="categories.html">Catégories</a></li>
+                    <li><a href="panier.html">Panier</a></li>
+                    <li><a href="favoris.html">Favoris</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="index.html">Retour en haut</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">Service client</a></li>
+                    <li><a href="#">Signaler problème</a></li>
+                    <li><a href="#">Guide vendeur</a></li>
+                    <li><a href="#">Guide acheteur</a></li>
+                    <li><a href="#">Sécurité</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="footer-contact-info">
+                    <strong>Email:</strong><br>
+                    contact@chezbaba.com<br><br>
+                    <strong>Tél:</strong><br>
+                    +229 01 56 12 40 50<br><br>
+                    <strong>Adresse:</strong><br>
+                    Cotonou Akpaka LomNava
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-copyright">
+                    © 2024 ChezBaba. Tous droits réservés.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Conditions</a>
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTTOM ACTIONS -->
+    <div class="bottom-actions">
+        <button class="favorite-btn-bottom" id="favoriteBottomBtn">
+            <i class="bi bi-heart"></i>
+        </button>
+        <button class="order-btn" id="orderBtn">Commander</button>
+    </div>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 300);
+        });
+
+        // ===== CARROUSEL =====
+        const carouselContainer = document.getElementById('carouselContainer');
+        const dotsContainer = document.getElementById('carouselDots');
+        const slides = carouselContainer.querySelectorAll('.carousel-slide');
+        let currentSlide = 0;
+
+        // Créer les dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goToSlide(index) {
+            currentSlide = index;
+            carouselContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Swipe sur mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselContainer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carouselContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50 && currentSlide < slides.length - 1) {
+                goToSlide(currentSlide + 1);
+            }
+            if (touchEndX > touchStartX + 50 && currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // ===== FAVORIS =====
+        const favoriteHeaderBtn = document.getElementById('favoriteHeaderBtn');
+        const favoriteBottomBtn = document.getElementById('favoriteBottomBtn');
+        let isFavorite = false;
+
+        function toggleFavorite() {
+            isFavorite = !isFavorite;
+            favoriteHeaderBtn.classList.toggle('active', isFavorite);
+            favoriteBottomBtn.classList.toggle('active', isFavorite);
+            
+            if (isFavorite) {
+                showNotification('Ajouté aux favoris ❤️');
+            } else {
+                showNotification('Retiré des favoris');
+            }
+        }
+
+        favoriteHeaderBtn.addEventListener('click', toggleFavorite);
+        favoriteBottomBtn.addEventListener('click', toggleFavorite);
+
+        // ===== FAVORIS PRODUITS SIMILAIRES =====
+        document.querySelectorAll('.similar-favorite-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                if (this.classList.contains('active')) {
+                    icon.className = 'bi bi-heart-fill';
+                    icon.style.color = '#ff6b6b';
+                } else {
+                    icon.className = 'bi bi-heart';
+                    icon.style.color = '';
+                }
+            });
+        });
+
+        // ===== PARTAGE =====
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: document.getElementById('productTitle').textContent,
+                        text: 'Découvrez ce produit sur ChezBaba',
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    console.log('Partage annulé');
+                }
+            } else {
+                showNotification('Lien copié !');
+            }
+        });
+
+        // ===== COMMANDER =====
+        document.getElementById('orderBtn').addEventListener('click', () => {
+            showNotification('Produit ajouté au panier 🛒');
+            setTimeout(() => {
+                window.location.href = 'panier.html';
+            }, 1500);
+        });
+
+        // ===== NOTIFICATION =====
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--secondary-color);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 25px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 9999;
+                animation: slideDown 0.3s ease;
+                font-weight: 500;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        // ===== PANIER =====
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+            document.querySelectorAll('#cartCount, #cartCountMobile').forEach(b => {
+                b.textContent = total;
+                b.style.display = total > 0 ? 'flex' : 'none';
+            });
+        }
+
+        // Initialiser le badge panier
+        updateCartBadge();
+
+        // Animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translate(-50%, -20px); }
+                to { opacity: 1; transform: translate(-50%, 0); }
+            }
+            @keyframes slideUp {
+                from { opacity: 1; transform: translate(-50%, 0); }
+                to { opacity: 0; transform: translate(-50%, -20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <script>
+// ===== FONCTIONS SPÉCIFIQUES À LA PAGE DÉTAIL =====
+
+// Charger les données du produit
+function loadProductDetail() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id')) || 1;
+    
+    const product = getProductById(productId);
+    if (!product) {
+        window.location.href = 'produits.html';
+        return;
+    }
+    
+    // Mettre à jour les informations du produit
+    document.getElementById('productTitle').textContent = product.name;
+    document.getElementById('productPrice').textContent = product.price;
+    document.getElementById('mainImage').src = product.img;
+    document.getElementById('mainImage').alt = product.name;
+    
+    // Mettre à jour les images du carrousel
+    const carouselContainer = document.getElementById('carouselContainer');
+    if (carouselContainer) {
+        // Vous pouvez ajouter plus d'images si disponibles
+        carouselContainer.innerHTML = `
+            <div class="carousel-slide">
+                <img src="${product.img}" alt="${product.name}" class="product-image">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/samsungS24 Ultra.jfif" alt="${product.name} vue 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/airspod.jfif" alt="${product.name} vue 3">
+            </div>
+        `;
+    }
+    
+    // Mettre à jour la description
+    const descriptionText = document.querySelector('.description-text');
+    if (descriptionText) {
+        descriptionText.textContent = product.description;
+    }
+    
+    // Mettre à jour les étoiles
+    const ratingStars = document.querySelector('.rating-stars');
+    if (ratingStars) {
+        ratingStars.textContent = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5-Math.floor(product.rating));
+    }
+    
+    // Mettre à jour le nombre de ventes
+    const soldCount = document.querySelector('.sold-count span');
+    if (soldCount) {
+        soldCount.textContent = `${product.sold} Vendus`;
+    }
+    
+    // Mettre à jour l'état des boutons favoris
+    const favoriteBtns = document.querySelectorAll('#favoriteHeaderBtn, #favoriteBottomBtn, .similar-favorite-btn');
+    favoriteBtns.forEach(btn => {
+        const icon = btn.querySelector('i');
+        if (isFavorite(productId)) {
+            btn.classList.add('active');
+            if (icon) icon.className = 'bi bi-heart-fill';
+        } else {
+            btn.classList.remove('active');
+            if (icon) icon.className = 'bi bi-heart';
+        }
+        
+        // Ajouter l'ID du produit
+        btn.dataset.id = productId;
+    });
+    
+    // Mettre à jour les produits similaires
+    loadSimilarProducts(productId, product.category);
+}
+
+// Charger les produits similaires
+function loadSimilarProducts(currentProductId, category) {
+    const similarGrid = document.querySelector('.similar-products-grid');
+    if (!similarGrid) return;
+    
+    // Filtrer les produits de la même catégorie (sauf le produit courant)
+    const similarProducts = ALL_PRODUCTS.filter(p => 
+        p.category === category && p.id !== currentProductId
+    ).slice(0, 4); // Prendre max 4 produits
+    
+    similarGrid.innerHTML = similarProducts.map(product => `
+        <div class="similar-product-card" onclick="window.location.href='produit-detail.html?id=${product.id}'">
+            ${product.oldPrice ? '<div class="discount-badge">Promo</div>' : ''}
+            <img src="${product.img}" alt="${product.name}" class="similar-product-image">
+            <button class="similar-favorite-btn" data-id="${product.id}">
+                <i class="bi ${isFavorite(product.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
+            </button>
+            <div class="similar-product-info">
+                <div class="similar-product-name">${product.name}</div>
+                <div class="similar-product-price">${product.price}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== INITIALISATION PAGE DÉTAIL =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Charger les détails du produit
+    loadProductDetail();
+    
+    // Initialiser le carrousel
+    initCarousel();
+    
+    // Gérer le bouton commander
+    const orderBtn = document.getElementById('orderBtn');
+    if (orderBtn) {
+        orderBtn.addEventListener('click', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id')) || 1;
+            
+            if (addToCart(productId)) {
+                setTimeout(() => {
+                    window.location.href = 'panier.html';
+                }, 1500);
+            }
+        });
+    }
+    
+    // Gérer le bouton partage
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async function() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: document.getElementById('productTitle').textContent,
+                        text: 'Découvrez ce produit sur ChezBaba',
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    console.log('Partage annulé');
+                }
+            } else {
+                // Fallback pour les navigateurs qui ne supportent pas l'API Share
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => showNotification('Lien copié dans le presse-papier !'))
+                    .catch(() => showNotification('Impossible de copier le lien', 'error'));
+            }
+        });
+    }
+    
+    // Fonction pour initialiser le carrousel
+    function initCarousel() {
+        const carouselContainer = document.getElementById('carouselContainer');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        if (!carouselContainer || !dotsContainer) return;
+        
+        const slides = carouselContainer.querySelectorAll('.carousel-slide');
+        let currentSlide = 0;
+        
+        // Créer les dots
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            carouselContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
+        
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        // Swipe sur mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        carouselContainer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        carouselContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50 && currentSlide < slides.length - 1) {
+                goToSlide(currentSlide + 1);
+            }
+            if (touchEndX > touchStartX + 50 && currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>

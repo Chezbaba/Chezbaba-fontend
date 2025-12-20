@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Cignifi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common.css">
+    <style>
+        /* Styles spécifiques à la page d'inscription */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--white);
+        }
+        
+        .auth-page-header {
+            background-color: var(--darkblue);
+            padding: 20px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-page-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        /* CORRECTION DU LOGO TROP GRAND SUR GRANDS ÉCRANS */
+        .auth-page-logo img {
+            max-height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        /* Pour les très grands écrans */
+        @media (min-width: 1920px) {
+            .auth-page-logo img {
+                max-height: 70px;
+            }
+        }
+        
+        /* Pour les écrans 4K */
+        @media (min-width: 2560px) {
+            .auth-page-logo img {
+                max-height: 80px;
+            }
+        }
+        
+        .auth-page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .auth-page-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(12, 27, 51, 0.1);
+            border: 1px solid var(--lightgray1);
+        }
+        
+        .auth-page-header-section {
+            background-color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-page-header-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
+        }
+        
+        .auth-page-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-subtitle {
+            color: var(--secondary-color);
+            opacity: 0.9;
+            font-size: 0.95em;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-form-section {
+            padding: 30px;
+        }
+        
+        .auth-page-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-page-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .auth-page-form-label {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .auth-page-required {
+            color: #e63946;
+            font-size: 0.8em;
+        }
+        
+        .auth-page-input-container {
+            position: relative;
+        }
+        
+        .auth-page-input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: var(--white);
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .auth-page-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(189, 254, 0, 0.1);
+        }
+        
+        .auth-page-input.error {
+            border-color: #e63946;
+            background: rgba(230, 57, 70, 0.02);
+        }
+        
+        .auth-page-input.success {
+            border-color: var(--success);
+            background: rgba(40, 167, 69, 0.02);
+        }
+        
+        .auth-page-input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--darkgray);
+            font-size: 1.1em;
+        }
+        
+        .auth-page-toggle-password {
+            background: none;
+            border: none;
+            color: var(--darkgray);
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .auth-page-toggle-password:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Indicateur de force du mot de passe */
+        .password-strength {
+            height: 4px;
+            background: var(--lightgray1);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-weak {
+            background: #e63946;
+            width: 33%;
+        }
+        
+        .strength-medium {
+            background: #ffb347;
+            width: 66%;
+        }
+        
+        .strength-strong {
+            background: var(--success);
+            width: 100%;
+        }
+        
+        .strength-text {
+            font-size: 0.75em;
+            margin-top: 4px;
+            text-align: right;
+            color: var(--darkgray);
+        }
+        
+        /* Critères de mot de passe */
+        .password-criteria {
+            margin-top: 5px;
+            font-size: 0.75em;
+            color: var(--darkgray);
+        }
+        
+        .password-criteria ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 5px 0;
+        }
+        
+        .password-criteria li {
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .password-criteria li i {
+            font-size: 0.8em;
+        }
+        
+        .criteria-valid {
+            color: var(--success);
+        }
+        
+        .criteria-invalid {
+            color: #e63946;
+        }
+        
+        /* Type de compte */
+        .account-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .type-option {
+            position: relative;
+        }
+        
+        .type-radio {
+            display: none;
+        }
+        
+        .type-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--white);
+            text-align: center;
+        }
+        
+        .type-label:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .type-radio:checked + .type-label {
+            border-color: var(--primary-color);
+            background: rgba(189, 254, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(189, 254, 0, 0.1);
+        }
+        
+        .type-icon {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+        }
+        
+        .type-radio:checked + .type-label .type-icon {
+            color: var(--primary-color);
+        }
+        
+        .type-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+        }
+        
+        .type-desc {
+            font-size: 0.75em;
+            color: var(--darkgray);
+            margin-top: 3px;
+        }
+        
+        /* NOUVEAU CHAMP: NOM DE LA BOUTIQUE (caché par défaut) */
+        .store-name-group {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .store-name-group.visible {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Termes et conditions */
+        .terms-container {
+            margin-top: 10px;
+        }
+        
+        .terms-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: var(--darkgray);
+        }
+        
+        .terms-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .terms-checkbox.checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .terms-checkbox.checked::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .terms-link {
+            color: var(--darkblue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .terms-link:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+        
+        .auth-page-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .auth-page-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: var(--lightgray1);
+        }
+        
+        .auth-page-divider-text {
+            background: var(--white);
+            padding: 0 15px;
+            color: var(--darkgray);
+            font-size: 0.9em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-google-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--white);
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .auth-page-google-btn:hover {
+            background: #f8f9fa;
+            border-color: #ddd;
+            transform: translateY(-2px);
+        }
+        
+        .auth-page-google-icon {
+            color: #4285F4;
+            font-size: 1.2em;
+        }
+        
+        .auth-page-submit-btn {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(135deg, #0C1B33 0%, #162F5A 100%);
+            border: none;
+            border-radius: 12px;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .auth-page-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 5, 73, 0.2);
+        }
+        
+        .auth-page-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .auth-page-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--lightgray1);
+            color: var(--darkgray);
+            font-size: 0.9em;
+        }
+        
+        .auth-page-switch-link {
+            color: var(--darkblue);
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-page-switch-link:hover {
+            color: var(--green);
+        }
+        
+        .auth-page-footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .auth-page-footer-link {
+            color: var(--darkgray);
+            text-decoration: none;
+            font-size: 0.8em;
+            transition: color 0.2s ease;
+        }
+        
+        .auth-page-footer-link:hover {
+            color: var(--green);
+        }
+        
+        /* Messages de feedback */
+        .form-feedback {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .form-feedback.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(40, 167, 69, 0.2);
+            display: block;
+        }
+        
+        .form-feedback.error {
+            background: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+            border: 1px solid rgba(230, 57, 70, 0.2);
+            display: block;
+        }
+        
+        .form-feedback.info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--teal);
+            border: 1px solid rgba(23, 162, 184, 0.2);
+            display: block;
+        }
+        
+        /* Animation pour le header */
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .auth-page-content {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-container {
+                max-width: 100%;
+                border-radius: 15px;
+            }
+            
+            .auth-page-header-section {
+                padding: 25px 20px;
+            }
+            
+            .auth-page-form-section {
+                padding: 25px 20px;
+            }
+            
+            .account-type {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Logo sur mobile */
+            .auth-page-logo img {
+                max-height: 50px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .auth-page-header-section {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-form-section {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-input {
+                padding: 13px 40px 13px 13px;
+                font-size: 0.95em;
+            }
+            
+            /* Logo sur très petits écrans */
+            .auth-page-logo img {
+                max-height: 45px;
+            }
+        }
+        
+        /* Pour les écrans moyens */
+        @media (min-width: 769px) and (max-width: 1199px) {
+            .auth-page-logo img {
+                max-height: 55px;
+            }
+        }
+        
+        /* Pour les écrans larges */
+        @media (min-width: 1200px) and (max-width: 1919px) {
+            .auth-page-logo img {
+                max-height: 65px;
+            }
+        }
+    </style>
+</head>
+<body class="auth-page">
+    <!-- Header de la page -->
+    <header class="auth-page-header">
+        <a href="index.html" class="auth-page-logo">
+            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo">
+        </a>
+    </header>
+    
+    <!-- Contenu principal -->
+    <main class="auth-page-content">
+        <div class="auth-page-container">
+            <!-- En-tête de la section d'authentification -->
+            <div class="auth-page-header-section">
+                <h1 class="auth-page-title">Créer votre compte</h1>
+                <p class="auth-page-subtitle">Rejoignez notre communauté</p>
+            </div>
+            
+            <!-- Formulaire d'inscription -->
+            <div class="auth-page-form-section">
+                <form class="auth-page-form" id="registerForm">
+                    <!-- Messages de feedback -->
+                    <div class="form-feedback" id="formFeedback"></div>
+                    
+                    <!-- Type de compte -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label">
+                            Type de compte
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="account-type">
+                            <div class="type-option">
+                                <input type="radio" name="accountType" id="buyerType" class="type-radio" value="acheteur" checked>
+                                <label for="buyerType" class="type-label">
+                                    <i class="fas fa-shopping-cart type-icon"></i>
+                                    <span class="type-name">Acheteur</span>
+                                    <span class="type-desc">Achetez des produits</span>
+                                </label>
+                            </div>
+                            <div class="type-option">
+                                <input type="radio" name="accountType" id="sellerType" class="type-radio" value="vendeur">
+                                <label for="sellerType" class="type-label">
+                                    <i class="fas fa-store type-icon"></i>
+                                    <span class="type-name">Vendeur</span>
+                                    <span class="type-desc">Vendez vos produits</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- NOUVEAU CHAMP: Nom de la boutique (uniquement pour vendeur) -->
+                    <div class="auth-page-form-group store-name-group" id="storeNameGroup">
+                        <label class="auth-page-form-label" for="storeName">
+                            Nom de votre boutique
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="text" 
+                                id="storeName" 
+                                class="auth-page-input" 
+                                placeholder="Ex: Ma Boutique Élégante"
+                            >
+                            <i class="fas fa-store auth-page-input-icon"></i>
+                        </div>
+                        <small style="font-size: 0.75em; color: var(--darkgray); margin-top: 5px;">
+                            Ce nom sera visible par tous les acheteurs
+                        </small>
+                    </div>
+                    
+                    <!-- Champ Nom complet -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="fullName">
+                            Nom complet
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="text" 
+                                id="fullName" 
+                                class="auth-page-input" 
+                                placeholder="Votre nom complet"
+                                required
+                            >
+                            <i class="fas fa-user auth-page-input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Champ Email -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="email">
+                            Email
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="auth-page-input" 
+                                placeholder="votre@email.com"
+                                required
+                            >
+                            <i class="fas fa-envelope auth-page-input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Champ Téléphone -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="phone">
+                            Téléphone
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                class="auth-page-input" 
+                                placeholder="Votre numéro de téléphone"
+                                required
+                            >
+                            <i class="fas fa-phone auth-page-input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Champ Mot de passe -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="password">
+                            Mot de passe
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="auth-page-input" 
+                                placeholder="Créez un mot de passe sécurisé"
+                                required
+                            >
+                            <button type="button" class="auth-page-toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Indicateur de force du mot de passe -->
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText">Faible</div>
+                        
+                        <!-- Critères du mot de passe -->
+                        <div class="password-criteria">
+                            <ul>
+                                <li id="criteriaLength">
+                                    <i class="fas fa-times criteria-invalid"></i>
+                                    <span>Au moins 8 caractères</span>
+                                </li>
+                                <li id="criteriaUppercase">
+                                    <i class="fas fa-times criteria-invalid"></i>
+                                    <span>Au moins une majuscule</span>
+                                </li>
+                                <li id="criteriaLowercase">
+                                    <i class="fas fa-times criteria-invalid"></i>
+                                    <span>Au moins une minuscule</span>
+                                </li>
+                                <li id="criteriaNumber">
+                                    <i class="fas fa-times criteria-invalid"></i>
+                                    <span>Au moins un chiffre</span>
+                                </li>
+                                <li id="criteriaSpecial">
+                                    <i class="fas fa-times criteria-invalid"></i>
+                                    <span>Au moins un caractère spécial</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Champ Confirmation mot de passe -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="confirmPassword">
+                            Confirmer le mot de passe
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                class="auth-page-input" 
+                                placeholder="Confirmez votre mot de passe"
+                                required
+                            >
+                            <button type="button" class="auth-page-toggle-password" id="toggleConfirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordMatch" style="font-size: 0.75em; margin-top: 5px;"></div>
+                    </div>
+                    
+                    <!-- Termes et conditions -->
+                    <div class="terms-container">
+                        <label class="terms-label" for="terms">
+                            <div class="terms-checkbox" id="termsCheckbox"></div>
+                            <div>
+                                J'accepte les 
+                                <a href="#" class="terms-link">Conditions d'utilisation</a> 
+                                et la 
+                                <a href="#" class="terms-link">Politique de confidentialité</a>
+                                <span class="auth-page-required">*</span>
+                            </div>
+                            <input type="checkbox" id="terms" class="type-radio" style="display: none;">
+                        </label>
+                    </div>
+                    
+                    <!-- Bouton d'inscription -->
+                    <button type="submit" class="auth-page-submit-btn" id="submitBtn" disabled>
+                        Créer mon compte
+                    </button>
+                    
+                    <!-- Séparateur -->
+                    <div class="auth-page-divider">
+                        <span class="auth-page-divider-text">Ou inscrivez-vous avec</span>
+                    </div>
+                    
+                    <!-- Bouton Google -->
+                    <button type="button" class="auth-page-google-btn">
+                        <i class="fab fa-google auth-page-google-icon"></i>
+                        <span>Google</span>
+                    </button>
+                </form>
+                
+                <!-- Pied de page du formulaire -->
+                <div class="auth-page-footer">
+                    <p>
+                        Vous avez déjà un compte ?
+                        <a href="connexion.html" class="auth-page-switch-link">Se connecter</a>
+                    </p>
+                    
+                    <div class="auth-page-footer-links">
+                        <a href="#" class="auth-page-footer-link">Conditions d'utilisation</a>
+                        <a href="#" class="auth-page-footer-link">Politique de confidentialité</a>
+                        <a href="#" class="auth-page-footer-link">Aide</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Scripts JavaScript -->
+    <script>
+        // Variables globales
+let passwordValid = false;
+let passwordMatch = false;
+let termsAccepted = false;
+let isSeller = false; // AJOUTER CETTE LIGNE
+// Détecter le changement de type de compte
+document.querySelectorAll('input[name="accountType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const storeNameGroup = document.getElementById('storeNameGroup');
+        const storeNameInput = document.getElementById('storeName');
+        
+        if (this.value === 'vendeur') {
+            isSeller = true;
+            storeNameGroup.classList.add('visible');
+            storeNameInput.required = true;
+        } else {
+            isSeller = false;
+            storeNameGroup.classList.remove('visible');
+            storeNameInput.required = false;
+            storeNameInput.value = '';
+        }
+        
+        updateSubmitButton();
+    });
+});
+        
+        // Détecter le changement de type de compte
+        document.querySelectorAll('input[name="accountType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const storeNameGroup = document.getElementById('storeNameGroup');
+                const storeNameInput = document.getElementById('storeName');
+                
+                if (this.value === 'vendeur') {
+                    isSeller = true;
+                    storeNameGroup.classList.add('visible');
+                    storeNameInput.required = true;
+                } else {
+                    isSeller = false;
+                    storeNameGroup.classList.remove('visible');
+                    storeNameInput.required = false;
+                    storeNameInput.value = '';
+                }
+                
+                updateSubmitButton();
+            });
+        });
+        
+        // Basculer la visibilité du mot de passe
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Basculer la visibilité de la confirmation du mot de passe
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            if (confirmInput.type === 'password') {
+                confirmInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                confirmInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Vérifier la force du mot de passe
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+            let strength = 0;
+            
+            // Critères de validation
+            const hasLength = password.length >= 8;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            // Mettre à jour les icônes des critères
+            updateCriteriaIcon('criteriaLength', hasLength);
+            updateCriteriaIcon('criteriaUppercase', hasUppercase);
+            updateCriteriaIcon('criteriaLowercase', hasLowercase);
+            updateCriteriaIcon('criteriaNumber', hasNumber);
+            updateCriteriaIcon('criteriaSpecial', hasSpecial);
+            
+            // Calculer la force
+            if (hasLength) strength += 20;
+            if (hasUppercase) strength += 20;
+            if (hasLowercase) strength += 20;
+            if (hasNumber) strength += 20;
+            if (hasSpecial) strength += 20;
+            
+            // Mettre à jour la barre de force
+            strengthBar.style.width = strength + '%';
+            
+            // Mettre à jour le texte et la couleur
+            if (strength <= 33) {
+                strengthBar.className = 'strength-bar strength-weak';
+                strengthText.textContent = 'Faible';
+                strengthText.style.color = '#e63946';
+                passwordValid = false;
+            } else if (strength <= 66) {
+                strengthBar.className = 'strength-bar strength-medium';
+                strengthText.textContent = 'Moyen';
+                strengthText.style.color = '#ffb347';
+                passwordValid = strength >= 60; // Nécessite au moins 3 critères
+            } else {
+                strengthBar.className = 'strength-bar strength-strong';
+                strengthText.textContent = 'Fort';
+                strengthText.style.color = 'var(--success)';
+                passwordValid = true;
+            }
+            
+            // Vérifier la correspondance des mots de passe
+            checkPasswordMatch();
+            updateSubmitButton();
+        });
+        
+        // Vérifier la correspondance des mots de passe
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+        
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchElement = document.getElementById('passwordMatch');
+            
+            if (confirmPassword === '') {
+                matchElement.textContent = '';
+                matchElement.style.color = '';
+                passwordMatch = false;
+            } else if (password === confirmPassword) {
+                matchElement.textContent = '✓ Les mots de passe correspondent';
+                matchElement.style.color = 'var(--success)';
+                passwordMatch = true;
+            } else {
+                matchElement.textContent = '✗ Les mots de passe ne correspondent pas';
+                matchElement.style.color = '#e63946';
+                passwordMatch = false;
+            }
+            
+            updateSubmitButton();
+        }
+        
+        // Mettre à jour les icônes des critères
+        function updateCriteriaIcon(elementId, isValid) {
+            const element = document.getElementById(elementId);
+            const icon = element.querySelector('i');
+            const text = element.querySelector('span');
+            
+            if (isValid) {
+                icon.className = 'fas fa-check criteria-valid';
+                element.style.color = 'var(--success)';
+            } else {
+                icon.className = 'fas fa-times criteria-invalid';
+                element.style.color = '#e63946';
+            }
+        }
+        
+        // Gérer les termes et conditions
+        document.querySelector('.terms-label').addEventListener('click', function() {
+            const checkbox = document.getElementById('termsCheckbox');
+            const termsInput = document.getElementById('terms');
+            
+            checkbox.classList.toggle('checked');
+            termsInput.checked = !termsInput.checked;
+            termsAccepted = termsInput.checked;
+            
+            updateSubmitButton();
+        });
+        
+        // Mettre à jour le bouton de soumission
+function updateSubmitButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    const storeNameInput = document.getElementById('storeName');
+    
+    // Vérifier si le champ boutique est requis et rempli
+    const storeNameValid = !isSeller || (isSeller && storeNameInput.value.trim() !== '');
+    
+    // Vérifier tous les champs requis
+    const fullNameValid = document.getElementById('fullName').value.trim() !== '';
+    const emailValid = document.getElementById('email').value.trim() !== '';
+    const phoneValid = document.getElementById('phone').value.trim() !== '';
+    const passwordValidLocal = passwordValid;
+    const confirmPasswordValid = document.getElementById('confirmPassword').value.trim() !== '';
+    
+    const allValid = storeNameValid && fullNameValid && emailValid && phoneValid && 
+                    passwordValidLocal && passwordMatch && termsAccepted && 
+                    (isSeller ? storeNameInput.value.trim() !== '' : true);
+    
+    submitBtn.disabled = !allValid;
+    
+    if (allValid) {
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+    } else {
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
+    }
+}
+        
+        // Écouter les changements dans le champ boutique
+        document.getElementById('storeName').addEventListener('input', updateSubmitButton);
+        
+        // Écouter les changements dans tous les champs
+        document.getElementById('fullName').addEventListener('input', updateSubmitButton);
+        document.getElementById('email').addEventListener('input', updateSubmitButton);
+        document.getElementById('phone').addEventListener('input', updateSubmitButton);
+        document.getElementById('confirmPassword').addEventListener('input', updateSubmitButton);
+        
+        // Afficher un message de feedback
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('formFeedback');
+            feedback.textContent = message;
+            feedback.className = `form-feedback ${type}`;
+            
+            // Masquer après 5 secondes
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Gérer la soumission du formulaire
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Récupérer les valeurs
+    const accountType = document.querySelector('input[name="accountType"]:checked').value;
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+    const storeName = document.getElementById('storeName').value;
+    
+    // Validation spécifique pour vendeur
+    if (accountType === 'vendeur' && !storeName.trim()) {
+        showFeedback('Le nom de la boutique est obligatoire pour les vendeurs.', 'error');
+        return;
+    }
+    
+    // Validation générale
+    if (!fullName || !email || !phone || !password) {
+        showFeedback('Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+    }
+    
+    if (!passwordValid) {
+        showFeedback('Le mot de passe ne respecte pas les critères de sécurité.', 'error');
+        return;
+    }
+    
+    if (!passwordMatch) {
+        showFeedback('Les mots de passe ne correspondent pas.', 'error');
+        return;
+    }
+    
+    if (!termsAccepted) {
+        showFeedback('Veuillez accepter les conditions d\'utilisation.', 'error');
+        return;
+    }
+    
+    // Simuler l'inscription
+    showFeedback('Création de votre compte en cours...', 'info');
+    
+    // Simulation d'une requête serveur
+    setTimeout(() => {
+        showFeedback('Compte créé avec succès ! Redirection...', 'success');
+        
+        // Stocker les données dans localStorage (simulation)
+        const userData = {
+            accountType,
+            fullName,
+            email,
+            phone,
+            storeName: accountType === 'vendeur' ? storeName : null,
+            registeredAt: new Date().toISOString(),
+            isLoggedIn: true
+        };
+        
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
+        // DÉTERMINER LA PAGE DE REDIRECTION SELON LE TYPE DE COMPTE
+        let redirectPage;
+        
+        if (accountType === 'vendeur') {
+            redirectPage = 'profil-vendeur.html'; // Page tableau de bord vendeur
+        } else {
+            redirectPage = 'profil-acheteur.html'; // Page tableau de bord acheteur
+        }
+        
+        // Redirection après 2 secondes
+        setTimeout(() => {
+            window.location.href = redirectPage;
+        }, 2000);
+    }, 1500);
+});
+        
+        // Gérer l'inscription avec Google
+        document.querySelector('.auth-page-google-btn').addEventListener('click', function() {
+            showFeedback('Inscription avec Google - Fonctionnalité à implémenter', 'info');
+            // Ici, vous intégreriez l'authentification Google OAuth
+        });
+        
+        // Initialisation
+        window.addEventListener('DOMContentLoaded', function() {
+            updateSubmitButton();
+        });
+        // Écouter les changements dans le champ boutique
+document.getElementById('storeName').addEventListener('input', updateSubmitButton);
+
+// Écouter les changements dans tous les champs
+document.getElementById('fullName').addEventListener('input', updateSubmitButton);
+document.getElementById('email').addEventListener('input', updateSubmitButton);
+document.getElementById('phone').addEventListener('input', updateSubmitButton);
+document.getElementById('confirmPassword').addEventListener('input', updateSubmitButton);
+    </script>
+</body>
+</html>

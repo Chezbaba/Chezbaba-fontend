@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Cignifi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common.css">
+    <style>
+        /* Styles spécifiques à la page de connexion */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--white);
+        }
+        
+        .auth-page-header {
+            background-color: var(--darkblue);
+            padding: 20px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .auth-page-back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2em;
+        }
+        
+        .auth-page-back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .auth-page-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .auth-page-logo-text {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+        
+        .auth-page-logo-icon {
+            color: var(--green);
+            font-size: 1.8em;
+        }
+        
+        .auth-page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .auth-page-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(12, 27, 51, 0.1);
+            border: 1px solid var(--lightgray1);
+        }
+        
+        .auth-page-header-section {
+            background-color:white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-page-header-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
+        }
+        
+        .auth-page-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-subtitle {
+            color: var(--secondary-color);
+            opacity: 0.9;
+            font-size: 0.95em;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-form-section {
+            padding: 30px;
+        }
+        
+        .auth-page-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-page-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .auth-page-form-label {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .auth-page-required {
+            color: #e63946;
+            font-size: 0.8em;
+        }
+        
+        .auth-page-input-container {
+            position: relative;
+        }
+        
+        .auth-page-input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: var(--white);
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .auth-page-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(189, 254, 0, 0.1);
+        }
+        
+        .auth-page-input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--darkgray);
+            font-size: 1.1em;
+        }
+        
+        .auth-page-toggle-password {
+            background: none;
+            border: none;
+            color: var(--darkgray);
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .auth-page-toggle-password:hover {
+            color: var(--secondary-color);
+        }
+        
+        .auth-page-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        
+        .auth-page-remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .auth-page-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--lightgray1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-page-checkbox.checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .auth-page-checkbox.checked::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .auth-page-forgot {
+            color: var(--darkgray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-page-forgot:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .auth-page-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .auth-page-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: var(--lightgray1);
+        }
+        
+        .auth-page-divider-text {
+            background: var(--white);
+            padding: 0 15px;
+            color: var(--darkgray);
+            font-size: 0.9em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-page-google-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--white);
+            border: 2px solid var(--lightgray1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .auth-page-google-btn:hover {
+            background: #f8f9fa;
+            border-color: #ddd;
+            transform: translateY(-2px);
+        }
+        
+        .auth-page-google-icon {
+            color: #4285F4;
+            font-size: 1.2em;
+        }
+        
+        .auth-page-submit-btn {
+            width: 100%;
+            padding: 17px;
+            background:linear-gradient(135deg, #0C1B33 0%, #162F5A 100%)
+;
+            border: none;
+            border-radius: 12px;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .auth-page-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 5, 73, 0.2);
+        }
+        
+        .auth-page-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--lightgray1);
+            color: var(--darkgray);
+            font-size: 0.9em;
+        }
+        
+        .auth-page-switch-link {
+            color: var(--darkblue);
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-page-switch-link:hover {
+            color: var(--green);
+        }
+        
+        .auth-page-footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .auth-page-footer-link {
+            color: var(--darkgray);
+            text-decoration: none;
+            font-size: 0.8em;
+            transition: color 0.2s ease;
+        }
+        
+        .auth-page-footer-link:hover {
+            color: var(--green);
+        }
+        
+        /* Responsive pour petits écrans */
+        @media (max-width: 768px) {
+            .auth-page-content {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-container {
+                max-width: 100%;
+                border-radius: 15px;
+            }
+            
+            .auth-page-header-section {
+                padding: 25px 20px;
+            }
+            
+            .auth-page-form-section {
+                padding: 25px 20px;
+            }
+            
+            .auth-page-options {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .auth-page-header-section {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-form-section {
+                padding: 20px 15px;
+            }
+            
+            .auth-page-input {
+                padding: 13px 40px 13px 13px;
+                font-size: 0.95em;
+            }
+        }
+        
+        /* Media queries pour les grands écrans - Limiter la taille du header */
+        @media (min-width: 1400px) {
+            .auth-page-header {
+                max-width: 1600px;
+                margin: 0 auto;
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .auth-page-header {
+                padding: 25px 30px;
+            }
+            
+            .mobile-logo-image {
+                max-height: 50px;
+                width: auto;
+            }
+        }
+        
+        @media (min-width: 1600px) {
+            .auth-page-header {
+                padding: 30px 40px;
+            }
+            
+            .mobile-logo-image {
+                max-height: 60px;
+                width: auto;
+            }
+            
+            .auth-page-back-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+        }
+        
+        @media (min-width: 2000px) {
+            .auth-page-header {
+                max-width: 1800px;
+                margin: 0 auto;
+                padding: 35px 50px;
+            }
+            
+            .mobile-logo-image {
+                max-height: 70px;
+                width: auto;
+            }
+            
+            .auth-page-back-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4em;
+                left: 30px;
+            }
+        }
+        
+        /* Limiter la largeur maximale sur les très grands écrans */
+        @media (min-width: 2400px) {
+            .auth-page-header {
+                max-width: 2000px;
+            }
+        }
+        
+        /* Animation pour le header */
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body class="auth-page">
+    <!-- Header de la page -->
+    <header class="auth-page-header">
+        <!-- Bouton de retour -->
+        <button class="auth-page-back-btn" id="backButton">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        
+        <a href="index.html" class="auth-page-logo">
+            <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+        </a>
+    </header>
+    
+    <!-- Contenu principal -->
+    <main class="auth-page-content">
+        <div class="auth-page-container">
+            <!-- En-tête de la section d'authentification -->
+            <div class="auth-page-header-section">
+                <h1 class="auth-page-title">Connexion à votre compte</h1>
+                <p class="auth-page-subtitle">Accédez à votre espace personnel</p>
+            </div>
+            
+            <!-- Formulaire de connexion -->
+            <div class="auth-page-form-section">
+                <form class="auth-page-form" id="loginForm">
+                    <!-- Champ Email -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="email">
+                            Email
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="auth-page-input" 
+                                placeholder="votre@email.com"
+                                required
+                            >
+                            <i class="fas fa-envelope auth-page-input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Champ Mot de passe -->
+                    <div class="auth-page-form-group">
+                        <label class="auth-page-form-label" for="password">
+                            Mot de passe
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="auth-page-input" 
+                                placeholder="Votre mot de passe"
+                                required
+                            >
+                            <button type="button" class="auth-page-toggle-password" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Options (Se souvenir de moi + Mot de passe oublié) -->
+                    <div class="auth-page-options">
+                        <div class="auth-page-remember" id="rememberMe">
+                            <div class="auth-page-checkbox"></div>
+                            <span>Se souvenir de moi</span>
+                        </div>
+                        <a href="#" class="auth-page-forgot">Mot de passe oublié ?</a>
+                    </div>
+                    
+                    <!-- Bouton de connexion -->
+                    <button type="submit" class="auth-page-submit-btn">
+                        Se connecter
+                    </button>
+                    
+                    <!-- Séparateur -->
+                    <div class="auth-page-divider">
+                        <span class="auth-page-divider-text">Ou connectez-vous avec</span>
+                    </div>
+                    
+                    <!-- Bouton Google -->
+                    <button type="button" class="auth-page-google-btn">
+                        <i class="fab fa-google auth-page-google-icon"></i>
+                        <span>Google</span>
+                    </button>
+                </form>
+                
+                <!-- Pied de page du formulaire -->
+                <div class="auth-page-footer">
+                    <p>
+                        Vous n'avez pas de compte ?
+                        <a href="inscription.html" class="auth-page-switch-link">S'inscrire</a>
+                    </p>
+                    
+                    <div class="auth-page-footer-links">
+                        <a href="#" class="auth-page-footer-link">Conditions d'utilisation</a>
+                        <a href="#" class="auth-page-footer-link">Politique de confidentialité</a>
+                        <a href="#" class="auth-page-footer-link">Aide</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Scripts JavaScript -->
+    <script>
+        // Basculer la visibilité du mot de passe
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Gérer la case "Se souvenir de moi"
+        document.getElementById('rememberMe').addEventListener('click', function() {
+            const checkbox = this.querySelector('.auth-page-checkbox');
+            checkbox.classList.toggle('checked');
+            
+            // Stocker le choix dans le localStorage
+            const isChecked = checkbox.classList.contains('checked');
+            localStorage.setItem('rememberMe', isChecked);
+        });
+        
+        // Vérifier si "Se souvenir de moi" était déjà coché
+        window.addEventListener('DOMContentLoaded', function() {
+            const rememberMe = localStorage.getItem('rememberMe');
+            if (rememberMe === 'true') {
+                const checkbox = document.querySelector('.auth-page-checkbox');
+                checkbox.classList.add('checked');
+            }
+        });
+        
+        // Gérer la soumission du formulaire
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Validation simple
+            if (!email || !password) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            // Simuler une connexion réussie
+            console.log('Tentative de connexion avec:', { email, password });
+            
+            // Redirection après connexion réussie
+            // Dans un cas réel, vous vérifieriez les identifiants côté serveur
+            setTimeout(() => {
+                alert('Connexion réussie ! Redirection...');
+                window.location.href = 'dashboard.html';
+            }, 500);
+        });
+        
+        // Gérer la connexion avec Google
+        document.querySelector('.auth-page-google-btn').addEventListener('click', function() {
+            console.log('Connexion avec Google');
+            // Ici, vous intégreriez l'authentification Google OAuth
+            alert('Fonctionnalité de connexion avec Google à implémenter');
+        });
+        
+        // Gérer le bouton de retour
+        document.getElementById('backButton').addEventListener('click', function() {
+            // Retour à la page précédente ou à l'accueil
+            if (document.referrer && document.referrer !== window.location.href) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
