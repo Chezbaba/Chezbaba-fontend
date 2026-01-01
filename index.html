@@ -551,6 +551,7 @@
                 grid-template-columns: repeat(4, 1fr);
                 gap: 25px;
             }
+
             
             .product-card-scroll {
                 width: calc(25% - 12px); /* 4 produits par ligne */
@@ -578,6 +579,7 @@
                 gap: 20px;
             }
             
+            
             .product-card-scroll {
                 width: calc(33.33% - 10px); /* 3 produits par ligne */
                 min-width: 230px;
@@ -596,6 +598,9 @@
         @media (min-width: 768px) and (max-width: 991px) {
             .hero-slider {
                 height: 350px;
+            }
+            footer{
+                display: none;
             }
             
             .slide {
@@ -667,6 +672,9 @@
         @media (min-width: 576px) and (max-width: 767px) {
             .hero-slider {
                 height: 300px;
+            }
+            footer{
+                display: none;
             }
             
             .slide {
@@ -761,6 +769,9 @@
             .slide-content h1 {
                 font-size: 20px;
             }
+            footer{
+                display: none;
+            }
 
             .slide-content p {
                 font-size: 13px;
@@ -835,6 +846,9 @@
         @media (min-width: 320px) and (max-width: 479px) {
             .hero-slider {
                 height: 220px;
+            }
+            footer{
+                display: none;
             }
             
             .slide {
@@ -953,6 +967,7 @@
                 max-width: 100%;
                 overflow-x: hidden;
             }
+        
             
             .products-scroll-container {
                 padding: 0 8px;
@@ -967,6 +982,9 @@
         @media (max-height: 500px) and (orientation: landscape) {
             .hero-slider {
                 height: 250px;
+            }
+            footer{
+                display: none;
             }
             
             .slide {
@@ -1013,6 +1031,7 @@
                 width: calc(25% - 12px); /* 4 produits par ligne */
                 min-width: 200px;
             }
+           
         }
 
         /* Correction pour éviter le scroll horizontal */
@@ -1040,6 +1059,9 @@
                 padding-left: 10px;
                 padding-right: 10px;
             }
+            footer{
+                display: none;
+            }
             
             /* Garantir que les cartes ne dépassent pas */
             .product-card-scroll,
@@ -1058,6 +1080,9 @@
             .products-vertical-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
+            }
+            footer{
+                display: none;
             }
             
             .product-card-scroll {
@@ -1103,8 +1128,8 @@
             <div class="navBar_connexion_inscription">
                 <p class="navBar_connexion_inscription_text" >
                     Bonjour!
-                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
-                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="connexion.html" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="inscription.html" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
                     <a href="#" class="aide_link">Aide</a>
                 </p>
             </div>
@@ -1285,7 +1310,7 @@
                 <ul class="footer-links">
                     <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
                     <li><a href="compte.html">Mon compte</a></li>
-                    <li><a href="categories.html">Catégories</a></li>
+                    <li><a href="categorie.html">Catégories</a></li>
                     <li><a href="panier.html">Panier</a></li>
                     <li><a href="favoris.html">Favoris</a></li>
                     <li><a href="contact.html">Contact</a></li>

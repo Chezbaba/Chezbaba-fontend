@@ -165,6 +165,7 @@
         }
 
         /* Desktop extra large */
+        
         @media (min-width: 1600px) {
             .container {
                 max-width: 1500px;
@@ -182,6 +183,9 @@
 
         /* Tablette large */
         @media (max-width: 1199px) and (min-width: 992px) {
+            footer{
+                display: none;
+            }
             .container {
                 max-width: 960px;
             }
@@ -198,6 +202,9 @@
 
         /* Tablette */
         @media (max-width: 991px) and (min-width: 768px) {
+            footer{
+                display: none;
+            }
             .container {
                 max-width: 100%;
                 padding: 0 15px; /* Réduit de 20px à 15px */
@@ -224,6 +231,9 @@
 
         /* Tablette petite / Mobile large */
         @media (max-width: 767px) and (min-width: 576px) {
+            footer{
+                display: none;
+            }
             .categories-main {
                 padding: 15px 10px 70px; /* Réduit */
             }
@@ -272,6 +282,9 @@
 
         /* Mobile */
         @media (max-width: 575px) {
+            footer{
+                display: none;
+            }
             .categories-main {
                 padding: 10px 8px 60px; /* Réduit au minimum */
             }
@@ -334,6 +347,9 @@
 
         /* Très petit mobile */
         @media (max-width: 375px) {
+            footer{
+                display: none;
+            }
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 6px; /* Espacement minimal */
@@ -375,6 +391,9 @@
             .category-content {
                 height: 40%; /* Plus d'espace pour le texte */
             }
+            footer{
+                display: none;
+            }
             
             .category-name {
                 font-size: 0.8em; /* Un peu plus petit */
@@ -386,6 +405,7 @@
             .category-card {
                 aspect-ratio: 1 / 0.8; /* Plus court en hauteur */
             }
+            
             
             .category-image-container {
                 height: 60%;
@@ -413,8 +433,8 @@
             <div class="navBar_connexion_inscription">
                 <p class="navBar_connexion_inscription_text">
                     Bonjour!
-                    <a href="#" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
-                    <a href="#" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="connexion.html" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="inscription.html" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
                     <a href="#" class="aide_link">Aide</a>
                 </p>
             </div>
@@ -522,7 +542,7 @@
                 <!-- Quincaillerie -->
                 <a href="produits.html?categorie=quincaillerie" class="category-card">
                     <div class="category-image-container">
-                        <img src="img/clavierSouris.jfif" alt="Quincaillerie" class="category-image">
+                        <img src="img/meuleuse.jpg" alt="Quincaillerie" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
@@ -534,7 +554,7 @@
                 <!-- Maison & Jardin -->
                 <a href="produits.html?categorie=maison" class="category-card">
                     <div class="category-image-container">
-                        <img src="img/unitécentrale.jfif" alt="Maison & Jardin" class="category-image">
+                        <img src="img/divan.jfif" alt="Maison & Jardin" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
@@ -546,7 +566,7 @@
                 <!-- Jeux & Jouets -->
                 <a href="produits.html?categorie=jeux" class="category-card">
                     <div class="category-image-container">
-                        <img src="img/imprimante.jfif" alt="Jeux & Jouets" class="category-image">
+                        <img src="img/jouetsenfant.jfif" alt="Jeux & Jouets" class="category-image">
                         <div class="category-badge">
                             <i class="bi bi-fire"></i> Tendance
                         </div>
@@ -561,7 +581,7 @@
                 <!-- Mode -->
                 <a href="produits.html?categorie=mode" class="category-card">
                     <div class="category-image-container">
-                        <img src="img/webcam.jfif" alt="Mode" class="category-image">
+                        <img src="img/vetementhomme.jfif" alt="Mode" class="category-image">
                         <div class="category-badge">
                             <i class="bi bi-star-fill"></i> Populaire
                         </div>
@@ -576,7 +596,7 @@
                 <!-- Batiment travaux public -->
                 <a href="produits.html?categorie=travaux" class="category-card">
                     <div class="category-image-container">
-                        <img src="img/mémoire.jfif" alt="Batiment travaux public" class="category-image">
+                        <img src="img/tuyaupvc.jpg" alt="Batiment travaux public" class="category-image">
                     </div>
                     <div class="category-content">
                         <div class="category-title">
@@ -596,6 +616,29 @@
                     <div class="category-content">
                         <div class="category-title">
                             <span class="category-name">Véhicules</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Livres & Médias -->
+                <a href="produits.html?categorie=quincaillerie" class="category-card">
+                    <div class="category-image-container">
+                        <img src="img/Livres & Médias.jfif" alt="Livres & Médias" class="category-image">
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <span class="category-name">Livres & Médias</span>
+                        </div>
+                    </div>
+
+                    <!-- Sports & Fitness -->
+                <a href="produits.html?categorie=quincaillerie" class="category-card">
+                    <div class="category-image-container">
+                        <img src="img/Sports & Fitness.jfif" alt="Sports & Fitness" class="category-image">
+                    </div>
+                    <div class="category-content">
+                        <div class="category-title">
+                            <span class="category-name">Sports & Fitness</span>
                         </div>
                     </div>
                 </a>
@@ -641,7 +684,7 @@
                     <a href="#" class="social-link" aria-label="Facebook">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
+                    <!-- <a href="#" class="social-link" aria-label="Twitter">
                         <i class="bi bi-twitter"></i>
                     </a>
                     <a href="#" class="social-link" aria-label="Instagram">
@@ -649,7 +692,7 @@
                     </a>
                     <a href="#" class="social-link" aria-label="LinkedIn">
                         <i class="bi bi-linkedin"></i>
-                    </a>
+                    </a> -->
                 </div>
             </div>
 
@@ -658,12 +701,12 @@
                 <ul class="footer-links">
                     <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
                     <li><a href="compte.html">Mon compte</a></li>
-                    <li><a href="categories.html">Catégories</a></li>
+                    <li><a href="categorie.html">Catégories</a></li>
                     <li><a href="panier.html">Panier</a></li>
                     <li><a href="favoris.html">Favoris</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="index.html">Retour en haut</a></li>
+                    <!-- <li><a href="contact.html">Contact</a></li> -->
+                    <li><a href="vitrine.html">À propos</a></li>
+                    <li><a href="#">Retour en haut</a></li>
                 </ul>
             </div>
 

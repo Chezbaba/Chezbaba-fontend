@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - ChezBaba</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* ===== RÉINITIALISATION DES MARGES ET PADDING ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
+        main {
+            padding: 20px 0;
+            min-height: 70vh;
+        }
+        
+        /* ===== EN-TÊTE DE LA BOUTIQUE ===== */
+        .boutique-header {
+            background-color: gray;
+            color: var(--white);
+            padding: 30px 15px;
+            margin-bottom: 30px;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .boutique-header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .boutique-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .boutique-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--white);
+            background-color: var(--lightgray);
+        }
+        
+        .boutique-details {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .boutique-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+        
+        .boutique-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .rating-stars {
+            color: var(--green);
+            font-size: 1.2em;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .rating-count {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+        
+        .boutique-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .stat-icon {
+            color: var(--green);
+            font-size: 1.2em;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+        }
+        
+        /* Bouton suivre la boutique */
+        .follow-btn-container {
+            margin-top: 15px;
+        }
+        
+        .follow-btn {
+            background: var(--green);
+            color: var(--darkblue);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .follow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(189, 254, 0, 0.2);
+        }
+        
+        .follow-btn.following {
+            background: var(--white);
+            color: var(--darkblue);
+        }
+        
+        /* Onglets de la boutique */
+        .boutique-tabs {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            overflow-x: auto;
+            gap: 5px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .boutique-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 20px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: var(--darkgray);
+            font-weight: 600;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        
+        .boutique-tab.active {
+            background: var(--green);
+            color: var(--darkblue);
+        }
+        
+        /* ===== SECTION PRODUITS DE LA BOUTIQUE ===== */
+        .boutique-products {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+        
+        .section-header h2 {
+            font-size: 28px;
+            color: var(--darkgray1);
+            margin-bottom: 0;
+        }
+        
+        .products-count {
+            color: var(--darkgray);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        /* Carte produit */
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid var(--lightgray1);
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .new-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, var(--darkblue), #1A2B4D);
+            color: var(--white);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 700;
+            z-index: 3;
+        }
+        
+        .product-image-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: var(--lightgray);
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.03);
+        }
+        
+        .image-actions {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 8px;
+            z-index: 2;
+        }
+        
+        .image-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--darkgray);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        .image-action-btn:hover {
+            background: var(--white);
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .favorite-btn.active {
+            color: #e63946;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .cart-btn.active {
+            color: var(--success);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .product-content {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-name {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: var(--darkgray1);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 2.4em;
+            max-height: 2.4em;
+            word-break: break-word;
+        }
+        
+        .product-price {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 8px;
+        }
+        
+        .old-price {
+            font-size: 0.9em;
+            color: var(--darkgray);
+            text-decoration: line-through;
+            margin-right: 5px;
+        }
+        
+        .product-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 0.82em;
+            color: var(--darkgray);
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .stars {
+            color: #ffc107;
+            font-size: 0.85em;
+        }
+        
+        .rating-number {
+            margin-left: 2px;
+            font-weight: 500;
+        }
+        
+        .sold-count, .stock-count {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        /* Vendeur (toujours la boutique actuelle) */
+        .product-seller {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-top: 8px;
+            border-top: 1px solid var(--lightgray1);
+            margin-top: auto;
+        }
+        
+        .seller-logo {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--lightgray);
+            flex-shrink: 0;
+        }
+        
+        .seller-name {
+            font-size: 0.82em;
+            color: var(--darkgray1);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            padding: 0 15px;
+        }
+        
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--lightgray1);
+            background: var(--white);
+            color: var(--darkgray1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--green);
+            color: var(--darkblue);
+            border-color: var(--green);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .page-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--lightgray1);
+            background: var(--white);
+            color: var(--darkgray1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .page-number.active {
+            background: var(--green);
+            color: var(--darkblue);
+            border-color: var(--green);
+        }
+        
+        .page-number:hover:not(.active) {
+            background: var(--lightgray);
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        
+        /* Desktop Large (1200px et plus) */
+        @media (min-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
+        }
+        
+        /* Desktop Moyen (992px à 1199px) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .product-card {
+                height: 360px;
+            }
+            
+            .product-image-container {
+                height: 160px;
+            }
+        }
+        
+        /* Tablette (768px à 991px) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .boutique-header {
+                padding: 25px 15px;
+            }
+            
+            .boutique-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .boutique-name {
+                font-size: 1.8em;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .product-card {
+                height: 350px;
+            }
+            
+            .product-image-container {
+                height: 150px;
+            }
+            
+            .section-header h2 {
+                font-size: 24px;
+            }
+        }
+        
+        /* Mobile Grand (576px à 767px) */
+        @media (min-width: 576px) and (max-width: 767px) {
+            .boutique-header {
+                padding: 20px 15px;
+                border-radius: 0 0 15px 15px;
+            }
+            
+            .boutique-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .boutique-stats {
+                justify-content: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .product-card {
+                height: 340px;
+            }
+            
+            .product-image-container {
+                height: 140px;
+            }
+            
+            .section-header h2 {
+                font-size: 22px;
+            }
+            
+            .boutique-tabs {
+                justify-content: flex-start;
+            }
+        }
+        
+        /* Mobile Petit (480px à 575px) */
+        @media (min-width: 480px) and (max-width: 575px) {
+            .boutique-header {
+                padding: 15px 10px;
+            }
+            
+            .boutique-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .boutique-name {
+                font-size: 1.6em;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .product-card {
+                height: 320px;
+            }
+            
+            .product-image-container {
+                height: 120px;
+            }
+            
+            .product-name {
+                font-size: 0.9em;
+            }
+            
+            .image-action-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9em;
+            }
+            
+            .section-header h2 {
+                font-size: 20px;
+            }
+        }
+        
+        /* Mobile Très Petit (320px à 479px) */
+        @media (min-width: 320px) and (max-width: 479px) {
+            main {
+                padding: 15px 0;
+            }
+            
+            .boutique-header {
+                padding: 15px 10px;
+                margin-bottom: 20px;
+            }
+            
+            .boutique-logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .boutique-name {
+                font-size: 1.4em;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            .product-card {
+                height: 300px;
+            }
+            
+            .product-image-container {
+                height: 110px;
+            }
+            
+            .product-content {
+                padding: 8px;
+            }
+            
+            .product-stats {
+                font-size: 0.75em;
+                gap: 4px;
+            }
+            
+            .section-header {
+                padding: 0 5px;
+            }
+            
+            .boutique-tabs {
+                padding: 3px;
+            }
+            
+            .boutique-tab {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+        
+        /* Correction pour éviter le scroll horizontal */
+        .boutique-products,
+        .boutique-header-container,
+        .pagination {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Mode paysage mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .boutique-header {
+                padding: 15px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .product-card {
+                height: 260px;
+            }
+            
+            .product-image-container {
+                height: 90px;
+            }
+        }
+        
+        /* Mode paysage tablette */
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="navBar">
+            <div class="navBar_connexion_inscription">
+                <p class="navBar_connexion_inscription_text">
+                    Bonjour!
+                    <a href="connexion.html" class="connexion_link" id="loginBtn">Connecter vous</a> ou 
+                    <a href="inscription.html" class="inscription_link" id="registerBtn">Inscrivez-vous</a>
+                    <a href="#" class="aide_link">Aide</a>
+                </p>
+            </div>
+            <div class="logo-icone-mobile">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="mobile-logo" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="mobile-logo-image">
+                    </a>
+                </div>
+                <div class="mobile-icone">
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCountMobile">0</span>
+                    </a>
+                </div>
+            </div>
+            <div class="logo_searchBar_button">
+                <div class="nav_logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
+                </div>
+                <div class="search_input_button">
+                    <input type="text" name="q" class="search_input" placeholder="Rechercher un produit">
+                    <div class="search-icon-mobile">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <button type="submit" class="search_button" name="q">Rechercher</button>
+                </div>
+                <div class="mobile-category-icon" id="mobileCategoryIcon">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
+                <div class="button_icons">
+                    <button class="button_vendre" id="vendreBtn">Vendre</button>
+                    <a href="favoris.html" class="icone" style="position: relative;">
+                        <i class="bi bi-heart"></i>
+                        <span class="cart-badge favorite-badge" id="favoriteCount" style="background: #e63946; display: none;">0</span>
+                    </a>
+                    <a href="panier.html" class="icone" style="position: relative;">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </a>                    
+                    <a href="profil-acheteur.html" class="icone"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+            <div class="categorie_navigation">
+                <div class="categorie">
+                    <a href="categorie.html" class="">Catégories</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- En-tête de la boutique -->
+        <div class="boutique-header">
+            <div class="boutique-header-container">
+                <div class="boutique-info">
+                    <img src="img/techzone-logo.jpg" alt="Logo TechZone" class="boutique-logo">
+                    <div class="boutique-details">
+                        <h1 class="boutique-name">TechZone</h1>
+                        <div class="boutique-rating">
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                            <span class="rating-value">4.7</span>
+                            <span class="rating-count">(1,245 avis)</span>
+                        </div>
+                        <p class="boutique-description">
+                            Votre spécialiste en produits technologiques et électroniques. 
+                            Nous proposons les derniers smartphones, ordinateurs et accessoires tech.
+                        </p>
+                        <div class="boutique-stats">
+                            <div class="stat-item">
+                                <i class="bi bi-box-seam stat-icon"></i>
+                                <span class="stat-value">245</span>
+                                <span class="stat-label">Produits</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-people stat-icon"></i>
+                                <span class="stat-value">12.5k</span>
+                                <span class="stat-label">Abonnés</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-check-circle stat-icon"></i>
+                                <span class="stat-value">98%</span>
+                                <span class="stat-label">Satisfaction</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-clock-history stat-icon"></i>
+                                <span class="stat-value">3 jours</span>
+                                <span class="stat-label">Livraison</span>
+                            </div>
+                        </div>
+                        <div class="follow-btn-container">
+                            <button class="follow-btn" id="followBtn">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Suivre la boutique</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="boutique-tabs">
+                    <button class="boutique-tab active" data-tab="produits">
+                        <i class="bi bi-grid"></i>
+                        <span>Tous les produits</span>
+                    </button>
+                    <button class="boutique-tab" data-tab="nouveautes">
+                        <i class="bi bi-stars"></i>
+                        <span>Nouveautés</span>
+                    </button>
+                    <button class="boutique-tab" data-tab="populaires">
+                        <i class="bi bi-fire"></i>
+                        <span>Populaires</span>
+                    </button>
+                    <button class="boutique-tab" data-tab="promotions">
+                        <i class="bi bi-percent"></i>
+                        <span>Promotions</span>
+                    </button>
+                    <button class="boutique-tab" data-tab="avis">
+                        <i class="bi bi-chat-square-text"></i>
+                        <span>Avis clients</span>
+                    </button>
+                    <button class="boutique-tab" data-tab="info">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Informations</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produits de la boutique -->
+        <div class="boutique-products">
+            <div class="section-header">
+                <h2>Produits de la boutique</h2>
+                <div class="products-count">
+                    <span id="totalProductsCount">0</span> produits
+                </div>
+            </div>
+
+            <div class="products-grid" id="boutiqueProductsGrid">
+                <!-- Les produits seront chargés ici dynamiquement -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn prev" id="prevPage" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                
+                <div class="page-numbers" id="pageNumbers">
+                    <!-- Les numéros de page seront générés ici -->
+                </div>
+                
+                <button class="pagination-btn next" id="nextPage">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section footer-logo-section">
+                <div class="nav-mobile-logo">
+                    <a href="index.html" class="logo_link" aria-label="Accueil ChezBaba">
+                        <img src="img/logo-removebg-preview.png" alt="ChezBaba Logo" class="logo-image">
+                    </a>
+                </div>
+                <p class="footer-description">
+                    La marketplace de référence pour vendre et acheter en toute sécurité. 
+                    Rejoignez des millions d'utilisateurs qui nous font confiance.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="vitrine.html">Vitrine ChezBaba</a></li>
+                    <li><a href="compte.html">Mon compte</a></li>
+                    <li><a href="categorie.html">Catégories</a></li>
+                    <li><a href="panier.html">Panier</a></li>
+                    <li><a href="favoris.html">Favoris</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="index.html">Retour en haut</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">Service client</a></li>
+                    <li><a href="#">Signaler problème</a></li>
+                    <li><a href="#">Guide vendeur</a></li>
+                    <li><a href="#">Guide acheteur</a></li>
+                    <li><a href="#">Sécurité</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="footer-contact-info">
+                    <strong>Email:</strong><br>
+                    contact@chezbaba.com<br><br>
+                    <strong>Tél:</strong><br>
+                    +229 01 56 12 40 50<br><br>
+                    <strong>Adresse:</strong><br>
+                    Cotonou Akpaka LomNava
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-copyright">
+                    © 2024 ChezBaba. Tous droits réservés.
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Conditions</a>
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="bi bi-house nav-icon"></i>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a href="categorie.html" class="nav-item">
+                <i class="bi bi-grid-3x3-gap nav-icon"></i>
+                <span class="nav-label">Catégories</span>
+            </a>
+            <a href="favoris.html" class="nav-item">
+                <i class="bi bi-heart nav-icon"></i>
+                <span class="nav-label">Favoris</span>
+            </a>
+            <a href="profil-acheteur.html" class="nav-item active">
+                <i class="bi bi-person nav-icon"></i>
+                <span class="nav-label">Compte</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ===== DONNÉES DE LA BOUTIQUE =====
+        // Données de la boutique TechZone (exemple)
+        const BOUTIQUE_DATA = {
+            id: 1,
+            name: "TechZone",
+            logo: "img/techzone-logo.jpg",
+            description: "Votre spécialiste en produits technologiques et électroniques. Nous proposons les derniers smartphones, ordinateurs et accessoires tech.",
+            rating: 4.7,
+            ratingCount: 1245,
+            productsCount: 245,
+            followers: 12500,
+            satisfaction: 98,
+            deliveryTime: "3 jours",
+            memberSince: "2022",
+            location: "Cotonou, Bénin"
+        };
+
+        // Produits de la boutique TechZone
+        const BOUTIQUE_PRODUCTS = [
+            {
+                id: 1,
+                name: "iPhone 17 Pro Max 256Go - Noir Titane",
+                price: "550 000 FCFA",
+                oldPrice: "650 000 FCFA",
+                img: "img/iphone17.jfif",
+                rating: 5,
+                sold: 124,
+                stock: "3C",
+                condition: "Neuf",
+                category: "telephones",
+                description: "Smartphone haut de gamme avec écran 6.7\", triple caméra et puce A18 Pro"
+            },
+            {
+                id: 2,
+                name: "AirPods Pro 2ème génération",
+                price: "75 000 FCFA",
+                img: "img/airspod.jfif",
+                rating: 5,
+                sold: 203,
+                stock: "5C",
+                condition: "Neuf",
+                category: "accessoires",
+                description: "Écouteurs sans fil avec réduction de bruit active et boîtier MagSafe"
+            },
+            {
+                id: 3,
+                name: "MacBook Pro M3 14\" 512Go",
+                price: "850 000 FCFA",
+                img: "img/mac.jpg",
+                rating: 5,
+                sold: 56,
+                stock: "2C",
+                condition: "Neuf",
+                category: "ordinateurs",
+                description: "Ordinateur portable Apple avec écran Liquid Retina XDR et puce M3"
+            },
+            {
+                id: 4,
+                name: "Enceinte Bluetooth JBL Charge 5",
+                price: "45 000 FCFA",
+                img: "img/jbl.jpg",
+                rating: 4.5,
+                sold: 156,
+                stock: "6C",
+                condition: "Neuf",
+                category: "electronique",
+                description: "Enceinte portable étanche avec batterie longue durée et son puissant"
+            },
+            {
+                id: 5,
+                name: "Moniteur HP 27\" 4K UHD",
+                price: "150 000 FCFA",
+                oldPrice: "180 000 FCFA",
+                img: "img/moniteurs.jfif",
+                rating: 4.5,
+                sold: 42,
+                stock: "4C",
+                condition: "Neuf",
+                category: "electronique",
+                description: "Écran IPS 4K avec technologie HDR et design sans bordure"
+            },
+            {
+                id: 6,
+                name: "Canon EOS R6 Mark II",
+                price: "750 000 FCFA",
+                img: "img/canon.jpg",
+                rating: 5,
+                sold: 2,
+                stock: "1C",
+                condition: "Neuf",
+                category: "electronique",
+                description: "Appareil photo hybride professionnel 24MP"
+            },
+            {
+                id: 7,
+                name: "PC Gamer Asus ROG",
+                price: "920 000 FCFA",
+                img: "img/pcgamer.jpg",
+                rating: 4.9,
+                sold: 2,
+                stock: "1C",
+                condition: "Neuf",
+                category: "ordinateurs",
+                description: "PC gaming avec RTX 4080 et processeur i9"
+            },
+            {
+                id: 8,
+                name: "Casque Sony WH-1000XM5",
+                price: "75 000 FCFA",
+                img: "img/casque.jpg",
+                rating: 4.8,
+                sold: 9,
+                stock: "5C",
+                condition: "Neuf",
+                category: "electronique",
+                description: "Casque sans fil avec réduction de bruit active"
+            },
+            {
+                id: 9,
+                name: "Samsung TV 55\" QLED 4K",
+                price: "450 000 FCFA",
+                img: "img/television.jpg",
+                rating: 4.8,
+                sold: 4,
+                stock: "3C",
+                condition: "Neuf",
+                category: "electronique",
+                description: "Téléviseur QLED 4K avec technologie HDR10+"
+            },
+            {
+                id: 10,
+                name: "Tablette Samsung Galaxy Tab S9",
+                price: "280 000 FCFA",
+                img: "img/tablette.jpg",
+                rating: 4.6,
+                sold: 4,
+                stock: "3C",
+                condition: "Neuf",
+                category: "telephones",
+                description: "Tablette Android avec écran 11\" et S Pen"
+            }
+        ];
+
+        // ===== CONFIGURATION PAGINATION =====
+        const PRODUCTS_PER_PAGE = 8;
+        let currentPage = 1;
+        let totalPages = Math.ceil(BOUTIQUE_PRODUCTS.length / PRODUCTS_PER_PAGE);
+
+        // ===== FONCTIONS =====
+
+        // Créer une carte produit
+        function createProductCard(product) {
+            const isFavoriteProduct = window.isFavorite ? window.isFavorite(product.id) : false;
+            
+            return `
+                <div class="product-card" data-id="${product.id}">
+                    ${product.condition === 'Neuf' ? '<div class="new-badge">Neuf</div>' : ''}
+                    <div class="product-image-container">
+                        <img src="${product.img}" alt="${product.name}" class="product-image" 
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNlZWVlZWUiLz48dGV4dCB4PSI1MCIgeT0iNTAiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiPk5vbiBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg=='">
+                        <div class="image-actions">
+                            <button class="image-action-btn favorite-btn" data-id="${product.id}" 
+                                    title="${isFavoriteProduct ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                                <i class="bi ${isFavoriteProduct ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                            </button>
+                            <button class="image-action-btn cart-btn" data-id="${product.id}" title="Ajouter au panier">
+                                <i class="bi bi-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4 class="product-name" title="${product.name}">${product.name}</h4>
+                        <div class="product-price">
+                            ${product.oldPrice ? `<span class="old-price">${product.oldPrice}</span>` : ''}
+                            ${product.price}
+                        </div>
+                        <div class="product-stats">
+                            <div class="product-rating">
+                                <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                                <span class="rating-number">${product.rating.toFixed(1)}</span>
+                            </div>
+                            <div class="sold-count">
+                                <i class="bi bi-cart-check"></i> ${product.sold}
+                            </div>
+                        </div>
+                        <div class="product-seller">
+                            <img src="${BOUTIQUE_DATA.logo}" alt="${BOUTIQUE_DATA.name}" class="seller-logo" 
+                                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(BOUTIQUE_DATA.name)}&size=40&background=random'">
+                            <span class="seller-name">${BOUTIQUE_DATA.name}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Charger les produits par page
+        function loadProducts(page = 1) {
+            const productsGrid = document.getElementById('boutiqueProductsGrid');
+            if (!productsGrid) return;
+
+            // Calculer les produits pour la page actuelle
+            const startIndex = (page - 1) * PRODUCTS_PER_PAGE;
+            const endIndex = startIndex + PRODUCTS_PER_PAGE;
+            const pageProducts = BOUTIQUE_PRODUCTS.slice(startIndex, endIndex);
+
+            // Afficher les produits
+            productsGrid.innerHTML = pageProducts.map(product => 
+                createProductCard(product)
+            ).join('');
+
+            // Mettre à jour le compteur
+            document.getElementById('totalProductsCount').textContent = BOUTIQUE_PRODUCTS.length;
+
+            // Mettre à jour la pagination
+            updatePagination(page);
+            currentPage = page;
+        }
+
+        // Mettre à jour la pagination
+        function updatePagination(currentPage) {
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            const pageNumbers = document.getElementById('pageNumbers');
+
+            // Activer/désactiver les boutons précédent/suivant
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+
+            // Générer les numéros de page
+            pageNumbers.innerHTML = '';
+            
+            // Afficher maximum 5 numéros de page
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => loadProducts(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        // Initialiser les onglets
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.boutique-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Retirer la classe active de tous les onglets
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Ajouter la classe active à l'onglet cliqué
+                    this.classList.add('active');
+                    
+                    const tabId = this.dataset.tab;
+                    
+                    // Ici, vous pourriez charger des produits différents selon l'onglet
+                    // Pour l'instant, nous gardons tous les produits
+                    loadProducts(1);
+                });
+            });
+        }
+
+        // Gérer le bouton "Suivre la boutique"
+        function initializeFollowButton() {
+            const followBtn = document.getElementById('followBtn');
+            if (!followBtn) return;
+
+            // Vérifier si l'utilisateur suit déjà la boutique
+            let isFollowing = localStorage.getItem(`follow_${BOUTIQUE_DATA.id}`) === 'true';
+
+            updateFollowButton(isFollowing);
+
+            followBtn.addEventListener('click', function() {
+                isFollowing = !isFollowing;
+                localStorage.setItem(`follow_${BOUTIQUE_DATA.id}`, isFollowing);
+                
+                updateFollowButton(isFollowing);
+                
+                // Afficher une notification
+                showNotification(isFollowing ? 
+                    `Vous suivez maintenant ${BOUTIQUE_DATA.name}` : 
+                    `Vous ne suivez plus ${BOUTIQUE_DATA.name}`
+                );
+            });
+        }
+
+        // Mettre à jour l'apparence du bouton "Suivre"
+        function updateFollowButton(isFollowing) {
+            const followBtn = document.getElementById('followBtn');
+            if (!followBtn) return;
+
+            if (isFollowing) {
+                followBtn.innerHTML = '<i class="bi bi-check-circle"></i><span>Suivie</span>';
+                followBtn.classList.add('following');
+            } else {
+                followBtn.innerHTML = '<i class="bi bi-plus-circle"></i><span>Suivre la boutique</span>';
+                followBtn.classList.remove('following');
+            }
+        }
+
+        // Afficher une notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+                font-weight: 500;
+                max-width: 300px;
+                font-size: 14px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialiser les événements de favoris (comme dans index.html)
+        function initializeFavoritesEvents() {
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.favorite-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const button = e.target.closest('.favorite-btn');
+                    const productId = parseInt(button.dataset.id);
+                    
+                    if (productId) {
+                        if (typeof toggleFavorite === 'function') {
+                            const wasAdded = toggleFavorite(productId);
+                            updateFavoriteButtonUI(button, wasAdded);
+                        } else {
+                            toggleFavoriteLocal(productId, button);
+                        }
+                    }
+                }
+                
+                if (e.target.closest('.cart-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const button = e.target.closest('.cart-btn');
+                    const productId = parseInt(button.dataset.id);
+                    
+                    if (productId && typeof addToCart === 'function') {
+                        addToCart(productId);
+                        button.classList.add('active');
+                        setTimeout(() => button.classList.remove('active'), 1000);
+                    }
+                }
+            });
+        }
+
+        // Fallback local pour les favoris
+        function toggleFavoriteLocal(productId, button) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const index = favorites.indexOf(productId);
+            
+            if (index === -1) {
+                favorites.push(productId);
+                updateFavoriteButtonUI(button, true);
+                showNotification('❤️ Ajouté aux favoris');
+            } else {
+                favorites.splice(index, 1);
+                updateFavoriteButtonUI(button, false);
+                showNotification('Retiré des favoris');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // Mettre à jour l'interface du bouton favori
+        function updateFavoriteButtonUI(button, isFavorite) {
+            const icon = button.querySelector('i');
+            if (icon) {
+                if (isFavorite) {
+                    icon.className = 'bi bi-heart-fill';
+                    icon.style.color = '#e63946';
+                    button.classList.add('active');
+                } else {
+                    icon.className = 'bi bi-heart';
+                    icon.style.color = '';
+                    button.classList.remove('active');
+                }
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger les produits
+            loadProducts(1);
+            
+            // Initialiser les onglets
+            initializeTabs();
+            
+            // Initialiser le bouton "Suivre"
+            initializeFollowButton();
+            
+            // Initialiser les événements de favoris
+            initializeFavoritesEvents();
+            
+            // Événements de pagination
+            document.getElementById('prevPage').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    loadProducts(currentPage - 1);
+                }
+            });
+            
+            document.getElementById('nextPage').addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    loadProducts(currentPage + 1);
+                }
+            });
+            
+            // Navigation vers la page détail du produit
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.product-card')) {
+                    const card = e.target.closest('.product-card');
+                    if (!e.target.closest('.image-actions')) {
+                        const productId = card.dataset.id;
+                        window.location.href = `produit-detail.html?id=${productId}`;
+                    }
+                }
+            });
+            
+            // Ajouter les styles d'animation pour les notifications
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

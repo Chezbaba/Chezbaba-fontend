@@ -695,6 +695,19 @@
                             >
                             <i class="fas fa-store auth-page-input-icon"></i>
                         </div>
+                        <label class="auth-page-form-label" for="storeName">
+                            Ville
+                            <span class="auth-page-required">*</span>
+                        </label>
+                        <div class="auth-page-input-container">
+                            <input 
+                                type="text" 
+                                id="storeName" 
+                                class="auth-page-input" 
+                                placeholder="Ex: Cotonou"
+                            >
+                            <!-- <i class="fas fa-store auth-page-input-icon"></i> -->
+                        </div>
                         <small style="font-size: 0.75em; color: var(--darkgray); margin-top: 5px;">
                             Ce nom sera visible par tous les acheteurs
                         </small>
@@ -878,11 +891,12 @@
     
     <!-- Scripts JavaScript -->
     <script>
-        // Variables globales
+       // Variables globales
 let passwordValid = false;
 let passwordMatch = false;
 let termsAccepted = false;
-let isSeller = false; // AJOUTER CETTE LIGNE
+let isSeller = false;
+
 // Détecter le changement de type de compte
 document.querySelectorAll('input[name="accountType"]').forEach(radio => {
     radio.addEventListener('change', function() {
@@ -903,264 +917,176 @@ document.querySelectorAll('input[name="accountType"]').forEach(radio => {
         updateSubmitButton();
     });
 });
-        
-        // Détecter le changement de type de compte
-        document.querySelectorAll('input[name="accountType"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const storeNameGroup = document.getElementById('storeNameGroup');
-                const storeNameInput = document.getElementById('storeName');
-                
-                if (this.value === 'vendeur') {
-                    isSeller = true;
-                    storeNameGroup.classList.add('visible');
-                    storeNameInput.required = true;
-                } else {
-                    isSeller = false;
-                    storeNameGroup.classList.remove('visible');
-                    storeNameInput.required = false;
-                    storeNameInput.value = '';
-                }
-                
-                updateSubmitButton();
-            });
-        });
-        
-        // Basculer la visibilité du mot de passe
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-        
-        // Basculer la visibilité de la confirmation du mot de passe
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const confirmInput = document.getElementById('confirmPassword');
-            const icon = this.querySelector('i');
-            
-            if (confirmInput.type === 'password') {
-                confirmInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                confirmInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-        
-        // Vérifier la force du mot de passe
-        document.getElementById('password').addEventListener('input', function() {
-            const password = this.value;
-            const strengthBar = document.getElementById('strengthBar');
-            const strengthText = document.getElementById('strengthText');
-            let strength = 0;
-            
-            // Critères de validation
-            const hasLength = password.length >= 8;
-            const hasUppercase = /[A-Z]/.test(password);
-            const hasLowercase = /[a-z]/.test(password);
-            const hasNumber = /[0-9]/.test(password);
-            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-            
-            // Mettre à jour les icônes des critères
-            updateCriteriaIcon('criteriaLength', hasLength);
-            updateCriteriaIcon('criteriaUppercase', hasUppercase);
-            updateCriteriaIcon('criteriaLowercase', hasLowercase);
-            updateCriteriaIcon('criteriaNumber', hasNumber);
-            updateCriteriaIcon('criteriaSpecial', hasSpecial);
-            
-            // Calculer la force
-            if (hasLength) strength += 20;
-            if (hasUppercase) strength += 20;
-            if (hasLowercase) strength += 20;
-            if (hasNumber) strength += 20;
-            if (hasSpecial) strength += 20;
-            
-            // Mettre à jour la barre de force
-            strengthBar.style.width = strength + '%';
-            
-            // Mettre à jour le texte et la couleur
-            if (strength <= 33) {
-                strengthBar.className = 'strength-bar strength-weak';
-                strengthText.textContent = 'Faible';
-                strengthText.style.color = '#e63946';
-                passwordValid = false;
-            } else if (strength <= 66) {
-                strengthBar.className = 'strength-bar strength-medium';
-                strengthText.textContent = 'Moyen';
-                strengthText.style.color = '#ffb347';
-                passwordValid = strength >= 60; // Nécessite au moins 3 critères
-            } else {
-                strengthBar.className = 'strength-bar strength-strong';
-                strengthText.textContent = 'Fort';
-                strengthText.style.color = 'var(--success)';
-                passwordValid = true;
-            }
-            
-            // Vérifier la correspondance des mots de passe
-            checkPasswordMatch();
-            updateSubmitButton();
-        });
-        
-        // Vérifier la correspondance des mots de passe
-        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
-        
-        function checkPasswordMatch() {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const matchElement = document.getElementById('passwordMatch');
-            
-            if (confirmPassword === '') {
-                matchElement.textContent = '';
-                matchElement.style.color = '';
-                passwordMatch = false;
-            } else if (password === confirmPassword) {
-                matchElement.textContent = '✓ Les mots de passe correspondent';
-                matchElement.style.color = 'var(--success)';
-                passwordMatch = true;
-            } else {
-                matchElement.textContent = '✗ Les mots de passe ne correspondent pas';
-                matchElement.style.color = '#e63946';
-                passwordMatch = false;
-            }
-            
-            updateSubmitButton();
-        }
-        
-        // Mettre à jour les icônes des critères
-        function updateCriteriaIcon(elementId, isValid) {
-            const element = document.getElementById(elementId);
-            const icon = element.querySelector('i');
-            const text = element.querySelector('span');
-            
-            if (isValid) {
-                icon.className = 'fas fa-check criteria-valid';
-                element.style.color = 'var(--success)';
-            } else {
-                icon.className = 'fas fa-times criteria-invalid';
-                element.style.color = '#e63946';
-            }
-        }
-        
-        // Gérer les termes et conditions
-        document.querySelector('.terms-label').addEventListener('click', function() {
-            const checkbox = document.getElementById('termsCheckbox');
-            const termsInput = document.getElementById('terms');
-            
-            checkbox.classList.toggle('checked');
-            termsInput.checked = !termsInput.checked;
-            termsAccepted = termsInput.checked;
-            
-            updateSubmitButton();
-        });
-        
-        // Mettre à jour le bouton de soumission
+
+// Toggle mot de passe
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    const icon = this.querySelector('i');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+});
+
+document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+    const confirmInput = document.getElementById('confirmPassword');
+    const icon = this.querySelector('i');
+    if (confirmInput.type === 'password') {
+        confirmInput.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        confirmInput.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+});
+
+// Vérifier force du mot de passe
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
+    let strength = 0;
+
+    const hasLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    updateCriteriaIcon('criteriaLength', hasLength);
+    updateCriteriaIcon('criteriaUppercase', hasUppercase);
+    updateCriteriaIcon('criteriaLowercase', hasLowercase);
+    updateCriteriaIcon('criteriaNumber', hasNumber);
+    updateCriteriaIcon('criteriaSpecial', hasSpecial);
+
+    if (hasLength) strength += 20;
+    if (hasUppercase) strength += 20;
+    if (hasLowercase) strength += 20;
+    if (hasNumber) strength += 20;
+    if (hasSpecial) strength += 20;
+
+    strengthBar.style.width = strength + '%';
+    if (strength <= 33) {
+        strengthBar.className = 'strength-bar strength-weak';
+        strengthText.textContent = 'Faible';
+        strengthText.style.color = '#e63946';
+        passwordValid = false;
+    } else if (strength <= 66) {
+        strengthBar.className = 'strength-bar strength-medium';
+        strengthText.textContent = 'Moyen';
+        strengthText.style.color = '#ffb347';
+        passwordValid = strength >= 60;
+    } else {
+        strengthBar.className = 'strength-bar strength-strong';
+        strengthText.textContent = 'Fort';
+        strengthText.style.color = 'var(--success)';
+        passwordValid = true;
+    }
+
+    checkPasswordMatch();
+    updateSubmitButton();
+});
+
+// Vérifier correspondance mot de passe
+document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+function checkPasswordMatch() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const matchElement = document.getElementById('passwordMatch');
+
+    if (confirmPassword === '') {
+        matchElement.textContent = '';
+        passwordMatch = false;
+    } else if (password === confirmPassword) {
+        matchElement.textContent = '✓ Les mots de passe correspondent';
+        matchElement.style.color = 'var(--success)';
+        passwordMatch = true;
+    } else {
+        matchElement.textContent = '✗ Les mots de passe ne correspondent pas';
+        matchElement.style.color = '#e63946';
+        passwordMatch = false;
+    }
+
+    updateSubmitButton();
+}
+
+// Mettre à jour icônes critères
+function updateCriteriaIcon(elementId, isValid) {
+    const element = document.getElementById(elementId);
+    const icon = element.querySelector('i');
+    if (isValid) {
+        icon.className = 'fas fa-check criteria-valid';
+        element.style.color = 'var(--success)';
+    } else {
+        icon.className = 'fas fa-times criteria-invalid';
+        element.style.color = '#e63946';
+    }
+}
+
+// Gérer termes et conditions
+document.querySelector('.terms-label').addEventListener('click', function() {
+    const checkbox = document.getElementById('termsCheckbox');
+    const termsInput = document.getElementById('terms');
+    checkbox.classList.toggle('checked');
+    termsInput.checked = !termsInput.checked;
+    termsAccepted = termsInput.checked;
+    updateSubmitButton();
+});
+
+// Mettre à jour bouton inscription
 function updateSubmitButton() {
     const submitBtn = document.getElementById('submitBtn');
     const storeNameInput = document.getElementById('storeName');
-    
-    // Vérifier si le champ boutique est requis et rempli
+
     const storeNameValid = !isSeller || (isSeller && storeNameInput.value.trim() !== '');
-    
-    // Vérifier tous les champs requis
     const fullNameValid = document.getElementById('fullName').value.trim() !== '';
     const emailValid = document.getElementById('email').value.trim() !== '';
     const phoneValid = document.getElementById('phone').value.trim() !== '';
     const passwordValidLocal = passwordValid;
     const confirmPasswordValid = document.getElementById('confirmPassword').value.trim() !== '';
-    
-    const allValid = storeNameValid && fullNameValid && emailValid && phoneValid && 
-                    passwordValidLocal && passwordMatch && termsAccepted && 
-                    (isSeller ? storeNameInput.value.trim() !== '' : true);
-    
+
+    const allValid = storeNameValid && fullNameValid && emailValid && phoneValid &&
+                     passwordValidLocal && passwordMatch && termsAccepted;
+
     submitBtn.disabled = !allValid;
-    
-    if (allValid) {
-        submitBtn.style.opacity = '1';
-        submitBtn.style.cursor = 'pointer';
-    } else {
-        submitBtn.style.opacity = '0.7';
-        submitBtn.style.cursor = 'not-allowed';
-    }
+    submitBtn.style.opacity = allValid ? '1' : '0.7';
+    submitBtn.style.cursor = allValid ? 'pointer' : 'not-allowed';
 }
-        
-        // Écouter les changements dans le champ boutique
-        document.getElementById('storeName').addEventListener('input', updateSubmitButton);
-        
-        // Écouter les changements dans tous les champs
-        document.getElementById('fullName').addEventListener('input', updateSubmitButton);
-        document.getElementById('email').addEventListener('input', updateSubmitButton);
-        document.getElementById('phone').addEventListener('input', updateSubmitButton);
-        document.getElementById('confirmPassword').addEventListener('input', updateSubmitButton);
-        
-        // Afficher un message de feedback
-        function showFeedback(message, type) {
-            const feedback = document.getElementById('formFeedback');
-            feedback.textContent = message;
-            feedback.className = `form-feedback ${type}`;
-            
-            // Masquer après 5 secondes
-            setTimeout(() => {
-                feedback.style.display = 'none';
-            }, 5000);
-        }
-        
-        // Gérer la soumission du formulaire
+
+// Feedback
+function showFeedback(message, type) {
+    const feedback = document.getElementById('formFeedback');
+    feedback.textContent = message;
+    feedback.className = `form-feedback ${type}`;
+    setTimeout(() => { feedback.style.display = 'none'; }, 5000);
+}
+
+// Soumission du formulaire
 document.getElementById('registerForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    // Récupérer les valeurs
+
     const accountType = document.querySelector('input[name="accountType"]:checked').value;
     const fullName = document.getElementById('fullName').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const password = document.getElementById('password').value;
     const storeName = document.getElementById('storeName').value;
-    
-    // Validation spécifique pour vendeur
+
     if (accountType === 'vendeur' && !storeName.trim()) {
         showFeedback('Le nom de la boutique est obligatoire pour les vendeurs.', 'error');
         return;
     }
-    
-    // Validation générale
-    if (!fullName || !email || !phone || !password) {
-        showFeedback('Veuillez remplir tous les champs obligatoires.', 'error');
-        return;
-    }
-    
-    if (!passwordValid) {
-        showFeedback('Le mot de passe ne respecte pas les critères de sécurité.', 'error');
-        return;
-    }
-    
-    if (!passwordMatch) {
-        showFeedback('Les mots de passe ne correspondent pas.', 'error');
-        return;
-    }
-    
-    if (!termsAccepted) {
-        showFeedback('Veuillez accepter les conditions d\'utilisation.', 'error');
-        return;
-    }
-    
-    // Simuler l'inscription
+
     showFeedback('Création de votre compte en cours...', 'info');
-    
-    // Simulation d'une requête serveur
+
+    // Simulation serveur
     setTimeout(() => {
         showFeedback('Compte créé avec succès ! Redirection...', 'success');
-        
-        // Stocker les données dans localStorage (simulation)
+
         const userData = {
             accountType,
             fullName,
@@ -1170,43 +1096,26 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
             registeredAt: new Date().toISOString(),
             isLoggedIn: true
         };
-        
         localStorage.setItem('userData', JSON.stringify(userData));
-        
-        // DÉTERMINER LA PAGE DE REDIRECTION SELON LE TYPE DE COMPTE
-        let redirectPage;
-        
-        if (accountType === 'vendeur') {
-            redirectPage = 'profil-vendeur.html'; // Page tableau de bord vendeur
-        } else {
-            redirectPage = 'profil-acheteur.html'; // Page tableau de bord acheteur
-        }
-        
-        // Redirection après 2 secondes
-        setTimeout(() => {
-            window.location.href = redirectPage;
-        }, 2000);
+
+        const redirectPage = accountType === 'vendeur' ? 'profil-vendeur.html' : 'profil-acheteur.html';
+        setTimeout(() => { window.location.href = redirectPage; }, 2000);
     }, 1500);
 });
-        
-        // Gérer l'inscription avec Google
-        document.querySelector('.auth-page-google-btn').addEventListener('click', function() {
-            showFeedback('Inscription avec Google - Fonctionnalité à implémenter', 'info');
-            // Ici, vous intégreriez l'authentification Google OAuth
-        });
-        
-        // Initialisation
-        window.addEventListener('DOMContentLoaded', function() {
-            updateSubmitButton();
-        });
-        // Écouter les changements dans le champ boutique
-document.getElementById('storeName').addEventListener('input', updateSubmitButton);
 
-// Écouter les changements dans tous les champs
+// Inscription Google placeholder
+document.querySelector('.auth-page-google-btn').addEventListener('click', function() {
+    showFeedback('Inscription avec Google - Fonctionnalité à implémenter', 'info');
+});
+
+// Initialisation
+window.addEventListener('DOMContentLoaded', function() { updateSubmitButton(); });
+document.getElementById('storeName').addEventListener('input', updateSubmitButton);
 document.getElementById('fullName').addEventListener('input', updateSubmitButton);
 document.getElementById('email').addEventListener('input', updateSubmitButton);
 document.getElementById('phone').addEventListener('input', updateSubmitButton);
 document.getElementById('confirmPassword').addEventListener('input', updateSubmitButton);
+
     </script>
 </body>
 </html>

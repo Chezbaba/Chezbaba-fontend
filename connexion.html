@@ -585,81 +585,80 @@
     
     <!-- Scripts JavaScript -->
     <script>
-        // Basculer la visibilité du mot de passe
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+
+    // ---------------------- Toggle mot de passe ----------------------
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // ---------------------- Se souvenir de moi ----------------------
+    document.getElementById('rememberMe').addEventListener('click', function() {
+        const checkbox = this.querySelector('.auth-page-checkbox');
+        checkbox.classList.toggle('checked');
+        localStorage.setItem('rememberMe', checkbox.classList.contains('checked'));
+    });
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const rememberMe = localStorage.getItem('rememberMe');
+        if (rememberMe === 'true') {
+            document.querySelector('.auth-page-checkbox').classList.add('checked');
+        }
+    });
+
+    // ---------------------- Bouton de retour ----------------------
+    document.getElementById('backButton').addEventListener('click', function() {
+        if (document.referrer && document.referrer !== window.location.href) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+    // ---------------------- Formulaire de connexion ----------------------
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (!email || !password) {
+            alert('Veuillez remplir tous les champs obligatoires.');
+            return;
+        }
+
+        // Connexion au backend
+        fetch('http://localhost:5000/login', { // adapte l'URL si nécessaire
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Email ou mot de passe incorrect');
+            return res.json();
+        })
+        .then(data => {
+            // Stocker le token JWT
+            localStorage.setItem('token', data.token);
+
+            // Redirection vers la page profil
+            window.location.href = 'profil.html';
+        })
+        .catch(err => {
+            alert(err.message);
         });
-        
-        // Gérer la case "Se souvenir de moi"
-        document.getElementById('rememberMe').addEventListener('click', function() {
-            const checkbox = this.querySelector('.auth-page-checkbox');
-            checkbox.classList.toggle('checked');
-            
-            // Stocker le choix dans le localStorage
-            const isChecked = checkbox.classList.contains('checked');
-            localStorage.setItem('rememberMe', isChecked);
-        });
-        
-        // Vérifier si "Se souvenir de moi" était déjà coché
-        window.addEventListener('DOMContentLoaded', function() {
-            const rememberMe = localStorage.getItem('rememberMe');
-            if (rememberMe === 'true') {
-                const checkbox = document.querySelector('.auth-page-checkbox');
-                checkbox.classList.add('checked');
-            }
-        });
-        
-        // Gérer la soumission du formulaire
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            // Validation simple
-            if (!email || !password) {
-                alert('Veuillez remplir tous les champs obligatoires.');
-                return;
-            }
-            
-            // Simuler une connexion réussie
-            console.log('Tentative de connexion avec:', { email, password });
-            
-            // Redirection après connexion réussie
-            // Dans un cas réel, vous vérifieriez les identifiants côté serveur
-            setTimeout(() => {
-                alert('Connexion réussie ! Redirection...');
-                window.location.href = 'dashboard.html';
-            }, 500);
-        });
-        
-        // Gérer la connexion avec Google
-        document.querySelector('.auth-page-google-btn').addEventListener('click', function() {
-            console.log('Connexion avec Google');
-            // Ici, vous intégreriez l'authentification Google OAuth
-            alert('Fonctionnalité de connexion avec Google à implémenter');
-        });
-        
-        // Gérer le bouton de retour
-        document.getElementById('backButton').addEventListener('click', function() {
-            // Retour à la page précédente ou à l'accueil
-            if (document.referrer && document.referrer !== window.location.href) {
-                window.history.back();
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
+    });
+
     </script>
 </body>
 </html>
