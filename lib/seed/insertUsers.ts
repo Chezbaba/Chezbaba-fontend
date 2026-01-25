@@ -454,6 +454,9 @@ async function insertUsers() {
       admin: {
         create: {},
       },
+      client: {
+        create: {},
+      },
     },
   });
 

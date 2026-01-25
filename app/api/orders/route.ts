@@ -14,6 +14,7 @@ import {
 } from "@/lib/validations";
 import { Decimal } from "@prisma/client/runtime/library";
 import { BadRequestIdError } from "@/lib/classes/BadRequestIdError";
+import { OutOfStockError } from "@/lib/classes/OutOfStockError";
 
 // GET & Search all orders for admin only
 export async function GET(request: NextRequest) {
@@ -159,63 +160,128 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Create address
-    const address = await prisma.adresse.create({ data: addresse });
+    // Start transaction with increased timeout (15s)
+    const order = await prisma.$transaction(
+      async (tx) => {
+        // Create address
+        const address = await tx.adresse.create({ data: addresse });
 
-    // Build order lines and calculate total
-    let total = new Decimal(0);
-    const ligneCommandeData = await Promise.all(
-      produits.map(async (line) => {
-        const produit = await prisma.produit.findUnique({
-          where: { id: line.produitId },
+        // Retrieve all products in a single batch to avoid multiple lookups
+        const productIds = produits.map((p) => p.produitId);
+        const dbProducts = await tx.produit.findMany({
+          where: { id: { in: productIds } },
           select: {
             id: true,
             nom: true,
             prix: true,
+            qteStock: true,
             images: { select: { imagePublicId: true }, take: 1 },
           },
         });
 
-        if (!produit) {
-          throw new BadRequestIdError(`Produit ${line.produitId} introuvable.`);
+        const productMap = new Map(dbProducts.map((p) => [p.id, p]));
+
+        // Build order lines, calculate total, AND check/decrement stock
+        let total = new Decimal(0);
+        const ligneCommandeData = [];
+
+        for (const line of produits) {
+          const produit = productMap.get(line.produitId);
+
+          if (!produit) {
+            throw new BadRequestIdError(
+              `Produit avec l'ID ${line.produitId} introuvable.`
+            );
+          }
+
+          // Check stock
+          if (produit.qteStock < line.quantite) {
+            throw new OutOfStockError(
+              `Le produit "${produit.nom}" n'est plus disponible en quantité suffisante (Stock restant : ${produit.qteStock}).`
+            );
+          }
+
+          // Decrement stock (atomic operation)
+          await tx.produit.update({
+            where: { id: produit.id },
+            data: { qteStock: { decrement: line.quantite } },
+          });
+
+          const prixUnit = produit.prix;
+          const sousTotal = prixUnit.mul(line.quantite);
+          total = total.add(sousTotal);
+
+          ligneCommandeData.push({
+            nomProduit: produit.nom,
+            quantite: line.quantite,
+            prixUnit,
+            imagePublicId: produit.images[0]?.imagePublicId ?? null,
+            produitId: produit.id,
+            couleurId: line.couleurId ?? null,
+            tailleId: line.tailleId ?? null,
+          });
         }
 
-        const prixUnit = produit.prix;
-        const sousTotal = prixUnit.mul(line.quantite);
-        total = total.add(sousTotal);
+        // Create order
+        const newOrder = await tx.commande.create({
+          data: {
+            montant: total,
+            clientId: userId,
+            adresseId: address.id,
+            lignesCommande: { create: ligneCommandeData },
+          },
+          select: getOrderSelect(),
+        });
 
-        return {
-          nomProduit: produit.nom,
-          quantite: line.quantite,
-          prixUnit,
-          imagePublicId: produit.images[0]?.imagePublicId ?? null,
-          produitId: produit.id,
-          couleurId: line.couleurId ?? null,
-          tailleId: line.tailleId ?? null,
-        };
-      })
+        // Create payment record
+        const paiement = await tx.paiementCommande.create({
+          data: {
+            commandeId: newOrder.id,
+            statut: PaiementStatut.VALIDE,
+          },
+        });
+
+        // 1. Notify the Customer
+        await tx.notification.create({
+          data: {
+            userId: userId,
+            type: "COMMANDE",
+            objet: "Commande confirmée !",
+            text: `Votre commande n°${newOrder.id} d'un montant de ${total} DA a été validée avec succès.`,
+            urlRedirection: `/client/orders`,
+          },
+        });
+
+        // 2. Notify the Vendors
+        // Get vendors for all products in this order
+        const vendorsToNotify = await tx.produitMarketplace.findMany({
+          where: { produitId: { in: productIds } },
+          select: { vendeurId: true, produitId: true },
+        });
+
+        // Map product names for specific vendor messages
+        for (const v of vendorsToNotify) {
+          const product = productMap.get(v.produitId);
+          await tx.notification.create({
+            data: {
+              userId: v.vendeurId, // Vendeur ID is a User ID (sharing SAME ID in this schema)
+              type: "PAIEMENT",
+              objet: "Nouvelle vente !",
+              text: `Vous avez vendu un exemplaire de "${product?.nom}". Consultez votre tableau de bord vendeur pour plus de détails.`,
+              urlRedirection: `/vendor/orders`,
+            },
+          });
+        }
+
+        return { ...newOrder, paiement };
+      },
+      {
+        maxWait: 5000,
+        timeout: 20000, // Slightly increased to handle multiple notification creations
+      }
     );
 
-    // Create order
-    const order = await prisma.commande.create({
-      data: {
-        montant: total,
-        clientId: userId,
-        adresseId: address.id,
-        lignesCommande: { create: ligneCommandeData },
-      },
-      select: getOrderSelect(),
-    });
-
-    // Create payment record
-    const paiement = await prisma.paiementCommande.create({
-      data: {
-        commandeId: order.id,
-        statut: PaiementStatut.VALIDE,
-      },
-    });
-
-    const formattedOrder = formatOrderData({ ...order, paiement });
+    const formattedOrder = formatOrderData(order);
 
     return NextResponse.json(
       {
@@ -232,6 +298,10 @@ export async function POST(req: NextRequest) {
         { error: ERROR_MESSAGES.BAD_REQUEST_ID },
         { status: 400 }
       );
+    }
+
+    if (error instanceof OutOfStockError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
     }
 
     return NextResponse.json(

@@ -12,8 +12,11 @@ import { PrepareOrderFromAPI } from "@/lib/types/order.types";
 import { ApiResponse } from "@/lib/types/apiResponse.types";
 import IsLoading from "@/components/store/cartpage/IsLoading";
 import IsOrderSuccessful from "@/components/store/orderpage/IsOrderSuccessful";
+import StockErrorModal from "@/components/store/cartpage/StockErrorModal";
+import { useRouter } from "next/navigation";
 
 export default function OrderPageMain() {
+  const router = useRouter();
   const { data: session } = useSession();
   const cart = useAppSelector((state: RootState) => state.carts.cart);
 
@@ -21,6 +24,8 @@ export default function OrderPageMain() {
     null
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string;
   }>({});
@@ -84,9 +89,13 @@ export default function OrderPageMain() {
             );
           } else {
             setErrorMessage(
-              "Une erreur s'est produite lors de la préparation de la commande."
+              errorData.error || "Une erreur s'est produite lors de la préparation de la commande."
             );
           }
+        } else if (response.status === 409) {
+          const errorData = await response.json();
+          setErrorMessage(errorData.error);
+          setShowErrorModal(true);
         } else {
           setErrorMessage(
             "Une erreur s'est produite lors de la préparation de la commande."
@@ -174,6 +183,10 @@ export default function OrderPageMain() {
             errorData.error || "Une erreur s'est produite lors de la commande."
           );
         }
+      } else if (response.status === 409) {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error);
+        setShowErrorModal(true);
       } else {
         setErrorMessage("Une erreur s'est produite lors de la commande.");
       }
@@ -194,13 +207,17 @@ export default function OrderPageMain() {
         <OrderHeader />
         {isFetchingSummary ? (
           <IsLoading />
-        ) : errorMessage && !Object.keys(validationErrors).length ? (
-          <div className="text-red-500">{errorMessage}</div>
+        ) : errorMessage && !Object.keys(validationErrors).length && !showErrorModal ? (
+          <div className="text-red-500 font-medium py-4 px-3 bg-red-50 rounded-lg border border-red-100">
+            {errorMessage}
+          </div>
         ) : (
           <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 items-start">
             <div className="w-full flex flex-col space-y-5">
-              {errorMessage && (
-                <div className="text-red-500">{errorMessage}</div>
+              {errorMessage && !showErrorModal && (
+                <div className="text-red-500 font-medium py-4 px-3 bg-red-50 rounded-lg border border-red-100">
+                  {errorMessage}
+                </div>
               )}
               <DeliveryAddressForm
                 deliveryAddress={deliveryAddress}
@@ -223,6 +240,15 @@ export default function OrderPageMain() {
           </div>
         )}
       </div>
+
+      <StockErrorModal
+        isOpen={showErrorModal}
+        onClose={() => {
+          setShowErrorModal(false);
+          router.push("/cart"); // Go back to cart if stock issue
+        }}
+        errorMessage={errorMessage}
+      />
     </main>
   );
 }

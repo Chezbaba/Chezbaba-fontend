@@ -6,9 +6,10 @@ import { UserRole } from "@prisma/client";
 import { formatValidationErrors, prepareOrderSchema } from "@/lib/validations";
 import { Decimal } from "@prisma/client/runtime/library";
 import { BadRequestIdError } from "@/lib/classes/BadRequestIdError";
+import { OutOfStockError } from "@/lib/classes/OutOfStockError";
 import { PrepareOrderFromAPI } from "@/lib/types/order.types";
 
-// POST: Create a new order (client only)
+// POST: Prepare a new order (client only) - Checks stock availability
 export async function POST(req: NextRequest) {
   const session = await auth();
 
@@ -39,71 +40,84 @@ export async function POST(req: NextRequest) {
   const { produits } = parsed.data;
 
   try {
+    // Retrieve all products in a single batch to avoid multiple lookups
+    const productIds = produits.map((p) => p.produitId);
+    const dbProducts = await prisma.produit.findMany({
+      where: {
+        id: { in: productIds },
+        couleurs: { some: { id: { in: produits.map((p) => p.couleurId) } } },
+        tailles: { some: { id: { in: produits.map((p) => p.tailleId) } } },
+      },
+      select: {
+        id: true,
+        nom: true,
+        prix: true,
+        qteStock: true,
+        couleurs: {
+          select: { id: true, nom: true, code: true },
+        },
+        tailles: {
+          select: { id: true, nom: true },
+        },
+        images: { select: { imagePublicId: true }, take: 1 },
+      },
+    });
+
+    const productMap = new Map(dbProducts.map((p) => [p.id, p]));
+
     // Fetch product details and calculate total
     let total = new Decimal(0);
+    const ligneCommandeData = [];
 
-    const ligneCommandeData = await Promise.all(
-      produits.map(async (line) => {
-        const produit = await prisma.produit.findUnique({
-          where: {
-            id: line.produitId,
-            couleurs: { some: { id: line.couleurId } },
-            tailles: { some: { id: line.tailleId } },
-          },
-          select: {
-            id: true,
-            nom: true,
-            prix: true,
-            couleurs: {
-              select: { id: true, nom: true, code: true },
-              where: { id: line.couleurId },
-            },
-            tailles: {
-              select: { id: true, nom: true },
-              where: { id: line.tailleId },
-            },
-            images: { select: { imagePublicId: true }, take: 1 },
-          },
-        });
+    for (const line of produits) {
+      const produit = productMap.get(line.produitId);
 
-        if (!produit) {
-          throw new BadRequestIdError(
-            `Produit avec l'ID ${line.produitId} non trouvé dans la base de données.`
-          );
-        }
+      if (!produit) {
+        throw new BadRequestIdError(
+          `Produit avec l'ID ${line.produitId} non trouvé.`
+        );
+      }
 
-        const prixUnit = produit.prix;
-        const quantite = line.quantite;
-        const sousTotal = prixUnit.mul(quantite);
-        total = total.add(sousTotal);
+      // Check stock at preparation step
+      if (produit.qteStock < line.quantite) {
+        throw new OutOfStockError(
+          `Le produit "${produit.nom}" n'est plus disponible en quantité suffisante (Stock restant : ${produit.qteStock}).`
+        );
+      }
 
-        return {
-          id: produit.id,
-          nomProduit: produit.nom,
-          quantite,
-          prixUnit,
-          imagePublicId: produit.images[0]?.imagePublicId ?? null,
-          produitId: produit.id,
-          couleur: {
-            id: produit.couleurs[0].id,
-            nom: produit.couleurs[0].nom,
-            code: produit.couleurs[0].code,
-          },
-          taille: {
-            id: produit.tailles[0].id,
-            nom: produit.tailles[0].nom,
-          },
-          tailleId: line.tailleId ?? null,
-        };
-      })
-    );
+      const prixUnit = produit.prix;
+      const quantite = line.quantite;
+      const sousTotal = prixUnit.mul(quantite);
+      total = total.add(sousTotal);
+
+      // Filter the exact color/size from the arrays (since findMany returns matches in the some condition)
+      const selectedCouleur = produit.couleurs.find(
+        (c) => c.id === line.couleurId
+      );
+      const selectedTaille = produit.tailles.find((t) => t.id === line.tailleId);
+
+      if (!selectedCouleur || !selectedTaille) {
+        throw new BadRequestIdError(
+          `Variante (couleur/taille) pour le produit "${produit.nom}" non trouvée.`
+        );
+      }
+
+      ligneCommandeData.push({
+        id: produit.id,
+        nomProduit: produit.nom,
+        quantite,
+        prixUnit: prixUnit.toNumber(),
+        imagePublicId: produit.images[0]?.imagePublicId ?? null,
+        produitId: produit.id,
+        couleur: selectedCouleur,
+        taille: selectedTaille,
+        tailleId: line.tailleId ?? null,
+      });
+    }
 
     const order: PrepareOrderFromAPI = {
       montant: total.toNumber(),
-      produits: ligneCommandeData.map((ligne) => ({
-        ...ligne,
-        prixUnit: ligne.prixUnit.toNumber(),
-      })),
+      produits: ligneCommandeData,
     };
 
     return NextResponse.json(
@@ -111,13 +125,17 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("API Error [POST /api/orders]:", error);
+    console.error("API Error [POST /api/orders/prepare]:", error);
 
     if (error instanceof BadRequestIdError) {
       return NextResponse.json(
         { error: ERROR_MESSAGES.BAD_REQUEST_ID },
         { status: 400 }
       );
+    }
+
+    if (error instanceof OutOfStockError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
     }
 
     return NextResponse.json(

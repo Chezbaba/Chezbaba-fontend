@@ -65,7 +65,9 @@ export default function VendorSettings({
     if (result.error) {
       toast.error(result.error);
     } else {
-      onUpdate(result.data!);
+      if (result.data) {
+        onUpdate(result.data as Vendeur);
+      }
       await update({ ...session });
       toast.success("Vous êtes maintenant un vendeur");
       router.push("/vendor/dashboard");
@@ -102,14 +104,12 @@ export default function VendorSettings({
                 className="sr-only"
               />
               <div
-                className={`w-11 h-6 rounded-full ${
-                  isVendorActive ? "bg-black" : "bg-gray-200"
-                }`}
+                className={`w-11 h-6 rounded-full ${isVendorActive ? "bg-black" : "bg-gray-200"
+                  }`}
               ></div>
               <div
-                className={`absolute w-5 h-5 bg-white rounded-full transition-transform ${
-                  isVendorActive ? "translate-x-5" : "translate-x-1"
-                }`}
+                className={`absolute w-5 h-5 bg-white rounded-full transition-transform ${isVendorActive ? "translate-x-5" : "translate-x-1"
+                  }`}
               ></div>
             </label>
           </div>

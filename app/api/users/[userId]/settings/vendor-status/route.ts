@@ -111,7 +111,7 @@ export async function POST(
 
     const { nomBoutique, description, nomBanque, rib } = parsed.data;
 
-    // Check user exists and is a client
+    // Check user exists
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -124,34 +124,60 @@ export async function POST(
       },
     });
 
-    if (!user || !user.client) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Utilisateur non trouvé ou non client" },
+        { error: "Utilisateur non trouvé" },
         { status: 404 }
       );
     }
 
     // Check if user is already a vendor
-    if (user.client.vendeur) {
+    if (user.client?.vendeur) {
       return NextResponse.json(
         { error: "Vous êtes déjà vendeur" },
         { status: 400 }
       );
     }
 
-    // Create Vendeur and update User role
-    await prisma.user.update({
+    // Create Vendeur and update User role (creating Client if missing)
+    const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
         role: UserRole.VENDEUR,
         client: {
-          update: {
+          upsert: {
+            update: {
+              vendeur: {
+                create: {
+                  nomBoutique,
+                  description,
+                  nomBanque,
+                  rib,
+                },
+              },
+            },
+            create: {
+              vendeur: {
+                create: {
+                  nomBoutique,
+                  description,
+                  nomBanque,
+                  rib,
+                },
+              },
+            },
+          },
+        },
+      },
+      select: {
+        client: {
+          select: {
             vendeur: {
-              create: {
-                nomBoutique,
-                description,
-                nomBanque,
-                rib,
+              select: {
+                nomBoutique: true,
+                description: true,
+                nomBanque: true,
+                rib: true,
               },
             },
           },
@@ -160,7 +186,10 @@ export async function POST(
     });
 
     return NextResponse.json(
-      { message: "Statut vendeur attribué avec succès" },
+      {
+        message: "Statut vendeur attribué avec succès",
+        data: updatedUser.client?.vendeur,
+      },
       { status: 201 }
     );
   } catch (error) {
