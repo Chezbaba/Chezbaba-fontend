@@ -58,14 +58,7 @@ const UserMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="p-1 md:p-2 relative">
-          <Image
-            priority
-            src="/icons/user.svg"
-            height={30}
-            width={30}
-            alt="user"
-            className="cursor-pointer w-auto h-[24px] sm:h-[26px] md:h-[28px] lg:h-[30px]"
-          />
+          <i className="bi bi-person" style={{ fontSize: 28, color: 'white' }}></i>
           {unreadCount > 0 && (
             <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

@@ -1,89 +1,72 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-
-// Utils & Fonts
-import { cn } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
-
-// UI Components
-import InputGroup from "@/components/ui/input-group";
-
-// Components
-import { Button } from "@/components/ui/button";
-import CartBtn from "./CartBtn";
-import UserMenu from "./UserMenu";
-
-const NavBar = async () => {
+import Image from "next/image";
+import BottomNav from "@/components/common/BottomNav";
+import UserMenu from "@/components/layout/store/Header/UserMenu";
+const Navbar = () => {
   return (
-    <nav className="flex max-w-frame mx-auto items-center justify-between py-2 px-4 xl:px-0">
-      <div className="flex items-center">
-        {/* Logo */}
-        <Link href="/" className="mr-3 lg:mr-10 flex items-center gap-2">
-          <Image
-            priority
-            src="/manifest/favicon.svg"
-            height={65}
-            width={65}
-            alt="logo"
-            className="h-[50px] md:h-[55px] w-auto"
-          />
-          <span className="hidden sm:block bg-black w-[5px] mt-2 h-[28px]"></span>
-          <h1
-            className={cn([integralCF.className, "hidden sm:block text-3xl"])}
-          >
-            MEGA SHOP
-          </h1>
-        </Link>
-      </div>
-
-      {/* Search Bar */}
-      <form
-        action="/catalog"
-        method="GET"
-        className="hidden md:flex max-w-[300px] lg:max-w-[500px] flex-1 mr-3 lg:mr-10 h-10 bg-[#F0F0F0] rounded-2xl shadow-sm focus:outline-none focus-within:shadow-md transition-all duration-300"
-      >
-        <InputGroup className="bg-[#F0F0F0] shadow-none focus:shadow-none focus-within:shadow-none">
-          <InputGroup.Text>
-            <Image
-              priority
-              src="/icons/search.svg"
-              height={20}
-              width={20}
-              alt="rechercher"
-              className="min-w-5 min-h-5"
-            />
-          </InputGroup.Text>
-          <InputGroup.Input
-            type="search"
-            name="query"
-            placeholder="Rechercher des produits..."
-            className="bg-transparent placeholder:text-black/40"
-          />
-        </InputGroup>
-      </form>
-
-      {/* User Actions */}
-      <div className="flex items-center gap-1 md:gap-2">
-        {/* Search Btn in small screens */}
-        <Link href="/search" className="block md:hidden">
-          <Button variant="ghost" className="p-1 md:p-2">
-            <Image
-              priority
-              src="/icons/search-black.svg"
-              height={24}
-              width={24}
-              alt="search"
-              className="max-w-[20px] max-h-[20px] md:max-w-[24px] md:max-h-[24px]"
-            />
-          </Button>
-        </Link>
-
-        <CartBtn />
-        <UserMenu />
-      </div>
-    </nav>
+    <>
+      <nav>
+        {/* Desktop/navbar classique */}
+        <div className="navBar navBar-desktop">
+                    {/* ...section navBar_connexion_inscription retirée... */}
+          {/* ...section navBar_connexion_inscription retirée... */}
+          {/* Ligne unique : logo, recherche, catégorie, icônes */}
+          <div className="logo_searchBar_button" style={{display: 'flex', alignItems: 'center', gap: 32}}>
+            {/* Logo */}
+            <div className="nav_logo">
+              <Link href="/" className="logo_link" aria-label="Accueil ChezBaba">
+                <Image src="/images/logo-removebg-preview.png" alt="CHEZ BABA" width={120} height={60} className="logo-image" />
+              </Link>
+            </div>
+            {/* Barre de recherche */}
+            <form className="search_input_button" style={{flex: 1, margin: '0 24px'}}>
+              <input type="text" className="search_input" placeholder="Rechercher un produit" />
+            </form>
+            {/* Bouton Catégories */}
+            <Link href="/categories" className="categorie_button" style={{display: 'inline-block', marginRight: 24}}>
+              <i className="bi bi-grid" style={{marginRight: 6}}></i> Catégories
+            </Link>
+            {/* Icônes */}
+            <div className="button_icons" style={{display: 'flex', alignItems: 'center', gap: 16}}>
+              <Link href="/cart" className="icone" style={{position: 'relative'}}>
+                <i className="bi bi-cart3"></i>
+                <span className="cart-badge" style={{background: '#EA9010'}}>0</span>
+              </Link>
+              <UserMenu />
+            </div>
+          </div>
+        </div>
+        {/* Mobile : section haute (logo + panier) */}
+        <div className="navBar navBar-mobile-top">
+          <div className="navBar_mobile_row">
+            <div className="nav_logo">
+              <Link href="/" className="logo_link" aria-label="Accueil ChezBaba">
+                <Image src="/images/logo-removebg-preview.png" alt="CHEZ BABA" width={100} height={50} className="logo-image" />
+              </Link>
+            </div>
+            <div className="navBar_connexion_cart">
+              <Link href="/cart" className="icone" style={{position: 'relative'}}>
+                <i className="bi bi-cart3"></i>
+                <span className="cart-badge" style={{background: '#EA9010'}}>0</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+        {/* Mobile : section basse (barre de recherche) */}
+        <div className="navBar navBar-mobile-bottom">
+          <form className="search_input_button" style={{flex: 1}}>
+            <input type="text" className="search_input" placeholder="Rechercher un produit" />
+            <button type="submit" className="search_icon_btn">
+              <i className="bi bi-search"></i>
+            </button>
+          </form>
+        </div>
+      </nav>
+      {/* Bottom navigation mobile only */}
+      <BottomNav />
+    </>
   );
-};
+}
 
-export default NavBar;
+export default Navbar;
